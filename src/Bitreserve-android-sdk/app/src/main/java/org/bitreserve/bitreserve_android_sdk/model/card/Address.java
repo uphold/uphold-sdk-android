@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
 /**
- * This class represents the card addresses model.
+ * Address model.
  */
 
 public class Address {
@@ -40,4 +40,5 @@ public class Address {
     public String getNetwork() {
         return network;
     }
+
 }

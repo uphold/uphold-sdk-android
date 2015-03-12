@@ -3,7 +3,7 @@ package org.bitreserve.bitreserve_android_sdk.model.user;
 import java.util.List;
 
 /**
- * Contact represents the contact information necessary to add a new contact to a user.
+ * Contact request model.
  */
 
 public class ContactRequest {
@@ -81,4 +81,5 @@ public class ContactRequest {
     public String getLastName() {
         return lastName;
     }
+
 }

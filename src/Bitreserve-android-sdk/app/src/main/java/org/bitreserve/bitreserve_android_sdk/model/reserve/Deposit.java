@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
 /**
- * This class represents the deposit model.
+ * Deposit model.
  */
 
 public class Deposit {
@@ -79,4 +79,5 @@ public class Deposit {
     public String getTransactionId() {
         return transactionId;
     }
+
 }

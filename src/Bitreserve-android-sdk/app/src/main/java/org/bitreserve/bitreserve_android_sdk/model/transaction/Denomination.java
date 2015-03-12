@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
 /**
- * This class represents the denomination model.
+ * Denomination model.
  */
 
 public class Denomination {
@@ -66,4 +66,5 @@ public class Denomination {
     public String getRate() {
         return rate;
     }
+
 }

@@ -2,12 +2,14 @@ package org.bitreserve.bitreserve_android_sdk.service;
 
 import org.bitreserve.bitreserve_android_sdk.model.Ticker;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
 
 /**
- * Has the ticker webservice endpoints.
+ * Ticker service.
  */
 
 public interface TickerService {
@@ -19,7 +21,7 @@ public interface TickerService {
      */
 
     @GET("/v0/ticker")
-    void getAllTickers(Callback<Ticker> callback);
+    void getAllTickers(Callback<List<Ticker>> callback);
 
     /**
      * Performs a request to get the tickers on the system by currency.
@@ -29,6 +31,6 @@ public interface TickerService {
      */
 
     @GET("/v0/ticker/{currency}")
-    void getAllTickersByCurrency(@Path("currency") String currency, Callback<Ticker> callback);
+    void getAllTickersByCurrency(@Path("currency") String currency, Callback<List<Ticker>> callback);
 
 }

@@ -3,7 +3,7 @@ package org.bitreserve.bitreserve_android_sdk.model.transaction;
 import java.util.List;
 
 /**
- * This class represents the origin model.
+ * Origin model.
  */
 
 public class Origin {
@@ -159,4 +159,5 @@ public class Origin {
     public String getUsername() {
         return username;
     }
+
 }

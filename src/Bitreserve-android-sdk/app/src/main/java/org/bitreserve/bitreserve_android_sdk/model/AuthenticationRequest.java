@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
 /**
- * This class represents the authentication request model.
+ * Authentication request model.
  */
 
 public class AuthenticationRequest {
@@ -27,4 +27,5 @@ public class AuthenticationRequest {
     public String getDescription() {
         return description;
     }
+
 }

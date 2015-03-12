@@ -1,15 +1,21 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.PromiseFunction;
+
+import org.bitreserve.bitreserve_android_sdk.client.promisewrapper.RetrofitPromise;
+import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Denomination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Destination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Origin;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Parameters;
+import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 
 /**
- * This class represents the transaction model.
+ * Transaction model.
  */
 
-public class Transaction {
+public class Transaction extends BaseModel {
 
     private final String id;
     private final String createdAt;
@@ -48,6 +54,48 @@ public class Transaction {
         this.refundedById = refundedById;
         this.status = status;
         this.type = type;
+    }
+
+    /**
+     * Cancel a transaction.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> cancel() {
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+
+        userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), retrofitPromise);
+
+        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction> () {
+            public Transaction call(Transaction transaction) {
+                transaction.setToken(Transaction.this.getToken());
+
+                return transaction;
+            }
+        });
+    }
+
+    /**
+     * Confirm a transaction.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> commit() {
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+
+        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), retrofitPromise);
+
+        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction> () {
+            public Transaction call(Transaction transaction) {
+                transaction.setToken(Transaction.this.getToken());
+
+                return transaction;
+            }
+        });
     }
 
     /**
@@ -149,4 +197,5 @@ public class Transaction {
     public String getType() {
         return type;
     }
+
 }

@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
 /**
- * This class represents the transaction denomination request model.
+ * Transaction denomination request model.
  */
 
 public class TransactionDenominationRequest {

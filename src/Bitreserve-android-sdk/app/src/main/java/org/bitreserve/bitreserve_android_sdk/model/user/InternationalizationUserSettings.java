@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
 /**
- * This class represents the current User settings for internationalization fields.
+ * Internationalization user settings model.
  */
 
 public class InternationalizationUserSettings {
@@ -53,4 +53,5 @@ public class InternationalizationUserSettings {
     public InternationalizationUserSetting getNumberFormat() {
         return numberFormat;
     }
+
 }

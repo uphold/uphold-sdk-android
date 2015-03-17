@@ -5,16 +5,18 @@ import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
- * Has the user card webservice endpoints.
+ * User card service.
  */
 
 public interface UserCardService {
@@ -90,5 +92,16 @@ public interface UserCardService {
 
     @GET("/v0/me/cards/{cardId}/transactions")
     void getUserCardTransactions(@Path("cardId") String cardId, Callback<List<Transaction>> callback);
+
+    /**
+     * Performs a request to update the card.
+     *
+     * @param cardId The id of the card.
+     * @param updateFields The fields to update.
+     * @param callback A callback to receive the request information.
+     */
+
+    @PATCH("/v0/me/cards/{cardId}")
+    void update(@Path("cardId") String cardId, @Body HashMap<String, Object> updateFields, Callback<Card> callback);
 
 }

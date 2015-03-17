@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
 /**
- * This class represents the destination model.
+ * Destination model.
  */
 
 public class Destination {

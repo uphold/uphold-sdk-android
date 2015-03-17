@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
 /**
- * This class represents the model of the settings of a card.
+ * Card settings model.
  */
 
 public class Settings {
@@ -40,4 +40,5 @@ public class Settings {
     public Boolean getStarred() {
         return starred;
     }
+
 }

@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
 /**
- * Phone represents the phone information.
+ * Phone model.
  */
 
 public class Phone {
@@ -92,4 +92,5 @@ public class Phone {
     public Boolean getVerified() {
         return verified;
     }
+
 }

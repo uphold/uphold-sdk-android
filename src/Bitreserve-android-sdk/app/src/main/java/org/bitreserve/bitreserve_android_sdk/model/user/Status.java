@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
 /**
- * This class represents the current status for the each properties of the user profile.
+ * Status model.
  */
 
 public class Status {
@@ -118,4 +118,5 @@ public class Status {
     public String getVolume() {
         return volume;
     }
+
 }

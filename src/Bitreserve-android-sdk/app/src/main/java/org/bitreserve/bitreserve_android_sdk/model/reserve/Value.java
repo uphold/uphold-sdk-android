@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
 /**
- * This class represents the value model.
+ * Value model.
  */
 
 public class Value {
@@ -67,4 +67,5 @@ public class Value {
     public String getRate() {
         return rate;
     }
+
 }

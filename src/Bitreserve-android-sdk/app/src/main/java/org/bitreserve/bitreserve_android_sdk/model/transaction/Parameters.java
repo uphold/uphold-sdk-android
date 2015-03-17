@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
 /**
- * This class represents the parameters model.
+ * Parameters model.
  */
 
 public class Parameters {
@@ -118,4 +118,5 @@ public class Parameters {
     public String getType() {
         return type;
     }
+
 }

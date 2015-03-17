@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
 /**
- * This class represents the ticker model.
+ * Ticker model.
  */
 
 public class Ticker {
@@ -66,4 +66,5 @@ public class Ticker {
     public String getPair() {
         return pair;
     }
+
 }

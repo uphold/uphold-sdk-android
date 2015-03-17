@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
 /**
- * This class represents the source model.
+ * Source model.
  */
 
 public class Source {
@@ -40,4 +40,5 @@ public class Source {
     public String getAmount() {
         return amount;
     }
+
 }

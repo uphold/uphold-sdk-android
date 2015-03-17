@@ -3,7 +3,7 @@ package org.bitreserve.bitreserve_android_sdk.model.user;
 import java.util.List;
 
 /**
- * Contact represents a user contact information.
+ * Contact model.
  */
 
 public class Contact {
@@ -107,4 +107,5 @@ public class Contact {
     public String getName() {
         return name;
     }
+
 }

@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
 /**
- * This class represents the current country for a user setting.
+ * Internationalization user setting model.
  */
 
 public class InternationalizationUserSetting {
@@ -27,4 +27,5 @@ public class InternationalizationUserSetting {
     public String getLocale() {
         return locale;
     }
+
 }

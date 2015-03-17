@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
 /**
- * This class represents the current user settings.
+ * Settings model.
  */
 
 public class Settings {
@@ -79,4 +79,5 @@ public class Settings {
     public String getTheme() {
         return theme;
     }
+
 }

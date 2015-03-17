@@ -1,60 +1,80 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
-import org.bitreserve.bitreserve_android_sdk.model.reserve.Total;
-import org.bitreserve.bitreserve_android_sdk.model.reserve.Value;
+import com.darylteo.rx.promises.java.Promise;
+
+import org.bitreserve.bitreserve_android_sdk.client.promisewrapper.RetrofitPromise;
+import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.model.reserve.Deposit;
+import org.bitreserve.bitreserve_android_sdk.model.reserve.ReserveStatistics;
+import org.bitreserve.bitreserve_android_sdk.service.ReserveService;
+
 import java.util.List;
 
 /**
- * This class represents the reserve model.
+ * Reserve model.
  */
 
-public class Reserve {
-
-    private final String currency;
-    private final List<Value> values;
-    private final Total totals;
+public class Reserve extends BaseModel {
 
     /**
-     * Constructor.
+     * Gets the ledger.
      *
-     * @param currency The currency from the reserve.
-     * @param values The value of held in the associated currency in all supported forms.
-     * @param totals The commissions, transaction volume, assets and liabilities.
+     * @return a {@link Promise<List<Deposit>>} with the list of deposits.
      */
 
-    public Reserve(String currency, List<Value> values, Total totals) {
-        this.currency = currency;
-        this.values = values;
-        this.totals = totals;
+    public Promise<List<Deposit>> getLedger() {
+        RetrofitPromise<List<Deposit>> retrofitPromise = new RetrofitPromise<> ();
+        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+
+        reserveService.getLedger(retrofitPromise);
+
+        return retrofitPromise;
     }
 
     /**
-     * Gets the currency from the reserve.
+     * Gets the reserve summary of all the obligations and assets within it.
      *
-     * @return the currency from the reserve
+     * @return a {@link Promise<List<ReserveStatistics>>} with the reserve summary of all the obligations and assets within it.
      */
 
-    public String getCurrency() {
-        return currency;
+    public Promise<List<ReserveStatistics>> getStatistics() {
+        RetrofitPromise<List<ReserveStatistics>> retrofitPromise = new RetrofitPromise<> ();
+        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+
+        reserveService.getStatistics(retrofitPromise);
+
+        return retrofitPromise;
     }
 
     /**
-     * Gets the value of held in the associated currency in all supported forms.
+     * Gets the public view of any transaction.
      *
-     * @return the {@link Value} of held in the associated currency in all supported forms
+     * @param transactionId The id of the transaction.
+     * @return a {@link Promise<Transaction>} with the transaction.
      */
 
-    public List<Value> getValues() {
-        return values;
+    public Promise<Transaction> getTransactionById(String transactionId) {
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+
+        reserveService.getReserveTransactionById(transactionId, retrofitPromise);
+
+        return retrofitPromise;
     }
 
     /**
-     * Gets the commissions, transaction volume, assets and liabilities.
+     * Gets the public view of all transactions from the beginning of time.
      *
-     * @return the {@link Total}
+     * @return a {@link Promise<List<Transaction>>} with the list of transactions.
      */
 
-    public Total getTotals() {
-        return totals;
+    public Promise<List<Transaction>> getTransactions() {
+        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<> ();
+        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+
+        reserveService.getReserveTransactions(retrofitPromise);
+
+        return retrofitPromise;
     }
+
 }

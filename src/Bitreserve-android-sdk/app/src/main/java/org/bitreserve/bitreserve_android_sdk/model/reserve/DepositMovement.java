@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
 /**
- * This class represents the deposit movement model.
+ * Deposit movement model.
  */
 
 public class DepositMovement {
@@ -40,4 +40,5 @@ public class DepositMovement {
     public String getCurrency() {
         return currency;
     }
+
 }

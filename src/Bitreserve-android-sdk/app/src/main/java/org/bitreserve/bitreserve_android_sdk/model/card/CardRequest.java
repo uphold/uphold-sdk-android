@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
 /**
- * This class represents the model of a card request.
+ * Card request model.
  */
 
 public class CardRequest {
@@ -40,4 +40,5 @@ public class CardRequest {
     public String getCurrency() {
         return currency;
     }
+
 }

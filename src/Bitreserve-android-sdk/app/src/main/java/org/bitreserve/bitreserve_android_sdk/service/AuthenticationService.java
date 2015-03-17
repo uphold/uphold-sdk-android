@@ -9,7 +9,7 @@ import retrofit.http.Header;
 import retrofit.http.POST;
 
 /**
- * Has the authentication webservice endpoints.
+ * Authentication service.
  */
 
 public interface AuthenticationService {

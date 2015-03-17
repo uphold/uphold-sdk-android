@@ -1,7 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
 /**
- * This class represents the authentication response model.
+ * Authentication response model.
  */
 
 public class AuthenticationResponse {
@@ -53,4 +53,5 @@ public class AuthenticationResponse {
     public String getExpires() {
         return expires;
     }
+
 }

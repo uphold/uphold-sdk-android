@@ -60,6 +60,7 @@ public class Card extends BaseModel {
      * Creates a transaction.
      *
      * @param transactionRequest The {@link Transaction} with the transaction request information.
+     *
      * @return a {@link Promise<Transaction>} with the transaction.
      */
 
@@ -175,12 +176,12 @@ public class Card extends BaseModel {
      */
 
     public Promise<List<Transaction>> getTransactions() {
-        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.getUserCardTransactions(this.getId(), retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<List<Transaction>, List<Transaction>> () {
+        return retrofitPromise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
                     transaction.setToken(Card.this.getToken());
@@ -200,12 +201,12 @@ public class Card extends BaseModel {
      */
 
     public Promise<Card> update(HashMap<String, Object> updateRequest) {
-        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.update(this.getId(), updateRequest, retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<Card, Card> () {
+        return retrofitPromise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
                 card.setToken(Card.this.getToken());
 

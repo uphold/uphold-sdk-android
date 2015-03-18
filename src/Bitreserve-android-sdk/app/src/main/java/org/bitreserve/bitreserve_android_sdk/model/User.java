@@ -71,7 +71,7 @@ public class User extends BaseModel {
      */
 
     public Promise<Card> createCard(CardRequest cardRequest) {
-        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.createUserCard(cardRequest, retrofitPromise);
@@ -92,7 +92,7 @@ public class User extends BaseModel {
      */
 
     public Promise<List<Currency>> getBalances() {
-        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserBalances(retrofitPromise);
@@ -119,7 +119,7 @@ public class User extends BaseModel {
      */
 
     public Promise<Currency> getBalanceByCurrency(final String currency) {
-        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserBalances(retrofitPromise);
@@ -130,7 +130,7 @@ public class User extends BaseModel {
                     String key = item.getKey();
                     Currency value = item.getValue();
 
-                    if (key.compareTo(currency)==0) {
+                    if (key.compareTo(currency) == 0) {
                         return value;
                     }
                 }
@@ -147,14 +147,14 @@ public class User extends BaseModel {
      */
 
     public Promise<List<Card>> getCards() {
-        RetrofitPromise<List<Card>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Card>> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.getUserCards(retrofitPromise);
 
         return retrofitPromise.then(new PromiseFunction<List<Card>, List<Card>>() {
             public List<Card> call(List<Card> cardList) {
-                for (Card card : cardList){
+                for (Card card : cardList) {
                     card.setToken(User.this.getToken());
                 }
 
@@ -172,12 +172,12 @@ public class User extends BaseModel {
      */
 
     public Promise<Card> getCardById(String cardId) {
-        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.getUserCardById(cardId, retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<Card, Card> () {
+        return retrofitPromise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
                 card.setToken(User.this.getToken());
 
@@ -196,7 +196,7 @@ public class User extends BaseModel {
 
     public Promise<List<Card>> getCardsByCurrency(final String currency) {
 
-        RetrofitPromise<List<Card>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Card>> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.getUserCards(retrofitPromise);
@@ -224,7 +224,7 @@ public class User extends BaseModel {
      */
 
     public Promise<List<Contact>> getContacts() {
-        RetrofitPromise<List<Contact>> promiseWrapper = new RetrofitPromise<> ();
+        RetrofitPromise<List<Contact>> promiseWrapper = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserContacts(promiseWrapper);
@@ -289,7 +289,7 @@ public class User extends BaseModel {
      */
 
     public Promise<List<Phone>> getPhones() {
-        RetrofitPromise<List<Phone>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Phone>> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserPhones(retrofitPromise);
@@ -334,7 +334,7 @@ public class User extends BaseModel {
      */
 
     public Promise<UserBalance> getTotalBalances() {
-        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Balance> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserBalances(retrofitPromise);
@@ -353,12 +353,12 @@ public class User extends BaseModel {
      */
 
     public Promise<List<Transaction>> getUserTransactions() {
-        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.getUserTransactions(retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<List<Transaction>, List<Transaction>> () {
+        return retrofitPromise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
                     transaction.setToken(User.this.getToken());
@@ -388,12 +388,12 @@ public class User extends BaseModel {
      */
 
     public Promise<User> update(HashMap<String, Object> updateRequest) {
-        RetrofitPromise<User> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<User> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
         userService.updateUser(updateRequest, retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<User, User> () {
+        return retrofitPromise.then(new PromiseFunction<User, User>() {
             public User call(User user) {
                 user.setToken(User.this.getToken());
 

@@ -69,7 +69,6 @@ public interface UserService {
      * Performs a request to update the user values.
      *
      * @param field An {@link HashMap<String, Object>} with the user field to change and the value.
-     *
      * @param callback A callback to receive the request information.
      */
 

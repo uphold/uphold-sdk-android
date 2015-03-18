@@ -54,11 +54,10 @@ public class BitreserveClient {
      */
 
     public Promise<AuthenticationResponse> authenticateUser(String otp, String user, String password, AuthenticationRequest authorizationRequest) {
-        RetrofitPromise<AuthenticationResponse> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<AuthenticationResponse> retrofitPromise = new RetrofitPromise<>();
         AuthenticationService authenticationService = this.getRestAdapter().create(AuthenticationService.class);
 
-        authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest,
-                retrofitPromise);
+        authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest, retrofitPromise);
 
         return retrofitPromise;
     }
@@ -70,7 +69,7 @@ public class BitreserveClient {
      */
 
     public Promise<List<Ticker>> getTickers() {
-        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<>();
         TickerService tickerService = this.getRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickers(retrofitPromise);
@@ -87,7 +86,7 @@ public class BitreserveClient {
      */
 
     public Promise<List<Ticker>> getTickersByCurrency(String currency) {
-        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<>();
         TickerService tickerService = this.getRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickersByCurrency(currency, retrofitPromise);

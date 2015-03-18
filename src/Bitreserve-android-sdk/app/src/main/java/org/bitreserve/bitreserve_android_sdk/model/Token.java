@@ -52,12 +52,12 @@ public class Token {
      */
 
     public Promise<User> getUser() {
-        RetrofitPromise<User> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<User> retrofitPromise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this).create(UserService.class);
 
         userService.getUser(retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<User, User> () {
+        return retrofitPromise.then(new PromiseFunction<User, User>() {
             public User call(User user) {
                 user.setToken(Token.this);
 

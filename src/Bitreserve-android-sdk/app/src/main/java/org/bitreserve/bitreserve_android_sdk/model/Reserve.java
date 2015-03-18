@@ -23,7 +23,7 @@ public class Reserve extends BaseModel {
      */
 
     public Promise<List<Deposit>> getLedger() {
-        RetrofitPromise<List<Deposit>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Deposit>> retrofitPromise = new RetrofitPromise<>();
         ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
 
         reserveService.getLedger(retrofitPromise);
@@ -38,7 +38,7 @@ public class Reserve extends BaseModel {
      */
 
     public Promise<List<ReserveStatistics>> getStatistics() {
-        RetrofitPromise<List<ReserveStatistics>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<ReserveStatistics>> retrofitPromise = new RetrofitPromise<>();
         ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
 
         reserveService.getStatistics(retrofitPromise);
@@ -50,11 +50,12 @@ public class Reserve extends BaseModel {
      * Gets the public view of any transaction.
      *
      * @param transactionId The id of the transaction.
+     *
      * @return a {@link Promise<Transaction>} with the transaction.
      */
 
     public Promise<Transaction> getTransactionById(String transactionId) {
-        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<>();
         ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
 
         reserveService.getReserveTransactionById(transactionId, retrofitPromise);
@@ -69,7 +70,7 @@ public class Reserve extends BaseModel {
      */
 
     public Promise<List<Transaction>> getTransactions() {
-        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<>();
         ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
 
         reserveService.getReserveTransactions(retrofitPromise);

@@ -1,7 +1,9 @@
 package org.bitreserve.bitreserve_android_sdk.util;
 
-import android.util.Base64;
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
+
+import android.util.Base64;
+
 import java.util.HashMap;
 
 /**
@@ -15,6 +17,7 @@ public class Header {
      *
      * @param user The username value for the http authentication.
      * @param password The password value for the http authentication.
+     *
      * @return The encoded string to be added to the authentication header.
      */
 

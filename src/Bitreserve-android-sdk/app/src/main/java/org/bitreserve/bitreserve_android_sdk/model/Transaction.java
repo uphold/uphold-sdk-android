@@ -63,12 +63,12 @@ public class Transaction extends BaseModel {
      */
 
     public Promise<Transaction> cancel() {
-        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction> () {
+        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction>() {
             public Transaction call(Transaction transaction) {
                 transaction.setToken(Transaction.this.getToken());
 
@@ -84,12 +84,12 @@ public class Transaction extends BaseModel {
      */
 
     public Promise<Transaction> commit() {
-        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
         userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), retrofitPromise);
 
-        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction> () {
+        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction>() {
             public Transaction call(Transaction transaction) {
                 transaction.setToken(Transaction.this.getToken());
 

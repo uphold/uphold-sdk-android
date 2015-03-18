@@ -1,5 +1,6 @@
 package org.bitreserve.bitreserve_android_sdk.client.restadapter;
 
+import org.bitreserve.bitreserve_android_sdk.client.errorhandling.BitreserveRetrofitErrorHandling;
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
@@ -45,7 +46,11 @@ public class BitreserveRestAdapter {
             }
         };
 
-        return new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setRequestInterceptor(requestInterceptor).setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE).build();
+        return new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
+            .setRequestInterceptor(requestInterceptor)
+            .setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
+            .setErrorHandler(new BitreserveRetrofitErrorHandling())
+            .build();
     }
 
 }

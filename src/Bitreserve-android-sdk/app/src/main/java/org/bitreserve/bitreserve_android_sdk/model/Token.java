@@ -3,9 +3,12 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.promisewrapper.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
+import org.bitreserve.bitreserve_android_sdk.exception.AuthenticationRequiredException;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
+
+import android.text.TextUtils;
 
 /**
  * Token model.
@@ -52,18 +55,24 @@ public class Token {
      */
 
     public Promise<User> getUser() {
-        RetrofitPromise<User> retrofitPromise = new RetrofitPromise<>();
+        RetrofitPromise<User> promise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this).create(UserService.class);
 
-        userService.getUser(retrofitPromise);
+        if (TextUtils.isEmpty(this.getToken())) {
+            promise.reject(new AuthenticationRequiredException("Missing bearer authorization"));
 
-        return retrofitPromise.then(new PromiseFunction<User, User>() {
-            public User call(User user) {
-                user.setToken(Token.this);
+            return promise;
+        } else {
+            userService.getUser(promise);
 
-                return user;
-            }
-        });
+            return promise.then(new PromiseFunction<User, User>() {
+                public User call(User user) {
+                    user.setToken(Token.this);
+
+                    return user;
+                }
+            });
+        }
     }
 
 }

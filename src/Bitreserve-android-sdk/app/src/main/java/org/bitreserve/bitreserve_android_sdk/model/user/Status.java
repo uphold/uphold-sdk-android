@@ -114,7 +114,7 @@ public class Status {
      *
      * @return the user volume status
      */
-    
+
     public String getVolume() {
         return volume;
     }

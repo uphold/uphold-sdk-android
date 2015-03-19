@@ -1,4 +1,4 @@
-package org.bitreserve.bitreserve_android_sdk.client.promisewrapper;
+package org.bitreserve.bitreserve_android_sdk.client.retrofitpromise;
 
 import com.darylteo.rx.promises.java.Promise;
 
@@ -30,7 +30,7 @@ public class RetrofitPromise<T> extends Promise<T> implements Callback<T> {
 
     @Override
     public void success(T responseObject, Response response) {
-        this.fulfill (responseObject);
+        this.fulfill(responseObject);
     }
 
     /**
@@ -41,7 +41,7 @@ public class RetrofitPromise<T> extends Promise<T> implements Callback<T> {
 
     @Override
     public void failure(RetrofitError error) {
-        this.reject (error);
+        this.reject(error.getCause());
     }
 
 }

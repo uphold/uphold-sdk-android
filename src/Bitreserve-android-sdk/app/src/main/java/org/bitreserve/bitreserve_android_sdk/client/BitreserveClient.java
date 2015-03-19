@@ -2,8 +2,8 @@ package org.bitreserve.bitreserve_android_sdk.client;
 
 import com.darylteo.rx.promises.java.Promise;
 
-import org.bitreserve.bitreserve_android_sdk.client.promisewrapper.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Ticker;
@@ -54,13 +54,12 @@ public class BitreserveClient {
      */
 
     public Promise<AuthenticationResponse> authenticateUser(String otp, String user, String password, AuthenticationRequest authorizationRequest) {
-        RetrofitPromise<AuthenticationResponse> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<AuthenticationResponse> promise = new RetrofitPromise<>();
         AuthenticationService authenticationService = this.getRestAdapter().create(AuthenticationService.class);
 
-        authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest,
-                retrofitPromise);
+        authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest, promise);
 
-        return retrofitPromise;
+        return promise;
     }
 
     /**
@@ -70,12 +69,12 @@ public class BitreserveClient {
      */
 
     public Promise<List<Ticker>> getTickers() {
-        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
         TickerService tickerService = this.getRestAdapter().create(TickerService.class);
 
-        tickerService.getAllTickers(retrofitPromise);
+        tickerService.getAllTickers(promise);
 
-        return retrofitPromise;
+        return promise;
     }
 
     /**
@@ -87,12 +86,12 @@ public class BitreserveClient {
      */
 
     public Promise<List<Ticker>> getTickersByCurrency(String currency) {
-        RetrofitPromise<List<Ticker>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
         TickerService tickerService = this.getRestAdapter().create(TickerService.class);
 
-        tickerService.getAllTickersByCurrency(currency, retrofitPromise);
+        tickerService.getAllTickersByCurrency(currency, promise);
 
-        return retrofitPromise;
+        return promise;
     }
 
     /**

@@ -3,8 +3,8 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.promisewrapper.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.card.Address;
 import org.bitreserve.bitreserve_android_sdk.model.card.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
@@ -60,16 +60,17 @@ public class Card extends BaseModel {
      * Creates a transaction.
      *
      * @param transactionRequest The {@link Transaction} with the transaction request information.
+     *
      * @return a {@link Promise<Transaction>} with the transaction.
      */
 
     public Promise<Transaction> createTransaction(TransactionRequest transactionRequest) {
-        RetrofitPromise<Transaction> retrofitPromise = new RetrofitPromise<>();
+        RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
-        userCardService.createTransaction(this.getId(), transactionRequest, retrofitPromise);
+        userCardService.createTransaction(this.getId(), transactionRequest, promise);
 
-        return retrofitPromise.then(new PromiseFunction<Transaction, Transaction>() {
+        return promise.then(new PromiseFunction<Transaction, Transaction>() {
             public Transaction call(Transaction transaction) {
                 transaction.setToken(Card.this.getToken());
 
@@ -175,12 +176,12 @@ public class Card extends BaseModel {
      */
 
     public Promise<List<Transaction>> getTransactions() {
-        RetrofitPromise<List<Transaction>> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
-        userCardService.getUserCardTransactions(this.getId(), retrofitPromise);
+        userCardService.getUserCardTransactions(this.getId(), promise);
 
-        return retrofitPromise.then(new PromiseFunction<List<Transaction>, List<Transaction>> () {
+        return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
                     transaction.setToken(Card.this.getToken());
@@ -200,12 +201,12 @@ public class Card extends BaseModel {
      */
 
     public Promise<Card> update(HashMap<String, Object> updateRequest) {
-        RetrofitPromise<Card> retrofitPromise = new RetrofitPromise<> ();
+        RetrofitPromise<Card> promise = new RetrofitPromise<>();
         UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
 
-        userCardService.update(this.getId(), updateRequest, retrofitPromise);
+        userCardService.update(this.getId(), updateRequest, promise);
 
-        return retrofitPromise.then(new PromiseFunction<Card, Card> () {
+        return promise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
                 card.setToken(Card.this.getToken());
 

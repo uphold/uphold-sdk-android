@@ -1,8 +1,9 @@
 package org.bitreserve.bitreserve_android_sdk.service;
 
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
-import org.bitreserve.bitreserve_android_sdk.model.reserve.ReserveStatistics;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.Deposit;
+import org.bitreserve.bitreserve_android_sdk.model.reserve.ReserveStatistics;
+
 import java.util.List;
 
 import retrofit.Callback;

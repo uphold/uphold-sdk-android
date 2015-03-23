@@ -6,6 +6,7 @@ import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAd
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
+import org.bitreserve.bitreserve_android_sdk.model.Reserve;
 import org.bitreserve.bitreserve_android_sdk.model.Ticker;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.model.User;
@@ -60,6 +61,20 @@ public class BitreserveClient {
         authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest, promise);
 
         return promise;
+    }
+
+    /**
+     * Gets the reserve model.
+     *
+     * @return a {@link Reserve}.
+     */
+
+    public Reserve getReserve() {
+        Reserve reserve = new Reserve();
+
+        reserve.setToken(new Token(this.token));
+
+        return reserve;
     }
 
     /**

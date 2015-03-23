@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Path;
 
 /**
@@ -19,11 +20,12 @@ public interface ReserveService {
     /**
      * Performs a request to get the reserve ledger.
      *
+     * @param range The range of the request.
      * @param callback A callback to receive the request information.
      */
 
     @GET("/v0/reserve/ledger")
-    void getLedger(Callback<List<Deposit>> callback);
+    void getLedger(@Header("Range") String range, Callback<List<Deposit>> callback);
 
     /**
      * Performs a request to get a reserve transaction.
@@ -37,11 +39,12 @@ public interface ReserveService {
     /**
      * Performs a request to get the reserve transactions.
      *
+     * @param range The range of the request.
      * @param callback A callback to receive the request information.
      */
 
     @GET("/v0/reserve/transactions")
-    void getReserveTransactions(Callback<List<Transaction>> callback);
+    void getReserveTransactions(@Header("Range") String range, Callback<List<Transaction>> callback);
 
     /**
      * Performs a request to get the reserve statistics.

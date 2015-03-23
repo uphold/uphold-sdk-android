@@ -2,16 +2,32 @@ package org.bitreserve.bitreserve_android_sdk.util;
 
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Header util.
  */
 
 public class Header {
+
+    /**
+     * Build a string with the range header.
+     *
+     * @param start The position of the first element.
+     * @param end The position of the last element.
+     *
+     * @return the string with the header value.
+     */
+
+    public static String buildRangeHeader(int start, int end) {
+        return String.format("items=%d-%d", start, end);
+    }
 
     /**
      * Generates an encoded string to be added to the http authentication header.
@@ -45,23 +61,21 @@ public class Header {
     }
 
     /**
-     * Returns a boolean indicating if OTP is required.
+     * Gets the rate limit value.
      *
      * @param headers The response headers.
      *
-     * @return a boolean indicating if the OTP is required.
+     * @return the rate limit value.
      */
 
-    public static Boolean isOTPRequired(List<retrofit.client.Header> headers) {
+    public static String getRateLimitValue(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("X-Bitreserve-OTP") == 0) {
-                if (header.getValue().compareTo("required") == 0) {
-                    return true;
-                }
+            if (header.getName().compareTo("X-RateLimit-Limit") == 0) {
+                return header.getValue();
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -83,21 +97,52 @@ public class Header {
     }
 
     /**
-     * Gets the rate limit value.
+     * Gets the total number of the results available for the request.
      *
-     * @param headers The response headers.
+     * @param headers The list of the headers.
      *
-     * @return the rate limit value.
+     * @return the total number of elements.
      */
 
-    public static String getRateLimitValue(List<retrofit.client.Header> headers) {
+    public static Integer getTotalNumberOfResults(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("X-RateLimit-Limit") == 0) {
-                return header.getValue();
+            if (header.getName().compareTo("Content-Range") == 0) {
+                Pattern pattern = Pattern.compile("(\\d+)-(\\d+)/(\\d+)");
+                Matcher matcher = pattern.matcher(header.getValue());
+
+                if (matcher.find() && !TextUtils.isEmpty(matcher.group(3))) {
+                    return Integer.parseInt(matcher.group(3));
+                }
+
+                return null;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Returns a boolean indicating if OTP is required.
+     *
+     * @param headers The response headers.
+     *
+     * @return a boolean indicating if the OTP is required.
+     */
+
+    public static Boolean isOTPRequired(List<retrofit.client.Header> headers) {
+        for (retrofit.client.Header header : headers) {
+            if (header.getName().compareTo("X-Bitreserve-OTP") != 0) {
+                continue;
+            }
+
+            if (header.getValue().compareTo("required") != 0) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
 }

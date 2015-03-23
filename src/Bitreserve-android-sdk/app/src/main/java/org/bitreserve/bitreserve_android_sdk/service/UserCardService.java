@@ -11,6 +11,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -86,12 +87,13 @@ public interface UserCardService {
     /**
      * Performs a request to get the list of transactions for a card.
      *
+     * @param range The range of the request.
      * @param cardId The id of the card.
      * @param callback A callback to receive the request information.
      */
 
     @GET("/v0/me/cards/{cardId}/transactions")
-    void getUserCardTransactions(@Path("cardId") String cardId, Callback<List<Transaction>> callback);
+    void getUserCardTransactions(@Header("Range") String range, @Path("cardId") String cardId, Callback<List<Transaction>> callback);
 
     /**
      * Performs a request to update the card.

@@ -4,6 +4,7 @@ import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.balance.Currency;
 import org.bitreserve.bitreserve_android_sdk.model.balance.UserBalance;
@@ -12,8 +13,11 @@ import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Status;
+import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
+import org.bitreserve.bitreserve_android_sdk.paginator.PaginatorInterface;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
+import org.bitreserve.bitreserve_android_sdk.util.Header;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -347,18 +351,18 @@ public class User extends BaseModel {
     }
 
     /**
-     * Gets the user transactions.
+     * Gets the user transactions paginator.
      *
-     * @return a {@link Promise<List<Transaction>>} with the user transactions.
+     * @return a {@link Paginator<Transaction>} with the user transactions.
      */
 
-    public Promise<List<Transaction>> getUserTransactions() {
+    public Paginator<Transaction> getUserTransactions() {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
         UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
 
-        userService.getUserTransactions(promise);
+        userService.getUserTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
 
-        return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
+        Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
                     transaction.setToken(User.this.getToken());
@@ -367,7 +371,60 @@ public class User extends BaseModel {
                 return transactions;
             }
         });
+
+        PaginatorInterface<Transaction> paginatorInterface = new PaginatorInterface<Transaction>() {
+            @Override
+            public Promise<List<Transaction>> getNext(String range) {
+                final RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
+                final UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+
+                userService.getUserTransactions(range, promise);
+
+                return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
+                    public List<Transaction> call(List<Transaction> listTransactions) {
+                        for (Transaction transaction : listTransactions) {
+                            transaction.setToken(User.this.getToken());
+                        }
+
+                        return listTransactions;
+                    }
+                });
+            }
+
+            @Override
+            public Promise<Integer> count() {
+                RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
+                UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+
+                userService.getUserTransactions(Header.buildRangeHeader(0, 1), promise);
+
+                return promise.then(new PromiseFunction<ResponseModel, Integer>() {
+                    public Integer call(ResponseModel responseModel) {
+                        return Header.getTotalNumberOfResults(responseModel.getResponse().getHeaders());
+                    }
+                });
+            }
+
+            @Override
+            public Promise<Boolean> hasNext(final Integer currentPage) {
+                RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
+                UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+
+                userService.getUserTransactions(Header.buildRangeHeader(0, 1), promise);
+
+                return promise.then(new PromiseFunction<ResponseModel, Boolean>() {
+                    public Boolean call(ResponseModel responseModel) {
+                        Integer totalNumberOfResults = Header.getTotalNumberOfResults(responseModel.getResponse().getHeaders());
+
+                        return (currentPage * Paginator.DEFAULT_OFFSET) < totalNumberOfResults;
+                    }
+                });
+            }
+        };
+
+        return new Paginator<>(transactions, paginatorInterface);
     }
+
 
     /**
      * Gets the user username.

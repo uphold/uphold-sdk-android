@@ -38,6 +38,12 @@ public class BitreserveRetrofitErrorHandling implements ErrorHandler {
             case 404:
                 return new NotFoundException("Object or route not found: " + cause.getUrl(), cause, httpStatusCode);
 
+            case 412:
+                return new BadRequestException("Precondition failed", cause, httpStatusCode);
+
+            case 419:
+                return new BadRequestException("Requested range not satisfiable", cause, httpStatusCode);
+
             case 429:
                 String exceptionMessage = String.format("You have exceeded Bitreserve's API rate limit of %s requests. Current time window ends in %s seconds.", Header.getRateLimitValue(responseHeaders), Header.getSecondsUntilRateLimitReset(responseHeaders));
 

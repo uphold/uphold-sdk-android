@@ -12,6 +12,7 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.PATCH;
 
 /**
@@ -59,11 +60,12 @@ public interface UserService {
     /**
      * Performs a request to get the user transactions.
      *
+     * @param range The range of the request.
      * @param callback A callback to receive the request information.
      */
 
     @GET("/v0/me/transactions")
-    void getUserTransactions(Callback<List<Transaction>> callback);
+    void getUserTransactions(@Header("Range") String range, Callback<List<Transaction>> callback);
 
     /**
      * Performs a request to update the user values.

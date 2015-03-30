@@ -1,12 +1,13 @@
 package org.bitreserve.bitreserve_android_sdk.test.integration.util;
 
+import junit.framework.Assert;
+
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.ArrayList;
@@ -19,16 +20,16 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class HeaderTest extends AndroidTestCase {
+public class HeaderTest {
 
     @Test
     public void buildRangeHeaderShouldReturnStringRangeHeader() {
-        assertEquals("items=0-10", Header.buildRangeHeader(0, 10));
+        Assert.assertEquals("items=0-10", Header.buildRangeHeader(0, 10));
     }
 
     @Test
     public void encodeCredentialsForBasicAuthorizationShouldReturnBasicHeader() {
-        assertEquals("Basic Zm9vQGJhci5vcmc6Zm9vYmFy", Header.encodeCredentialsForBasicAuthorization("foo@bar.org", "foobar"));
+        Assert.assertEquals("Basic Zm9vQGJhci5vcmc6Zm9vYmFy", Header.encodeCredentialsForBasicAuthorization("foo@bar.org", "foobar"));
     }
 
     @Test
@@ -39,7 +40,7 @@ public class HeaderTest extends AndroidTestCase {
             put("User-Agent", String.format("bitreserve-android-sdk %s (%s)", GlobalConfigurations.BITRESERVE_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
         }};
 
-        assertEquals(headers, Header.getHeaders());
+        Assert.assertEquals(headers, Header.getHeaders());
     }
 
     @Test
@@ -50,7 +51,7 @@ public class HeaderTest extends AndroidTestCase {
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
-        assertEquals("300", Header.getRateLimitValue(listHeaders));
+        Assert.assertEquals("300", Header.getRateLimitValue(listHeaders));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class HeaderTest extends AndroidTestCase {
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
-        assertEquals("10", Header.getSecondsUntilRateLimitReset(listHeaders));
+        Assert.assertEquals("10", Header.getSecondsUntilRateLimitReset(listHeaders));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class HeaderTest extends AndroidTestCase {
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
-        assertTrue(20 == Header.getTotalNumberOfResults(listHeaders));
+        Assert.assertTrue(20 == Header.getTotalNumberOfResults(listHeaders));
     }
 
     @Test
@@ -84,7 +85,7 @@ public class HeaderTest extends AndroidTestCase {
             add(new retrofit.client.Header("X-RateLimit-Limit", "10"));
         }};
 
-        assertTrue(Header.isOTPRequired(listHeaders));
+        Assert.assertTrue(Header.isOTPRequired(listHeaders));
     }
 
 }

@@ -38,22 +38,24 @@ public class MockRestAdapter<T> {
         this.resultReference = new AtomicReference<>();
 
         this.mockRestAdapter = new BitreserveRestAdapter(token);
-        this.restAdapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
-            @Override
-            public Response execute(Request request) throws IOException {
-                requestReference.set(request);
+        this.restAdapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
+            .setRequestInterceptor(this.mockRestAdapter.getBitreserveRequestInterceptor(token))
+            .setClient(new Client() {
+                @Override
+                public Response execute(Request request) throws IOException {
+                    requestReference.set(request);
 
-                return new Response("some/url", 200, "reason", new ArrayList<Header>() {{
-                    if (headers != null) {
-                        for (Map.Entry<String, String> entry : headers.entrySet()) {
-                            String key = entry.getKey();
-                            String value = entry.getValue();
+                    return new Response("some/url", 200, "reason", new ArrayList<Header>() {{
+                        if (headers != null) {
+                            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                                String key = entry.getKey();
+                                String value = entry.getValue();
 
-                            add(new retrofit.client.Header(key, value));
+                                add(new retrofit.client.Header(key, value));
+                            }
                         }
-                    }
-                }}, new TypedByteArray("application/json", responseString.getBytes()));
-            }
+                    }}, new TypedByteArray("application/json", responseString.getBytes()));
+                }
         }).build();
 
         this.mockRestAdapter.setAdapter(this.restAdapter);

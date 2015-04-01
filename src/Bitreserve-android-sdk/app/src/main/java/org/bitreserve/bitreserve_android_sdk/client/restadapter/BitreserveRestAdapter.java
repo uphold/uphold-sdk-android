@@ -29,28 +29,10 @@ public class BitreserveRestAdapter {
      */
 
     public BitreserveRestAdapter(final String token) {
-        RequestInterceptor requestInterceptor = new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                HashMap<String, String> map = Header.getHeaders();
-
-                for (Map.Entry<String, String> entry : map.entrySet()) {
-                    String key = entry.getKey();
-                    String value = entry.getValue();
-
-                    request.addHeader(key, value);
-                }
-
-                if (token != null && !TextUtils.isEmpty(token)) {
-                    request.addHeader("Authorization", Header.encodeCredentialsForBasicAuthorization(token, "X-OAuth-Basic"));
-                }
-            }
-        };
-
         this.adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
-            .setRequestInterceptor(requestInterceptor)
+            .setRequestInterceptor(getBitreserveRequestInterceptor(token))
             .build();
     }
 
@@ -75,6 +57,33 @@ public class BitreserveRestAdapter {
 
     public RestAdapter getAdapter() {
         return adapter;
+    }
+
+    /**
+     * Gets the {@link RequestInterceptor}.
+     *
+     * @param token The token (if available) of the user.
+     *
+     * @return the {@link RequestInterceptor}.
+     */
+    public RequestInterceptor getBitreserveRequestInterceptor(final String token) {
+        return new RequestInterceptor() {
+            @Override
+            public void intercept(RequestFacade request) {
+                HashMap<String, String> map = Header.getHeaders();
+
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+
+                    request.addHeader(key, value);
+                }
+
+                if (token != null && !TextUtils.isEmpty(token)) {
+                    request.addHeader("Authorization", Header.encodeCredentialsForBasicAuthorization(token, "X-OAuth-Basic"));
+                }
+            }
+        };
     }
 
     /**

@@ -59,7 +59,7 @@ public class BitreserveRestAdapter {
      *
      * @param service The service interface.
      * @param <T> The service type.
-     * 
+     *
      * @return The service instance.
      */
 

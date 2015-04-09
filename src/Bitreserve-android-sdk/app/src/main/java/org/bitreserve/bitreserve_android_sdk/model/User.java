@@ -3,7 +3,6 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.balance.Currency;
@@ -76,13 +75,13 @@ public class User extends BaseModel {
 
     public Promise<Card> createCard(CardRequest cardRequest) {
         RetrofitPromise<Card> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.createUserCard(cardRequest, promise);
 
         return promise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
-                card.setToken(User.this.getToken());
+                card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
 
                 return card;
             }
@@ -97,7 +96,7 @@ public class User extends BaseModel {
 
     public Promise<List<Currency>> getBalances() {
         RetrofitPromise<Balance> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserBalances(promise);
 
@@ -124,7 +123,7 @@ public class User extends BaseModel {
 
     public Promise<Currency> getBalanceByCurrency(final String currency) {
         RetrofitPromise<Balance> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserBalances(promise);
 
@@ -152,14 +151,14 @@ public class User extends BaseModel {
 
     public Promise<List<Card>> getCards() {
         RetrofitPromise<List<Card>> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.getUserCards(promise);
 
         return promise.then(new PromiseFunction<List<Card>, List<Card>>() {
             public List<Card> call(List<Card> cardList) {
                 for (Card card : cardList) {
-                    card.setToken(User.this.getToken());
+                    card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
                 }
 
                 return cardList;
@@ -177,13 +176,13 @@ public class User extends BaseModel {
 
     public Promise<Card> getCardById(String cardId) {
         RetrofitPromise<Card> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.getUserCardById(cardId, promise);
 
         return promise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
-                card.setToken(User.this.getToken());
+                card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
 
                 return card;
             }
@@ -201,7 +200,7 @@ public class User extends BaseModel {
     public Promise<List<Card>> getCardsByCurrency(final String currency) {
 
         RetrofitPromise<List<Card>> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.getUserCards(promise);
 
@@ -211,7 +210,7 @@ public class User extends BaseModel {
 
                 for (Card card : cardList) {
                     if (card.getCurrency().compareTo(currency) == 0) {
-                        card.setToken(User.this.getToken());
+                        card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
                         filteredCards.add(card);
                     }
                 }
@@ -229,7 +228,7 @@ public class User extends BaseModel {
 
     public Promise<List<Contact>> getContacts() {
         RetrofitPromise<List<Contact>> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserContacts(promise);
 
@@ -294,7 +293,7 @@ public class User extends BaseModel {
 
     public Promise<List<Phone>> getPhones() {
         RetrofitPromise<List<Phone>> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserPhones(promise);
 
@@ -339,7 +338,7 @@ public class User extends BaseModel {
 
     public Promise<UserBalance> getTotalBalances() {
         RetrofitPromise<Balance> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserBalances(promise);
 
@@ -358,14 +357,14 @@ public class User extends BaseModel {
 
     public Paginator<Transaction> getUserTransactions() {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.getUserTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
 
         Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
-                    transaction.setToken(User.this.getToken());
+                    transaction.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
                 }
 
                 return transactions;
@@ -376,14 +375,14 @@ public class User extends BaseModel {
             @Override
             public Promise<List<Transaction>> getNext(String range) {
                 final RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-                final UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+                final UserService userService = User.this.getBitreserveRestAdapter().create(UserService.class);
 
                 userService.getUserTransactions(range, promise);
 
                 return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
                     public List<Transaction> call(List<Transaction> listTransactions) {
                         for (Transaction transaction : listTransactions) {
-                            transaction.setToken(User.this.getToken());
+                            transaction.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
                         }
 
                         return listTransactions;
@@ -394,7 +393,7 @@ public class User extends BaseModel {
             @Override
             public Promise<Integer> count() {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+                UserService userService = User.this.getBitreserveRestAdapter().create(UserService.class);
 
                 userService.getUserTransactions(Header.buildRangeHeader(0, 1), promise);
 
@@ -408,7 +407,7 @@ public class User extends BaseModel {
             @Override
             public Promise<Boolean> hasNext(final Integer currentPage) {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                UserService userService = BitreserveRestAdapter.getRestAdapter(User.this.getToken()).create(UserService.class);
+                UserService userService = User.this.getBitreserveRestAdapter().create(UserService.class);
 
                 userService.getUserTransactions(Header.buildRangeHeader(0, 1), promise);
 
@@ -446,13 +445,13 @@ public class User extends BaseModel {
 
     public Promise<User> update(HashMap<String, Object> updateRequest) {
         RetrofitPromise<User> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         userService.updateUser(updateRequest, promise);
 
         return promise.then(new PromiseFunction<User, User>() {
             public User call(User user) {
-                user.setToken(User.this.getToken());
+                user.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
 
                 return user;
             }

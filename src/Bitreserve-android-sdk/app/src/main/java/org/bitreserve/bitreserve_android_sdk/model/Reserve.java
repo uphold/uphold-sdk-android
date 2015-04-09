@@ -29,7 +29,7 @@ public class Reserve extends BaseModel {
 
     public Paginator<Deposit> getLedger() {
         RetrofitPromise<List<Deposit>> promise = new RetrofitPromise<>();
-        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+        ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
         reserveService.getLedger(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
 
@@ -37,7 +37,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<List<Deposit>> getNext(String range) {
                 RetrofitPromise<List<Deposit>> promise = new RetrofitPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getLedger(range, promise);
 
@@ -47,7 +47,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<Integer> count() {
                 RetrofitPaginatorPromise<Deposit> promise = new RetrofitPaginatorPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getLedger(Header.buildRangeHeader(0, 1), promise);
 
@@ -61,7 +61,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<Boolean> hasNext(final Integer currentPage) {
                 RetrofitPaginatorPromise<Deposit> promise = new RetrofitPaginatorPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getLedger(Header.buildRangeHeader(0, 1), promise);
 
@@ -86,7 +86,7 @@ public class Reserve extends BaseModel {
 
     public Promise<List<ReserveStatistics>> getStatistics() {
         RetrofitPromise<List<ReserveStatistics>> promise = new RetrofitPromise<>();
-        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+        ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
         reserveService.getStatistics(promise);
 
@@ -103,7 +103,7 @@ public class Reserve extends BaseModel {
 
     public Promise<Transaction> getTransactionById(String transactionId) {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
-        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+        ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
         reserveService.getReserveTransactionById(transactionId, promise);
 
@@ -118,7 +118,7 @@ public class Reserve extends BaseModel {
 
     public Paginator<Transaction> getTransactions() {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-        ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(ReserveService.class);
+        ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
         reserveService.getReserveTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
 
@@ -126,7 +126,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<List<Transaction>> getNext(String range) {
                 RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getReserveTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
 
@@ -136,7 +136,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<Integer> count() {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getReserveTransactions(Header.buildRangeHeader(0, 1), promise);
 
@@ -150,7 +150,7 @@ public class Reserve extends BaseModel {
             @Override
             public Promise<Boolean> hasNext(final Integer currentPage) {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                ReserveService reserveService = BitreserveRestAdapter.getRestAdapter(Reserve.this.getToken()).create(ReserveService.class);
+                ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
                 reserveService.getReserveTransactions(Header.buildRangeHeader(0, 1), promise);
 

@@ -1,18 +1,21 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
+import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+
 /**
  * Base model.
  */
 
 public class BaseModel {
 
-    private Token token;
+    private BitreserveRestAdapter bitreserveRestAdapter;
 
     /**
      * Constructor.
      */
 
     public BaseModel() {
+        this.bitreserveRestAdapter = new BitreserveRestAdapter(null);
     }
 
     /**
@@ -21,28 +24,28 @@ public class BaseModel {
      * @param token The token.
      */
 
-    public BaseModel(Token token) {
-        this.token = token;
+    public BaseModel(String token) {
+        this.bitreserveRestAdapter = new BitreserveRestAdapter(token);
     }
 
     /**
-     * Gets the token.
+     * Gets the bitreserve rest adapter.
      *
-     * @return the token.
+     * @return the bitreserve rest adapter.
      */
 
-    public Token getToken() {
-        return token;
+    public BitreserveRestAdapter getBitreserveRestAdapter() {
+        return bitreserveRestAdapter;
     }
 
     /**
-     * Sets the token.
+     * Sets the bitreserve rest adapter.
      *
-     * @param token the {@link Token}
+     * @param bitreserveRestAdapter the bitreserve rest adapter.
      */
 
-    public void setToken(Token token) {
-        this.token = token;
+    public void setBitreserveRestAdapter(BitreserveRestAdapter bitreserveRestAdapter) {
+        this.bitreserveRestAdapter = bitreserveRestAdapter;
     }
 
 }

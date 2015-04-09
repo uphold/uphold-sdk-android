@@ -3,7 +3,6 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.card.Address;
@@ -70,13 +69,13 @@ public class Card extends BaseModel {
 
     public Promise<Transaction> createTransaction(TransactionRequest transactionRequest) {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.createTransaction(this.getId(), transactionRequest, promise);
 
         return promise.then(new PromiseFunction<Transaction, Transaction>() {
             public Transaction call(Transaction transaction) {
-                transaction.setToken(Card.this.getToken());
+                transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
 
                 return transaction;
             }
@@ -181,14 +180,14 @@ public class Card extends BaseModel {
 
     public Paginator<Transaction> getTransactions() {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.getUserCardTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), this.getId(), promise);
 
         Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
-                    transaction.setToken(Card.this.getToken());
+                    transaction.setBitreserveRestAdapter(Card. this.getBitreserveRestAdapter());
                 }
 
                 return transactions;
@@ -199,7 +198,7 @@ public class Card extends BaseModel {
             @Override
             public Promise<Integer> count() {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(Card.this.getToken()).create(UserCardService.class);
+                UserCardService userCardService = Card.this.getBitreserveRestAdapter().create(UserCardService.class);
 
                 userCardService.getUserCardTransactions(Header.buildRangeHeader(0, 1), Card.this.getId(), promise);
 
@@ -213,14 +212,14 @@ public class Card extends BaseModel {
             @Override
             public Promise<List<Transaction>> getNext(String range) {
                 RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
-                UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(Card.this.getToken()).create(UserCardService.class);
+                UserCardService userCardService = Card.this.getBitreserveRestAdapter().create(UserCardService.class);
 
                 userCardService.getUserCardTransactions(range, Card.this.getId(), promise);
 
                 return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
                     public List<Transaction> call(List<Transaction> transactions) {
                         for (Transaction transaction : transactions) {
-                            transaction.setToken(Card.this.getToken());
+                            transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
                         }
 
                         return transactions;
@@ -231,7 +230,7 @@ public class Card extends BaseModel {
             @Override
             public Promise<Boolean> hasNext(final Integer currentPage) {
                 RetrofitPaginatorPromise<Transaction> promise = new RetrofitPaginatorPromise<>();
-                UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(Card.this.getToken()).create(UserCardService.class);
+                UserCardService userCardService = Card.this.getBitreserveRestAdapter().create(UserCardService.class);
 
                 userCardService.getUserCardTransactions(Header.buildRangeHeader(0, 1), Card.this.getId(), promise);
 
@@ -258,13 +257,13 @@ public class Card extends BaseModel {
 
     public Promise<Card> update(HashMap<String, Object> updateRequest) {
         RetrofitPromise<Card> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         userCardService.update(this.getId(), updateRequest, promise);
 
         return promise.then(new PromiseFunction<Card, Card>() {
             public Card call(Card card) {
-                card.setToken(Card.this.getToken());
+                card.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
 
                 return card;
             }

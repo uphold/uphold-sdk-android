@@ -67,31 +67,35 @@ public class Transaction extends BaseModel {
 
     public Promise<Transaction> cancel() {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         if (TextUtils.isEmpty(this.getOrigin().getCardId())) {
             promise.reject(new LogicException("Origin CardId is missing from this transaction"));
 
             return promise;
-        } else if (this.getStatus().compareTo("pending") == 0) {
+        }
+
+        if (this.getStatus().compareTo("pending") == 0) {
             promise.reject(new LogicException("Unable to cancel uncommited transaction"));
 
             return promise;
-        } else if (this.getStatus().compareTo("waiting") != 0) {
+        }
+
+        if (this.getStatus().compareTo("waiting") != 0) {
             promise.reject(new LogicException(String.format("This transaction cannot be cancelled, because the current status is %s", this.getStatus())));
 
             return promise;
-        } else {
-            userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), promise);
-
-            return promise.then(new PromiseFunction<Transaction, Transaction>() {
-                public Transaction call(Transaction transaction) {
-                    transaction.setToken(Transaction.this.getToken());
-
-                    return transaction;
-                }
-            });
         }
+
+        userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), promise);
+
+        return promise.then(new PromiseFunction<Transaction, Transaction>() {
+            public Transaction call(Transaction transaction) {
+                transaction.setBitreserveRestAdapter(Transaction.this.getBitreserveRestAdapter());
+
+                return transaction;
+            }
+        });
     }
 
     /**
@@ -102,27 +106,29 @@ public class Transaction extends BaseModel {
 
     public Promise<Transaction> commit() {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
-        UserCardService userCardService = BitreserveRestAdapter.getRestAdapter(this.getToken()).create(UserCardService.class);
+        UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
         if (TextUtils.isEmpty(this.getOrigin().getCardId())) {
             promise.reject(new LogicException("Origin CardId is missing from this transaction"));
 
             return promise;
-        } else if (this.getStatus().compareTo("pending") != 0) {
+        }
+
+        if (this.getStatus().compareTo("pending") != 0) {
             promise.reject(new LogicException(String.format("This transaction cannot be committed, because the current status is %s", this.getStatus())));
 
             return promise;
-        } else {
-            userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), promise);
-
-            return promise.then(new PromiseFunction<Transaction, Transaction>() {
-                public Transaction call(Transaction transaction) {
-                    transaction.setToken(Transaction.this.getToken());
-
-                    return transaction;
-                }
-            });
         }
+
+        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), promise);
+
+        return promise.then(new PromiseFunction<Transaction, Transaction>() {
+            public Transaction call(Transaction transaction) {
+                transaction.setBitreserveRestAdapter(Transaction.this.getBitreserveRestAdapter());
+
+                return transaction;
+            }
+        });
     }
 
     /**

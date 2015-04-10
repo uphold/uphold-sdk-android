@@ -1,10 +1,10 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
 /**
- * Ticker model.
+ * Rate model.
  */
 
-public class Ticker {
+public class Rate {
 
     private final String ask;
     private final String bid;
@@ -14,13 +14,13 @@ public class Ticker {
     /**
      * Constructor.
      *
-     * @param ask The ticker ask.
-     * @param bid The ticker bid.
-     * @param currency The ticker currency.
-     * @param pair The ticker pair.
+     * @param ask The rate ask.
+     * @param bid The rate bid.
+     * @param currency The rate currency.
+     * @param pair The rate pair.
      */
 
-    public Ticker(String ask, String bid, String currency, String pair) {
+    public Rate(String ask, String bid, String currency, String pair) {
         this.ask = ask;
         this.bid = bid;
         this.currency = currency;
@@ -28,9 +28,9 @@ public class Ticker {
     }
 
     /**
-     * Gets the ticker ask.
+     * Gets the rate ask.
      *
-     * @return the ticker ask
+     * @return the rate ask
      */
 
     public String getAsk() {
@@ -38,9 +38,9 @@ public class Ticker {
     }
 
     /**
-     * Gets the ticker bid.
+     * Gets the rate bid.
      *
-     * @return the ticker bid
+     * @return the rate bid
      */
 
     public String getBid() {
@@ -48,9 +48,9 @@ public class Ticker {
     }
 
     /**
-     * Gets the ticker currency.
+     * Gets the rate currency.
      *
-     * @return the ticker currency
+     * @return the rate currency
      */
 
     public String getCurrency() {
@@ -58,9 +58,9 @@ public class Ticker {
     }
 
     /**
-     * Gets the ticker pair.
+     * Gets the rate pair.
      *
-     * @return the ticker pair
+     * @return the rate pair
      */
 
     public String getPair() {

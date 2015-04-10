@@ -3,7 +3,7 @@ package org.bitreserve.bitreserve_android_sdk.test.integration.service;
 import junit.framework.Assert;
 
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
-import org.bitreserve.bitreserve_android_sdk.model.Ticker;
+import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.service.TickerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +46,7 @@ public class TickerServiceTest {
         }).build();
         final TickerService tickerService = adapter.create(TickerService.class);
 
-        tickerService.getAllTickers(new RetrofitPromise<List<Ticker>>());
+        tickerService.getAllTickers(new RetrofitPromise<List<Rate>>());
         latch.await();
 
         Assert.assertEquals(bodyRef.get().getMethod(), "GET");
@@ -68,7 +68,7 @@ public class TickerServiceTest {
         }).build();
         final TickerService tickerService = adapter.create(TickerService.class);
 
-        tickerService.getAllTickersByCurrency("foobar", new RetrofitPromise<List<Ticker>>());
+        tickerService.getAllTickersByCurrency("foobar", new RetrofitPromise<List<Rate>>());
         latch.await();
 
         Assert.assertEquals(bodyRef.get().getMethod(), "GET");

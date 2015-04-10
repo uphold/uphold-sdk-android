@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * User model.
@@ -103,9 +105,10 @@ public class User extends BaseModel {
         return promise.then(new PromiseFunction<Balance, List<Currency>>() {
             public List<Currency> call(Balance balance) {
                 List<Currency> listOfCurrencies = new ArrayList<>();
+                SortedSet<String> keys = new TreeSet<>(balance.getBalances().getCurrencies().keySet());
 
-                for (Map.Entry<String, Currency> item : balance.getBalances().getCurrencies().entrySet()) {
-                    Currency value = item.getValue();
+                for (String key : keys) {
+                    Currency value = balance.getBalances().getCurrencies().get(key);
 
                     listOfCurrencies.add(value);
                 }

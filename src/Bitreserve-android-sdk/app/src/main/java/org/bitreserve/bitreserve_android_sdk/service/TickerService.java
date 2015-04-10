@@ -1,6 +1,6 @@
 package org.bitreserve.bitreserve_android_sdk.service;
 
-import org.bitreserve.bitreserve_android_sdk.model.Ticker;
+import org.bitreserve.bitreserve_android_sdk.model.Rate;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface TickerService {
      */
 
     @GET("/v0/ticker")
-    void getAllTickers(Callback<List<Ticker>> callback);
+    void getAllTickers(Callback<List<Rate>> callback);
 
     /**
      * Performs a request to get the tickers on the system by currency.
@@ -31,6 +31,6 @@ public interface TickerService {
      */
 
     @GET("/v0/ticker/{currency}")
-    void getAllTickersByCurrency(@Path("currency") String currency, Callback<List<Ticker>> callback);
+    void getAllTickersByCurrency(@Path("currency") String currency, Callback<List<Rate>> callback);
 
 }

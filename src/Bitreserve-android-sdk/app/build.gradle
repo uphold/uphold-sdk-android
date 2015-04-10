@@ -44,6 +44,11 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
+    androidTestCompile ('com.github.javafaker:javafaker:0.5')
+    {
+        exclude group: 'org.yaml' //The version supported by android is at libs folder
+    }
+    androidTestCompile files ('libs/snakeyaml-1.10-android.jar')
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'

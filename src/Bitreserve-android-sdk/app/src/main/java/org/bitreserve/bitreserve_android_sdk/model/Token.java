@@ -16,16 +16,16 @@ import android.text.TextUtils;
 
 public class Token extends BaseModel {
 
-    private String token;
+    private String bearerToken;
 
     /**
      * Constructor.
      *
-     * @param token The token value.
+     * @param bearerToken The token value.
      */
 
-    public Token(String token) {
-        this.token = token;
+    public Token(String bearerToken) {
+        this.bearerToken = bearerToken;
     }
 
     /**
@@ -34,18 +34,18 @@ public class Token extends BaseModel {
      * @return the token.
      */
 
-    public String getToken() {
-        return token;
+    public String getBearerToken() {
+        return bearerToken;
     }
 
     /**
      * Sets the token.
      *
-     * @param token The token.
+     * @param bearerToken The token.
      */
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setBearerToken(String bearerToken) {
+        this.bearerToken = bearerToken;
     }
 
     /**
@@ -58,7 +58,7 @@ public class Token extends BaseModel {
         RetrofitPromise<User> promise = new RetrofitPromise<>();
         UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
-        if (TextUtils.isEmpty(this.getToken())) {
+        if (TextUtils.isEmpty(this.getBearerToken())) {
             promise.reject(new AuthenticationRequiredException("Missing bearer authorization"));
 
             return promise;
@@ -68,7 +68,7 @@ public class Token extends BaseModel {
 
         return promise.then(new PromiseFunction<User, User>() {
             public User call(User user) {
-                user.setBitreserveRestAdapter(new BitreserveRestAdapter(Token.this.getToken()));
+                user.setBitreserveRestAdapter(new BitreserveRestAdapter(Token.this.getBearerToken()));
 
                 return user;
             }

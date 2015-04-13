@@ -375,7 +375,7 @@ public class User extends BaseModel {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
         UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
-        userService.getUserTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
+        userService.getUserTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), promise);
 
         Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {

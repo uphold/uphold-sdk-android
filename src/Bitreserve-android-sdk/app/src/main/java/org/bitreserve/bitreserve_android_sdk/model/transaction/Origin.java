@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Origin {
 
-    private final String cardId;
+    private final String CardId;
     private final String amount;
     private final String base;
     private final String commission;
@@ -37,7 +37,7 @@ public class Origin {
      */
 
     public Origin(String cardId, String amount, String base, String commission, String currency, String description, String fee, String rate, List<Source> sources, String type, String username) {
-        this.cardId = cardId;
+        this.CardId = cardId;
         this.amount = amount;
         this.base = base;
         this.commission = commission;
@@ -57,7 +57,7 @@ public class Origin {
      */
 
     public String getCardId() {
-        return cardId;
+        return CardId;
     }
 
     /**

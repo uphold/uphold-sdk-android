@@ -31,7 +31,7 @@ public class Card extends BaseModel {
     private final String currency;
     private final String label;
     private final String lastTransactionAt;
-    private final List<Settings> settings;
+    private final Settings settings;
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ public class Card extends BaseModel {
      * @param settings The {@link Settings} of the card.
      */
 
-    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, List<Settings> settings) {
+    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, Settings settings) {
         this.id = id;
         this.address = address;
         this.addresses = addresses;
@@ -168,7 +168,7 @@ public class Card extends BaseModel {
      * @return the {@link Settings} of the card
      */
 
-    public List<Settings> getSettings() {
+    public Settings getSettings() {
         return settings;
     }
 
@@ -182,7 +182,7 @@ public class Card extends BaseModel {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
-        userCardService.getUserCardTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), this.getId(), promise);
+        userCardService.getUserCardTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), this.getId(), promise);
 
         Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {

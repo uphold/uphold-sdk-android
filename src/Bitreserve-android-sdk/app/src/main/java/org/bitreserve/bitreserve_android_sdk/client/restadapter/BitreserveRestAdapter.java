@@ -2,7 +2,6 @@ package org.bitreserve.bitreserve_android_sdk.client.restadapter;
 
 import org.bitreserve.bitreserve_android_sdk.client.errorhandling.BitreserveRetrofitErrorHandling;
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
-import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
 import android.text.TextUtils;
@@ -19,6 +18,8 @@ import retrofit.RestAdapter;
 
 public class BitreserveRestAdapter {
 
+    private RestAdapter adapter;
+
     /**
      * Generates a bitreserve rest adapter.
      *
@@ -27,7 +28,7 @@ public class BitreserveRestAdapter {
      * @return the {@link RestAdapter}.
      */
 
-    public static RestAdapter getRestAdapter(final Token token) {
+    public BitreserveRestAdapter(final String token) {
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
@@ -40,17 +41,50 @@ public class BitreserveRestAdapter {
                     request.addHeader(key, value);
                 }
 
-                if (token != null && !TextUtils.isEmpty(token.getToken())) {
-                    request.addHeader("Authorization", Header.encodeCredentialsForBasicAuthorization(token.getToken(), "X-OAuth-Basic"));
+                if (token != null && !TextUtils.isEmpty(token)) {
+                    request.addHeader("Authorization", Header.encodeCredentialsForBasicAuthorization(token, "X-OAuth-Basic"));
                 }
             }
         };
 
-        return new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
-            .setRequestInterceptor(requestInterceptor)
-            .setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
+        this.adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
+            .setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
+            .setRequestInterceptor(requestInterceptor)
             .build();
+    }
+
+    /**
+     * Creates the service.
+     *
+     * @param service The service interface.
+     * @param <T> The service type.
+     * 
+     * @return The service instance.
+     */
+
+    public <T> T create(Class<T> service) {
+        return this.adapter.create(service);
+    }
+
+    /**
+     * Gets the {@link RestAdapter}.
+     *
+     * @return the {@link RestAdapter}.
+     */
+
+    public RestAdapter getAdapter() {
+        return adapter;
+    }
+
+    /**
+     * Sets the {@link RestAdapter}.
+     *
+     * @param adapter the {@link RestAdapter}.
+     */
+
+    public void setAdapter(RestAdapter adapter) {
+        this.adapter = adapter;
     }
 
 }

@@ -16,21 +16,21 @@ import org.bitreserve.bitreserve_android_sdk.util.Header;
 
 import java.util.List;
 
-import retrofit.RestAdapter;
-
 /**
  * Bitreserve client.
  */
 
 public class BitreserveClient {
 
-    private String token;
+    private Token token;
 
     /**
      * Constructor.
      */
 
     public BitreserveClient() {
+        this.token = new Token(null);
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getToken()));
     }
 
     /**
@@ -40,7 +40,8 @@ public class BitreserveClient {
      */
 
     public BitreserveClient(String token) {
-        this.token = token;
+        this.token = new Token(token);
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getToken()));
     }
 
     /**
@@ -56,7 +57,7 @@ public class BitreserveClient {
 
     public Promise<AuthenticationResponse> authenticateUser(String otp, String user, String password, AuthenticationRequest authorizationRequest) {
         RetrofitPromise<AuthenticationResponse> promise = new RetrofitPromise<>();
-        AuthenticationService authenticationService = this.getRestAdapter().create(AuthenticationService.class);
+        AuthenticationService authenticationService = this.getToken().getBitreserveRestAdapter().create(AuthenticationService.class);
 
         authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest, promise);
 
@@ -72,7 +73,7 @@ public class BitreserveClient {
     public Reserve getReserve() {
         Reserve reserve = new Reserve();
 
-        reserve.setToken(new Token(this.token));
+        reserve.setBitreserveRestAdapter(this.getToken().getBitreserveRestAdapter());
 
         return reserve;
     }
@@ -85,7 +86,7 @@ public class BitreserveClient {
 
     public Promise<List<Ticker>> getTickers() {
         RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
-        TickerService tickerService = this.getRestAdapter().create(TickerService.class);
+        TickerService tickerService = this.getToken().getBitreserveRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickers(promise);
 
@@ -102,11 +103,31 @@ public class BitreserveClient {
 
     public Promise<List<Ticker>> getTickersByCurrency(String currency) {
         RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
-        TickerService tickerService = this.getRestAdapter().create(TickerService.class);
+        TickerService tickerService = this.getToken().getBitreserveRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickersByCurrency(currency, promise);
 
         return promise;
+    }
+
+    /**
+     * Gets the bitreserve client token.
+     *
+     * @return the {@link Token}
+     */
+
+    public Token getToken() {
+        return token;
+    }
+
+    /**
+     * Sets the bitreserve token.
+     *
+     * @param token The {@link Token}.
+     */
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     /**
@@ -116,17 +137,7 @@ public class BitreserveClient {
      */
 
     public Promise<User> getUser() {
-        return new Token(this.token).getUser();
-    }
-
-    /**
-     * Gets the rest adapter with the current token.
-     *
-     * @return a {@link RestAdapter} for the current token.
-     */
-
-    private RestAdapter getRestAdapter() {
-        return BitreserveRestAdapter.getRestAdapter(new Token(this.token));
+        return this.getToken().getUser();
     }
 
 }

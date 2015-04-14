@@ -14,7 +14,7 @@ import android.text.TextUtils;
  * Token model.
  */
 
-public class Token {
+public class Token extends BaseModel {
 
     private String token;
 
@@ -56,23 +56,23 @@ public class Token {
 
     public Promise<User> getUser() {
         RetrofitPromise<User> promise = new RetrofitPromise<>();
-        UserService userService = BitreserveRestAdapter.getRestAdapter(this).create(UserService.class);
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
         if (TextUtils.isEmpty(this.getToken())) {
             promise.reject(new AuthenticationRequiredException("Missing bearer authorization"));
 
             return promise;
-        } else {
-            userService.getUser(promise);
-
-            return promise.then(new PromiseFunction<User, User>() {
-                public User call(User user) {
-                    user.setToken(Token.this);
-
-                    return user;
-                }
-            });
         }
+
+        userService.getUser(promise);
+
+        return promise.then(new PromiseFunction<User, User>() {
+            public User call(User user) {
+                user.setBitreserveRestAdapter(new BitreserveRestAdapter(Token.this.getToken()));
+
+                return user;
+            }
+        });
     }
 
 }

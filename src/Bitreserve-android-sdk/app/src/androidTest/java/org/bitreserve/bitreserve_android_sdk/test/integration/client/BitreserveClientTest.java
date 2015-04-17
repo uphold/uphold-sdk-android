@@ -262,7 +262,7 @@ public class BitreserveClientTest {
                     "\"country\": \"BAR\"," +
                     "\"state\": \"FOO\"," +
                     "\"currencies\": [" +
-                        "\"BTC\"," +
+                        "\"BTC\"" +
                     "]," +
                     "\"status\": {" +
                     "\"email\": \"ok\"," +
@@ -319,6 +319,8 @@ public class BitreserveClientTest {
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
         Assert.assertEquals(userResponse.getCountry(), "BAR");
+        Assert.assertEquals(userResponse.getCurrencies().size(), 1);
+        Assert.assertEquals(userResponse.getCurrencies().get(0), "BTC");
         Assert.assertEquals(userResponse.getEmail(), "foobar@bfoobar.org");
         Assert.assertEquals(userResponse.getFirstName(), "foo");
         Assert.assertEquals(userResponse.getLastName(), "bar");

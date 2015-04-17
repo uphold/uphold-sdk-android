@@ -442,6 +442,18 @@ public class UserTest {
     }
 
     @Test
+    public void getCurrenciesShouldReturnTheListOfCurrencies() {
+        User user = Fixtures.loadUser(new HashMap<String, String>() {{
+            put("currencies", "BTC,USD,EUR");
+        }});
+
+        Assert.assertEquals(user.getCurrencies().size(), 3);
+        Assert.assertEquals(user.getCurrencies().get(0), "BTC");
+        Assert.assertEquals(user.getCurrencies().get(1), "USD");
+        Assert.assertEquals(user.getCurrencies().get(2), "EUR");
+    }
+
+    @Test
     public void getEmailShouldReturnEmail() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("email", "foobar");

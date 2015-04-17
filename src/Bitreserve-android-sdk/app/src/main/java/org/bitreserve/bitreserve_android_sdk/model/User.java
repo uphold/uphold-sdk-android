@@ -32,6 +32,7 @@ import java.util.TreeSet;
 public class User extends BaseModel {
 
     private final String country;
+    private final List<String> currencies;
     private final String email;
     private final String firstName;
     private final String lastName;
@@ -45,6 +46,7 @@ public class User extends BaseModel {
      * Constructor.
      *
      * @param country The user country
+     * @param currencies The user list of currencies
      * @param email The user email
      * @param firstName The user first name
      * @param lastName The user last name
@@ -55,8 +57,9 @@ public class User extends BaseModel {
      * @param username The user username
      */
 
-    public User(String country, String email, String firstName, String lastName, String name, Settings settings, String state, Status status, String username) {
+    public User(String country, List<String> currencies, String email, String firstName, String lastName, String name, Settings settings, String state, Status status, String username) {
         this.country = country;
+        this.currencies = currencies;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -246,6 +249,16 @@ public class User extends BaseModel {
 
     public String getCountry() {
         return country;
+    }
+
+    /**
+     * Gets the list of the currencies available for the user.
+     *
+     * @return a {@link List<String>} with the currencies available for the user.
+     */
+
+    public List<String> getCurrencies() {
+        return currencies;
     }
 
     /**

@@ -30,7 +30,7 @@ public class BitreserveClient {
 
     public BitreserveClient() {
         this.token = new Token(null);
-        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getToken()));
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getBearerToken()));
     }
 
     /**
@@ -41,7 +41,7 @@ public class BitreserveClient {
 
     public BitreserveClient(String token) {
         this.token = new Token(token);
-        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getToken()));
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getBearerToken()));
     }
 
     /**

@@ -1,11 +1,11 @@
 package org.bitreserve.bitreserve_android_sdk.test.integration.model;
 
-import com.darylteo.rx.promises.java.functions.PromiseAction;
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
 import junit.framework.Assert;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
-import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.User;
@@ -16,24 +16,17 @@ import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
-import retrofit.RestAdapter;
-import retrofit.client.Client;
 import retrofit.client.Request;
-import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Integration tests to the class {@link User}.
@@ -45,64 +38,47 @@ public class UserTest {
 
     @Test
     public void createCardShouldReturnTheCard() throws Exception {
-        final AtomicReference<Card> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{" +
+            "\"id\": \"foobar\"," +
+            "\"address\": {" +
+                "\"bitcoin\": \"foobiz\"" +
+            "}," +
+            "\"label\": \"foo\"," +
+            "\"currency\": \"BAR\"," +
+            "\"balance\": \"0.00\"," +
+            "\"available\": \"0.00\"," +
+            "\"lastTransactionAt\": \"2014-07-07T05:40:46.624Z\"," +
+            "\"addresses\": [" +
+                "{" +
+                    "\"id\": \"foobuz\"," +
+                    "\"network\": \"bitcoin\"" +
+                "}, {" +
+                    "\"id\": \"foobaz\"," +
+                    "\"network\": \"bitcoin\"" +
+                "}" +
+            "]," +
+            "\"settings\": [" +
+                "{" +
+                    "\"position\": \"7\"," +
+                    "\"starred\": true" +
+                "}" +
+            "]" +
+        "}";
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{" +
-                    "\"id\": \"foobar\"," +
-                    "\"address\": {" +
-                        "\"bitcoin\": \"foobiz\"" +
-                    "}," +
-                    "\"label\": \"foo\"," +
-                    "\"currency\": \"BAR\"," +
-                    "\"balance\": \"0.00\"," +
-                    "\"available\": \"0.00\"," +
-                    "\"lastTransactionAt\": \"2014-07-07T05:40:46.624Z\"," +
-                    "\"addresses\": [" +
-                        "{" +
-                            "\"id\": \"foobuz\"," +
-                            "\"network\": \"bitcoin\"" +
-                        "}, {" +
-                            "\"id\": \"foobaz\"," +
-                            "\"network\": \"bitcoin\"" +
-                        "}" +
-                    "]," +
-                    "\"settings\": [" +
-                        "{" +
-                            "\"position\": \"7\"," +
-                            "\"starred\": true" +
-                        "}" +
-                    "]" +
-                "}";
+            public Promise<Card> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.createCard(new CardRequest("foo", "BTC")).then(new PromiseAction<Card>() {
-            @Override
-            public void call(Card card) {
-                bodyRefResponse.set(card);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.createCard(new CardRequest("foo", "BTC"));
             }
         });
-        latch.await();
 
-        Card cards = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        Card cards = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
@@ -126,39 +102,22 @@ public class UserTest {
 
     @Test
     public void getBalancesShouldReturnTheListOfBalances() throws Exception {
-        final AtomicReference<List<Currency>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{ \"balances\": { \"total\": \"1083.77\", \"currencies\": { \"CNY\": { \"amount\": \"6.98\" }, \"EUR\": { \"amount\": \"75.01\" } } } }";
+        MockRestAdapter<List<Currency>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Currency>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{ \"balances\": { \"total\": \"1083.77\", \"currencies\": { \"CNY\": { \"amount\": \"6.98\" }, \"EUR\": { \"amount\": \"75.01\" } } } }";
+            public Promise<List<Currency>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getBalances().then(new PromiseAction<List<Currency>>() {
-            @Override
-            public void call(List<Currency> currencies) {
-                bodyRefResponse.set(currencies);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getBalances();
             }
         });
-        latch.await();
 
-        ArrayList<Currency> currencies = new ArrayList<>(bodyRefResponse.get());
-        Request request = bodyRefRequest.get();
+        List<Currency> currencies = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
@@ -169,57 +128,40 @@ public class UserTest {
 
     @Test
     public void getBalanceByCurrencyShouldReturnTheCurrency() throws Exception {
-        final AtomicReference<Currency> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
-
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
-            @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{" +
-                    "\"balances\": {" +
-                        "\"total\": \"1083.77\"," +
-                        "\"currencies\": {" +
-                            "\"CNY\": {" +
-                                "\"amount\": \"6.98\"," +
-                                "\"balance\": \"42.82\"," +
-                                "\"currency\": \"USD\"," +
-                                "\"rate\": \"6.13880\"" +
-                            "}," +
-                            "\"EUR\": {" +
-                                "\"amount\": \"75.01\"," +
-                                "\"balance\": \"58.05\"," +
-                                "\"currency\": \"USD\"," +
-                                "\"rate\": \"1.29220\"" +
-                            "}" +
-                        "}" +
+        String responseString = "{" +
+            "\"balances\": {" +
+                "\"total\": \"1083.77\"," +
+                "\"currencies\": {" +
+                    "\"CNY\": {" +
+                        "\"amount\": \"6.98\"," +
+                        "\"balance\": \"42.82\"," +
+                        "\"currency\": \"USD\"," +
+                        "\"rate\": \"6.13880\"" +
+                    "}," +
+                    "\"EUR\": {" +
+                        "\"amount\": \"75.01\"," +
+                        "\"balance\": \"58.05\"," +
+                        "\"currency\": \"USD\"," +
+                        "\"rate\": \"1.29220\"" +
                     "}" +
-                "}";
+                "}" +
+            "}" +
+        "}";
+        MockRestAdapter<Currency> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-                bodyRefRequest.set(request);
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Currency>() {
+            @Override
+            public Promise<Currency> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getBalanceByCurrency("EUR").then(new PromiseAction<Currency>() {
-            @Override
-            public void call(Currency currency) {
-                bodyRefResponse.set(currency);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                user.setBitreserveRestAdapter(adapter);
+
+                return user.getBalanceByCurrency("EUR");
             }
         });
-        latch.await();
 
-        Currency currency = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        Currency currency = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
@@ -231,39 +173,22 @@ public class UserTest {
 
     @Test
     public void getCardsShouldReturnTheListOfCards() throws Exception {
-        final AtomicReference<List<Card>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOO\" }, { \"id\": \"BAR\" } ]";
+        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Card>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOO\" }, { \"id\": \"BAR\" } ]";
+            public Promise<List<Card>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getCards().then(new PromiseAction<List<Card>>() {
-            @Override
-            public void call(List<Card> cards) {
-                bodyRefResponse.set(cards);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getCards();
             }
         });
-        latch.await();
 
-        List<Card> cards = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        List<Card> cards = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
@@ -274,39 +199,22 @@ public class UserTest {
 
     @Test
     public void getCardByIdShouldReturnTheCardWithId() throws Exception {
-        final AtomicReference<Card> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{ \"id\": \"FOOBAR\" }";
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{ \"id\": \"FOOBAR\" }";
+            public Promise<Card> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getCardById("FOOBAR").then(new PromiseAction<Card>() {
-            @Override
-            public void call(Card card) {
-                bodyRefResponse.set(card);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getCardById("FOOBAR");
             }
         });
-        latch.await();
 
-        Card card = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        Card card = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/FOOBAR");
@@ -315,39 +223,22 @@ public class UserTest {
 
     @Test
     public void getCardsByCurrencyShouldReturnTheListOfCardsWithCurrency() throws Exception {
-        final AtomicReference<List<Card>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User mockedUserResponse = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOOBAR\", \"currency\": \"USD\" }, { \"id\": \"FOOBIZ\", \"currency\": \"BTC\" } ]";
+        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Card>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOOBAR\", \"currency\": \"USD\" }, { \"id\": \"FOOBIZ\", \"currency\": \"BTC\" } ]";
+            public Promise<List<Card>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        mockedUserResponse.setBitreserveRestAdapter(mockRestAdapter);
-        mockedUserResponse.getCardsByCurrency("BTC").then(new PromiseAction<List<Card>>() {
-            @Override
-            public void call(List<Card> cards) {
-                bodyRefResponse.set(cards);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getCardsByCurrency("BTC");
             }
         });
-        latch.await();
 
-        List<Card> cards = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        List<Card> cards = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
@@ -357,61 +248,44 @@ public class UserTest {
 
     @Test
     public void getContactsShouldReturnTheListOfContacts() throws Exception {
-        final AtomicReference<List<Contact>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[" +
+            "{" +
+                "\"id\": \"FOOBAR\"," +
+                "\"firstName\": \"Foo\"," +
+                "\"lastName\": \"Bar\"," +
+                "\"company\": \"FOO\"," +
+                "\"emails\": [" +
+                    "\"foo@bar.org\"" +
+                "]," +
+                "\"addresses\": []," +
+                "\"name\": \"Foo Bar\"" +
+            "}, {" +
+                "\"id\": \"FUZBAR\"," +
+                "\"firstName\": \"Fuz\"," +
+                "\"lastName\": \"Buz\"," +
+                "\"company\": \"BAR\"," +
+                "\"emails\": [" +
+                    "\"fuzbuz@buz.org\"" +
+                "]," +
+                "\"addresses\": []," +
+                "\"name\": \"Fuz Buz\"" +
+            "}" +
+        "]";
+        MockRestAdapter<List<Contact>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Contact>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[" +
-                    "{" +
-                        "\"id\": \"FOOBAR\"," +
-                        "\"firstName\": \"Foo\"," +
-                        "\"lastName\": \"Bar\"," +
-                        "\"company\": \"FOO\"," +
-                        "\"emails\": [" +
-                            "\"foo@bar.org\"" +
-                        "]," +
-                        "\"addresses\": []," +
-                        "\"name\": \"Foo Bar\"" +
-                    "}, {" +
-                        "\"id\": \"FUZBAR\"," +
-                        "\"firstName\": \"Fuz\"," +
-                        "\"lastName\": \"Buz\"," +
-                        "\"company\": \"BAR\"," +
-                        "\"emails\": [" +
-                            "\"fuzbuz@buz.org\"" +
-                        "]," +
-                        "\"addresses\": []," +
-                        "\"name\": \"Fuz Buz\"" +
-                    "}" +
-                "]";
+            public Promise<List<Contact>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getContacts().then(new PromiseAction<List<Contact>>() {
-            @Override
-            public void call(List<Contact> contacts) {
-                bodyRefResponse.set(contacts);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getContacts();
             }
         });
-        latch.await();
 
-        List<Contact> contacts = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        List<Contact> contacts = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
@@ -491,48 +365,31 @@ public class UserTest {
 
     @Test
     public void getPhonesShouldReturnTheListOfPhones() throws Exception {
-        final AtomicReference<List<Phone>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[" +
+            "{" +
+                "\"id\": \"foobar\"," +
+                "\"verified\": \"true\"," +
+                "\"primary\": \"true\"," +
+                "\"e164Masked\": \"+XXXXXXXXX04\"," +
+                "\"nationalMasked\": \"(XXX) XXX-XX04\"," +
+                "\"internationalMasked\": \"+X XXX-XXX-XX04\"" +
+            "}" +
+        "]";
+        MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Phone>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[" +
-                    "{" +
-                        "\"id\": \"foobar\"," +
-                        "\"verified\": \"true\"," +
-                        "\"primary\": \"true\"," +
-                        "\"e164Masked\": \"+XXXXXXXXX04\"," +
-                        "\"nationalMasked\": \"(XXX) XXX-XX04\"," +
-                        "\"internationalMasked\": \"+X XXX-XXX-XX04\"" +
-                    "}" +
-                "]";
+            public Promise<List<Phone>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getPhones().then(new PromiseAction<List<Phone>>() {
-            @Override
-            public void call(List<Phone> phones) {
-                bodyRefResponse.set(phones);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.getPhones();
             }
         });
-        latch.await();
 
-        List<Phone> phones = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        List<Phone> phones = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/phones");
@@ -602,57 +459,40 @@ public class UserTest {
 
     @Test
     public void getTotalBalancesShouldReturnTheTotalBalance() throws Exception {
-        final AtomicReference<UserBalance> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
-
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
-            @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{" +
-                    "\"balances\": {" +
-                        "\"total\": \"1083.77\"," +
-                        "\"currencies\": {" +
-                            "\"CNY\": {" +
-                                "\"amount\": \"6.98\"," +
-                                "\"balance\": \"42.82\"," +
-                                "\"currency\": \"USD\"," +
-                                "\"rate\": \"6.13880\"" +
-                            "}," +
-                            "\"EUR\": {" +
-                                "\"amount\": \"75.01\"," +
-                                "\"balance\": \"58.05\"," +
-                                "\"currency\": \"USD\"," +
-                                "\"rate\": \"1.29220\"" +
-                            "}" +
-                        "}" +
+        String responseString = "{" +
+            "\"balances\": {" +
+                "\"total\": \"1083.77\"," +
+                "\"currencies\": {" +
+                    "\"CNY\": {" +
+                        "\"amount\": \"6.98\"," +
+                        "\"balance\": \"42.82\"," +
+                        "\"currency\": \"USD\"," +
+                        "\"rate\": \"6.13880\"" +
+                    "}," +
+                    "\"EUR\": {" +
+                        "\"amount\": \"75.01\"," +
+                        "\"balance\": \"58.05\"," +
+                        "\"currency\": \"USD\"," +
+                        "\"rate\": \"1.29220\"" +
                     "}" +
-                "}";
+                "}" +
+            "}" +
+        "}";
+        MockRestAdapter<UserBalance> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-                bodyRefRequest.set(request);
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, UserBalance>() {
+            @Override
+            public Promise<UserBalance> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.getTotalBalances().then(new PromiseAction<UserBalance>() {
-            @Override
-            public void call(UserBalance userBalance) {
-                bodyRefResponse.set(userBalance);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                user.setBitreserveRestAdapter(adapter);
+
+                return user.getTotalBalances();
             }
         });
-        latch.await();
 
-        Request request = bodyRefRequest.get();
-        UserBalance balance = bodyRefResponse.get();
+        Request request = adapter.getRequest();
+        UserBalance balance = adapter.getResult();
 
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
         Assert.assertEquals(request.getMethod(), "GET");
@@ -669,46 +509,34 @@ public class UserTest {
 
     @Test
     public void getUserTransactionsShouldReturnTheListOfTransactions() throws Exception {
-        final AtomicReference<List<Transaction>> bodyRefElements = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Transaction>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+            public Promise<List<Transaction>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>() {{
-                    add(new retrofit.client.Header("Range", "items=0-4"));
-                    add(new retrofit.client.Header("Content-Range", "0-4/100"));
-                }}, new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        Paginator<Transaction> paginator = user.getUserTransactions();
-        paginator.getElements().then(new PromiseAction<List<Transaction>>() {
-            @Override
-            public void call(List<Transaction> transactions) {
-                bodyRefElements.set(transactions);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, List<Transaction>>() {
+                    @Override
+                    public Promise<List<Transaction>> call(List<Transaction> transactions) {
+                        return paginator.getElements();
+                    }
+                });
             }
         });
-        latch.await();
 
-        List<Transaction> transactions = bodyRefElements.get();
-        Request request = bodyRefRequest.get();
+        List<Transaction> transactions = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-50");
         Assert.assertEquals(transactions.size(), 2);
         Assert.assertEquals(transactions.get(0).getId(), "FOOBAR");
         Assert.assertEquals(transactions.get(1).getId(), "FOOBIZ");
@@ -716,48 +544,32 @@ public class UserTest {
 
     @Test
     public void getUserTransactionsShouldReturnTheHasNext() throws Exception {
-        final AtomicReference<Boolean> bodyRefHasNext = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-4/100");
+            put("Range", "items=0-4");
+        }});
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Boolean>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+            public Promise<Boolean> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>() {{
-                    add(new retrofit.client.Header("Range", "items=0-4"));
-                    add(new retrofit.client.Header("Content-Range", "0-4/100"));
-                }}, new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        final Paginator<Transaction> paginator = user.getUserTransactions();
-        paginator.getElements().then(new PromiseAction<List<Transaction>>() {
-            @Override
-            public void call(List<Transaction> transactions) {
-                paginator.hasNext().then(new PromiseAction<Boolean>() {
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Boolean>() {
                     @Override
-                    public void call(Boolean aBoolean) {
-                        bodyRefHasNext.set(aBoolean);
-                        latch.countDown();
-                    }
-                }).fail(new PromiseAction<Exception>() {
-                    @Override
-                    public void call(Exception e) {
-                        latch.countDown();
+                    public Promise<Boolean> call(List<Transaction> transactions) {
+                        return paginator.hasNext();
                     }
                 });
             }
         });
-        latch.await();
 
-        Boolean hasNext = bodyRefHasNext.get();
-        Request request = bodyRefRequest.get();
+        Boolean hasNext = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
@@ -768,100 +580,65 @@ public class UserTest {
 
     @Test
     public void getUserTransactionsShouldReturnTheCount() throws Exception {
-        final AtomicReference<Integer> bodyRefCount = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String >(){{
+            put("Content-Range", "0-4/100");
+            put("Range", "items=0-4");
+        }});
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Integer>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+            public Promise<Integer> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>() {{
-                    add(new retrofit.client.Header("Range", "items=0-4"));
-                    add(new retrofit.client.Header("Content-Range", "0-4/100"));
-                }}, new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        final Paginator<Transaction> paginator = user.getUserTransactions();
-        paginator.getElements().then(new PromiseAction<List<Transaction>>() {
-            @Override
-            public void call(List<Transaction> transactions) {
-                paginator.count().then(new PromiseAction<Integer>() {
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Integer>() {
                     @Override
-                    public void call(Integer integer) {
-                        bodyRefCount.set(integer);
-                        latch.countDown();
-                    }
-                }).fail(new PromiseAction<Exception>() {
-                    @Override
-                    public void call(Exception e) {
-                        latch.countDown();
+                    public Promise<Integer> call(List<Transaction> transactions) {
+                        return paginator.count();
                     }
                 });
             }
         });
-        latch.await();
 
-        Integer count = bodyRefCount.get();
-        Request request = bodyRefRequest.get();
+        Integer count = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
-        Assert.assertEquals(count, Integer.valueOf(100));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertEquals(count, Integer.valueOf(100));
     }
 
     @Test
     public void getUserTransactionsShouldReturnTheNextPage() throws Exception {
-        final AtomicReference<List<Transaction>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Transaction>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+            public Promise<List<Transaction>> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>() {{
-                    add(new retrofit.client.Header("Range", "items=0-4"));
-                    add(new retrofit.client.Header("Content-Range", "0-4/100"));
-                }}, new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        final Paginator<Transaction> paginator = user.getUserTransactions();
-        paginator.getElements().then(new PromiseAction<List<Transaction>>() {
-            @Override
-            public void call(List<Transaction> transactions) {
-                paginator.getNext().then(new PromiseAction<List<Transaction>>() {
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, List<Transaction>>() {
                     @Override
-                    public void call(List<Transaction> transactions) {
-                        bodyRefResponse.set(transactions);
-                        latch.countDown();
-                    }
-                }).fail(new PromiseAction<Exception>() {
-                    @Override
-                    public void call(Exception e) {
-                        latch.countDown();
+                    public Promise<List<Transaction>> call(List<Transaction> transactions) {
+                        return paginator.getNext();
                     }
                 });
             }
         });
-        latch.await();
 
-        List<Transaction> transactions = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        List<Transaction> transactions = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
@@ -883,39 +660,22 @@ public class UserTest {
 
     @Test
     public void updateShouldReturnTheUser() throws Exception {
-        final AtomicReference<User> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        User user = Fixtures.loadUser();
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{ \"username\": \"FOOBAR\" }";
+        MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, User>() {
             @Override
-            public Response execute(Request request) throws IOException {
-              String responseString = "{ \"username\": \"FOOBAR\" }";
+            public Promise<User> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
 
-                bodyRefRequest.set(request);
+                user.setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<retrofit.client.Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        user.setBitreserveRestAdapter(mockRestAdapter);
-        user.update(new HashMap<String, Object>()).then(new PromiseAction<User>() {
-            @Override
-            public void call(User user) {
-                bodyRefResponse.set(user);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return user.update(new HashMap<String, Object>());
             }
         });
-        latch.await();
 
-        Request request = bodyRefRequest.get();
-        User userResponse = bodyRefResponse.get();
+        Request request = adapter.getRequest();
+        User userResponse = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "PATCH");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");

@@ -1,7 +1,11 @@
 package org.bitreserve.bitreserve_android_sdk.test.integration.service;
 
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.RepromiseFunction;
+
 import junit.framework.Assert;
 
+import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
@@ -9,23 +13,18 @@ import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionDenominationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
-import retrofit.RestAdapter;
-import retrofit.client.Client;
 import retrofit.client.Header;
 import retrofit.client.Request;
-import retrofit.client.Response;
 
 /**
  * Integration tests to the class {@link UserCardService}
@@ -35,183 +34,181 @@ import retrofit.client.Response;
 @SmallTest
 public class UserCardServiceTest {
 
-    private static final String MOCK_URL = "http://www.foobar.com";
-
     @Test
     public void cancelTransactionShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Transaction>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Transaction> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.cancelTransaction("foo", "bar", promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.cancelTransaction("foo", "bar", new RetrofitPromise<Transaction>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "POST");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s/transactions/%s/cancel", MOCK_URL, "foo", "bar"));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/cancel");
     }
 
     @Test
     public void confirmTransactionShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Transaction>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Transaction> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.confirmTransaction("foo", "bar", promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.confirmTransaction("foo", "bar", new RetrofitPromise<Transaction>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "POST");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s/transactions/%s/commit", MOCK_URL, "foo", "bar"));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
     }
 
     @Test
     public void createTransactionShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Transaction>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Transaction> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.createTransaction("foobar", new TransactionRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.createTransaction("foobar", new TransactionRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), new RetrofitPromise<Transaction>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "POST");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s/transactions", MOCK_URL, "foobar"));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar/transactions");
     }
 
     @Test
     public void createUserCardShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Card> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Card> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.createUserCard(new CardRequest("foo", "bar"), promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.createUserCard(new CardRequest("foo", "bar"), new RetrofitPromise<Card>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "POST");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards", MOCK_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
     }
 
     @Test
     public void getUserCardByIdShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Card> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Card> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.getUserCardById("foobar", promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.getUserCardById("foobar", new RetrofitPromise<Card>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "GET");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s", MOCK_URL, "foobar"));
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar");
     }
 
     @Test
     public void getUserCardsShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Card>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<List<Card>> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<List<Card>> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.getUserCards(promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.getUserCards(new RetrofitPromise<List<Card>>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "GET");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards", MOCK_URL));
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
     }
 
     @Test
     public void getUserCardTransactionsShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Transaction>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<List<Transaction>> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.getUserCardTransactions("foo", "bar", promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.getUserCardTransactions("foo", "bar", new RetrofitPromise<List<Transaction>>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "GET");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s/transactions", MOCK_URL, "bar"));
-        Assert.assertTrue(bodyRef.get().getHeaders().contains(new Header("Range", "foo")));
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/bar/transactions");
+        Assert.assertTrue(request.getHeaders().contains(new Header("Range", "foo")));
     }
 
     @Test
     public void updateShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<Card> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Card> promise = new RetrofitPromise<>();
 
-                return null;
+                userCardService.update("foobar", new HashMap<String, Object>(), promise);
+
+                return promise;
             }
-        }).build();
-        final UserCardService userCardService = adapter.create(UserCardService.class);
+        });
 
-        userCardService.update("foobar", new HashMap<String, Object>(), new RetrofitPromise<Card>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "PATCH");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/me/cards/%s", MOCK_URL, "foobar"));
+        Assert.assertEquals(request.getMethod(), "PATCH");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar");
     }
 
 }

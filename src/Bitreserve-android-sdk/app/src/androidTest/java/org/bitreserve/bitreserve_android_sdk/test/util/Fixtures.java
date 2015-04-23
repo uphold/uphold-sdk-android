@@ -8,6 +8,7 @@ import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUser
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Status;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -22,8 +23,9 @@ public class Fixtures {
 
     public static User loadUser(HashMap<String, String> fields) {
         final Faker faker = new Faker();
-        HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
             put("country", faker.address().country());
+            put("currencies", String.format("%s,%s,%s", faker.lorem().fixedString(3), faker.lorem().fixedString(3), faker.lorem().fixedString(3)));
             put("currency", faker.lorem().fixedString(3));
             put("email", faker.internet().emailAddress());
             put("emailStatus", faker.lorem().fixedString(10));
@@ -51,14 +53,19 @@ public class Fixtures {
             fakerFields.putAll(fields);
         }
 
-        InternationalizationUserSetting internationalizationUserSettingLanguage = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingLanguage"));
+        ArrayList<String> currencies = new ArrayList<String>(){{
+            for (String currency : fakerFields.get("currencies").split(",")) {
+                add(currency);
+            }
+        }};
         InternationalizationUserSetting internationalizationUserSettingDateTimeFormat = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingDateTimeFormat"));
+        InternationalizationUserSetting internationalizationUserSettingLanguage = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingLanguage"));
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingNumberFormat"));
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
         Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, fakerFields.get("theme"));
         Status status = new Status(fakerFields.get("emailStatus"), fakerFields.get("identityStatus"), fakerFields.get("overviewStatus"), fakerFields.get("phoneStatus"), fakerFields.get("registrationStatus"), fakerFields.get("reviewStatus"), fakerFields.get("screeningStatus"), fakerFields.get("volumeStatus"));
 
-        return new User(fakerFields.get("country"), fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), status, fakerFields.get("username"));
+        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), status, fakerFields.get("username"));
     }
 
 }

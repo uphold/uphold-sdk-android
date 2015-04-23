@@ -6,8 +6,8 @@ import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAd
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
+import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.model.Reserve;
-import org.bitreserve.bitreserve_android_sdk.model.Ticker;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.service.AuthenticationService;
@@ -81,11 +81,11 @@ public class BitreserveClient {
     /**
      * Gets all exchanges rates for all currency pairs.
      *
-     * @return a {@link Promise<List<Ticker>>} with all exchanges rates for all currency pairs.
+     * @return a {@link Promise<List<Rate>>} with all exchanges rates for all currency pairs.
      */
 
-    public Promise<List<Ticker>> getTickers() {
-        RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
+    public Promise<List<Rate>> getTicker() {
+        RetrofitPromise<List<Rate>> promise = new RetrofitPromise<>();
         TickerService tickerService = this.getToken().getBitreserveRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickers(promise);
@@ -98,11 +98,11 @@ public class BitreserveClient {
      *
      * @param currency The filter currency.
      *
-     * @return a {@link Promise<List<Ticker>>} with all exchanges rates relative to a given currency.
+     * @return a {@link Promise<List<Rate>>} with all exchanges rates relative to a given currency.
      */
 
-    public Promise<List<Ticker>> getTickersByCurrency(String currency) {
-        RetrofitPromise<List<Ticker>> promise = new RetrofitPromise<>();
+    public Promise<List<Rate>> getTickersByCurrency(String currency) {
+        RetrofitPromise<List<Rate>> promise = new RetrofitPromise<>();
         TickerService tickerService = this.getToken().getBitreserveRestAdapter().create(TickerService.class);
 
         tickerService.getAllTickersByCurrency(currency, promise);

@@ -31,7 +31,7 @@ public class Card extends BaseModel {
     private final String currency;
     private final String label;
     private final String lastTransactionAt;
-    private final Settings settings;
+    private final List<Settings> settings;
 
     /**
      * Constructor.
@@ -47,7 +47,7 @@ public class Card extends BaseModel {
      * @param settings The {@link Settings} of the card.
      */
 
-    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, Settings settings) {
+    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, List<Settings> settings) {
         this.id = id;
         this.address = address;
         this.addresses = addresses;
@@ -168,7 +168,7 @@ public class Card extends BaseModel {
      * @return the {@link Settings} of the card
      */
 
-    public Settings getSettings() {
+    public List<Settings> getSettings() {
         return settings;
     }
 
@@ -187,7 +187,7 @@ public class Card extends BaseModel {
         Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
             public List<Transaction> call(List<Transaction> transactions) {
                 for (Transaction transaction : transactions) {
-                    transaction.setBitreserveRestAdapter(Card. this.getBitreserveRestAdapter());
+                    transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
                 }
 
                 return transactions;

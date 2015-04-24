@@ -32,7 +32,7 @@ import retrofit.client.Request;
 public class BitreserveClientTest {
 
     @Test
-    public void bitreserveClientWithTokenShouldSetTokenAndRestAdapter() {
+    public void bitreserveClientWithTokenShouldSetTheTokenAndRestAdapter() {
         BitreserveClient bitreserveClient = new BitreserveClient(null);
 
         Assert.assertNull(bitreserveClient.getToken().getBearerToken());
@@ -40,7 +40,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void bitreserveClientWithTokenShouldReturnTokenAndRestAdapter() {
+    public void bitreserveClientWithTokenShouldReturnTheBearerTokenAndRestAdapter() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
         Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
@@ -48,12 +48,8 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void authenticateUserShouldReturnPromiseWithAuthenticationResponse() throws Exception {
-        String responseString = "{" +
-            "\"access_token\": \"foo\"," +
-            "\"description\": \"bar\"," +
-            "\"expires_in\": null" +
-        "}";
+    public void authenticateUserShouldReturnTheAuthenticationResponse() throws Exception {
+        String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
         MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
@@ -89,7 +85,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getTickersShouldReturnPromiseWithListTickers() throws Exception {
+    public void getTickersShouldReturnTheListOfRates() throws Exception {
         String responseString = "[" +
             "{" +
                 "\"ask\": \"foo\"," +
@@ -142,7 +138,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getTickersByCurrencyShouldReturnPromiseWithListTickers() throws Exception {
+    public void getTickersByCurrencyShouldReturnTheListOfRates() throws Exception {
         String responseString = "[" +
           "{" +
               "\"ask\": \"foo\"," +
@@ -185,14 +181,14 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getTokenShouldReturnToken() {
+    public void getTokenShouldReturnTheToken() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
         Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
     }
 
     @Test
-    public void setTokenShouldSetToken() {
+    public void setTokenShouldSetTheToken() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
         bitreserveClient.setToken(new Token("new foobar"));
 
@@ -200,7 +196,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getUserShouldReturnUserWithPromise() throws Exception {
+    public void getUserShouldReturnTheUser() throws Exception {
         String responseString = "{" +
             "\"username\": \"foobar\"," +
             "\"email\": \"foobar@bfoobar.org\"," +

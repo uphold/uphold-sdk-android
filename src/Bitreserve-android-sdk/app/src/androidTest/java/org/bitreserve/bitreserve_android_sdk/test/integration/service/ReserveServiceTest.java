@@ -77,7 +77,7 @@ public class ReserveServiceTest {
     }
 
     @Test
-    public void getReserveTransactions() throws Exception {
+    public void getReserveTransactionsShouldReturnTheRequest() throws Exception {
         final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Transaction>>() {
@@ -100,7 +100,7 @@ public class ReserveServiceTest {
     }
 
     @Test
-    public void getReserveStatistics() throws Exception {
+    public void getReserveStatisticsShouldReturnTheRequest() throws Exception {
         final MockRestAdapter<List<ReserveStatistics>> adapter = new MockRestAdapter<>(null, null, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<ReserveStatistics>>() {

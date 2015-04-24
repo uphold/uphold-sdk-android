@@ -307,7 +307,7 @@ public class UserTest {
     }
 
     @Test
-    public void getCountryShouldReturnCountry() {
+    public void getCountryShouldReturnTheCountry() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("country", "foobar");
         }});
@@ -328,7 +328,7 @@ public class UserTest {
     }
 
     @Test
-    public void getEmailShouldReturnEmail() {
+    public void getEmailShouldReturnTheEmail() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("email", "foobar");
         }});
@@ -337,7 +337,7 @@ public class UserTest {
     }
 
     @Test
-    public void getFirstNameShouldReturnFirstName() {
+    public void getFirstNameShouldReturnTheFirstName() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("firstName", "foobar");
         }});
@@ -346,7 +346,7 @@ public class UserTest {
     }
 
     @Test
-    public void getLastNameShouldReturnLastName() {
+    public void getLastNameShouldReturnTheLastName() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("lastName", "foobar");
         }});
@@ -355,7 +355,7 @@ public class UserTest {
     }
 
     @Test
-    public void getNameShouldReturnName() {
+    public void getNameShouldReturnTheName() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("name", "foobar");
         }});
@@ -403,7 +403,7 @@ public class UserTest {
     }
 
     @Test
-    public void getSettingsShouldReturnSettings() {
+    public void getSettingsShouldReturnTheSettings() {
         HashMap<String, String> data = new HashMap<String, String>() {{
             put("currency", "USD");
             put("hasNewsSubscription", "true");
@@ -425,7 +425,7 @@ public class UserTest {
     }
 
     @Test
-    public void getStateShouldReturnState() {
+    public void getStateShouldReturnTheState() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("state", "foobar");
         }});
@@ -434,7 +434,7 @@ public class UserTest {
     }
 
     @Test
-    public void getStatusShouldReturnStatus() {
+    public void getStatusShouldReturnTheStatus() {
         HashMap<String, String> data = new HashMap<String, String>() {{
             put("emailStatus", "ok");
             put("identityStatus", "pending");
@@ -543,78 +543,6 @@ public class UserTest {
     }
 
     @Test
-    public void getUserTransactionsShouldReturnTheHasNext() throws Exception {
-        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
-            put("Content-Range", "0-4/100");
-            put("Range", "items=0-4");
-        }});
-
-        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Boolean>() {
-            @Override
-            public Promise<Boolean> call(BitreserveRestAdapter adapter) {
-                User user = Fixtures.loadUser();
-
-                user.setBitreserveRestAdapter(adapter);
-
-                final Paginator<Transaction> paginator = user.getUserTransactions();
-
-                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Boolean>() {
-                    @Override
-                    public Promise<Boolean> call(List<Transaction> transactions) {
-                        return paginator.hasNext();
-                    }
-                });
-            }
-        });
-
-        Boolean hasNext = adapter.getResult();
-        Request request = adapter.getRequest();
-
-        Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
-        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
-        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
-        Assert.assertTrue(hasNext);
-    }
-
-    @Test
-    public void getUserTransactionsShouldReturnTheCount() throws Exception {
-        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String >(){{
-            put("Content-Range", "0-4/100");
-            put("Range", "items=0-4");
-        }});
-
-        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Integer>() {
-            @Override
-            public Promise<Integer> call(BitreserveRestAdapter adapter) {
-                User user = Fixtures.loadUser();
-
-                user.setBitreserveRestAdapter(adapter);
-
-                final Paginator<Transaction> paginator = user.getUserTransactions();
-
-                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Integer>() {
-                    @Override
-                    public Promise<Integer> call(List<Transaction> transactions) {
-                        return paginator.count();
-                    }
-                });
-            }
-        });
-
-        Integer count = adapter.getResult();
-        Request request = adapter.getRequest();
-
-        Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
-        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
-        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
-        Assert.assertEquals(count, Integer.valueOf(100));
-    }
-
-    @Test
     public void getUserTransactionsShouldReturnTheNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
         MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -650,7 +578,7 @@ public class UserTest {
     }
 
     @Test
-    public void getUserNameShouldReturnUsername() {
+    public void getUsernameShouldReturnTheUsername() {
         User user = Fixtures.loadUser(new HashMap<String, String>() {{
             put("username", "foobar");
         }});

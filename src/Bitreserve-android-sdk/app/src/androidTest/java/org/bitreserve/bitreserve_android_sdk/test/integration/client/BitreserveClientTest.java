@@ -1,35 +1,27 @@
 package org.bitreserve.bitreserve_android_sdk.test.integration.client;
 
-import com.darylteo.rx.promises.java.functions.PromiseAction;
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
 import junit.framework.Assert;
 
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
-import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.model.User;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
-import retrofit.RestAdapter;
-import retrofit.client.Client;
-import retrofit.client.Header;
 import retrofit.client.Request;
-import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 /**
  * Integration tests to the {@link BitreserveClient}.
@@ -40,7 +32,7 @@ import retrofit.mime.TypedByteArray;
 public class BitreserveClientTest {
 
     @Test
-    public void bitreserveClientWithTokenShouldSetTokenAndRestAdapter() {
+    public void bitreserveClientWithTokenShouldSetTheTokenAndRestAdapter() {
         BitreserveClient bitreserveClient = new BitreserveClient(null);
 
         Assert.assertNull(bitreserveClient.getToken().getBearerToken());
@@ -48,7 +40,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void bitreserveClientWithTokenShouldReturnTokenAndRestAdapter() {
+    public void bitreserveClientWithTokenShouldReturnTheBearerTokenAndRestAdapter() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
         Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
@@ -57,53 +49,32 @@ public class BitreserveClientTest {
 
     @Test
     public void authenticateUserShouldReturnTheAuthenticationResponse() throws Exception {
-        final AtomicReference<AuthenticationResponse> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
+        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{" +
-                    "\"access_token\": \"foo\"," +
-                    "\"description\": \"bar\"," +
-                    "\"expires_in\": null" +
-                "}";
+            public Promise<AuthenticationResponse> call(BitreserveRestAdapter adapter) {
+                BitreserveClient client = new BitreserveClient("foobar");
 
-                bodyRefRequest.set(request);
+                client.getToken().setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        bitreserveClient.getToken().setBitreserveRestAdapter(mockRestAdapter);
-        bitreserveClient.authenticateUser("otp", "user", "password", new AuthenticationRequest("description")).then(new PromiseAction<AuthenticationResponse>() {
-            @Override
-            public void call(AuthenticationResponse authenticationResponse) {
-                bodyRefResponse.set(authenticationResponse);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return client.authenticateUser("otp", "user", "password", new AuthenticationRequest("description"));
             }
         });
-        latch.await();
 
-        AuthenticationResponse authenticationResponse = bodyRefResponse.get();
-        Request request = bodyRefRequest.get();
+        AuthenticationResponse authenticationResponse = adapter.getResult();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(authenticationResponse.getAccessToken(), "foo");
-        Assert.assertEquals(authenticationResponse.getDescription(), "bar");
-        Assert.assertNull(authenticationResponse.getExpiresIn());
         Assert.assertEquals(request.getHeaders().get(0).getName(), "X-Bitreserve-OTP");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "otp");
         Assert.assertEquals(request.getHeaders().get(1).getName(), "Authorization");
         Assert.assertEquals(request.getHeaders().get(1).getValue(), "Basic dXNlcjpwYXNzd29yZA==");
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/tokens");
+        Assert.assertEquals(authenticationResponse.getAccessToken(), "foo");
+        Assert.assertEquals(authenticationResponse.getDescription(), "bar");
+        Assert.assertNull(authenticationResponse.getExpiresIn());
     }
 
     @Test
@@ -115,127 +86,109 @@ public class BitreserveClientTest {
 
     @Test
     public void getTickersShouldReturnTheListOfRates() throws Exception {
-        final AtomicReference<List<Rate>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "[" +
+            "{" +
+                "\"ask\": \"foo\"," +
+                "\"bid\": \"bar\"," +
+                "\"currency\": \"foobar\"," +
+                "\"pair\": \"foobiz\"" +
+            "}, {" +
+                "\"ask\": \"fiz\"," +
+                "\"bid\": \"biz\"," +
+                "\"currency\": \"foobiz\"," +
+                "\"pair\": \"bar\"" +
+            "}, {" +
+                "\"ask\": \"foobar\"," +
+                "\"bid\": \"foobaz\"," +
+                "\"currency\": \"bar\"," +
+                "\"pair\": \"foo\"" +
+            "}" +
+        "]";
+        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[" +
-                    "{" +
-                        "\"ask\": \"foo\"," +
-                        "\"bid\": \"bar\"," +
-                        "\"currency\": \"foobar\"," +
-                        "\"pair\": \"foobiz\"" +
-                    "}, {" +
-                        "\"ask\": \"fiz\"," +
-                        "\"bid\": \"biz\"," +
-                        "\"currency\": \"foobiz\"," +
-                        "\"pair\": \"bar\"" +
-                    "}, {" +
-                        "\"ask\": \"foobar\"," +
-                        "\"bid\": \"foobaz\"," +
-                        "\"currency\": \"bar\"," +
-                        "\"pair\": \"foo\"" +
-                    "}" +
-                "]";
+            public Promise<List<Rate>> call(BitreserveRestAdapter adapter) {
+                BitreserveClient client = new BitreserveClient("foobar");
 
-                bodyRefRequest.set(request);
+                client.getToken().setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        bitreserveClient.getToken().setBitreserveRestAdapter(mockRestAdapter);
-        bitreserveClient.getTicker().then(new PromiseAction<List<Rate>>() {
-            @Override
-            public void call(List<Rate> rates) {
-                bodyRefResponse.set(rates);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return client.getTicker();
             }
         });
-        latch.await();
 
-        Request request = bodyRefRequest.get();
-        List<Rate> tickersResponse = bodyRefResponse.get();
+        List<Rate> rates = adapter.getResult();
+        Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/ticker");
-        Assert.assertEquals(tickersResponse.size(), 3);
-        Assert.assertEquals(tickersResponse.get(0).getAsk(), "foo");
-        Assert.assertEquals(tickersResponse.get(0).getBid(), "bar");
-        Assert.assertEquals(tickersResponse.get(0).getCurrency(), "foobar");
-        Assert.assertEquals(tickersResponse.get(0).getPair(), "foobiz");
-        Assert.assertEquals(tickersResponse.get(1).getAsk(), "fiz");
-        Assert.assertEquals(tickersResponse.get(1).getBid(), "biz");
-        Assert.assertEquals(tickersResponse.get(1).getCurrency(), "foobiz");
-        Assert.assertEquals(tickersResponse.get(1).getPair(), "bar");
-        Assert.assertEquals(tickersResponse.get(2).getAsk(), "foobar");
-        Assert.assertEquals(tickersResponse.get(2).getBid(), "foobaz");
-        Assert.assertEquals(tickersResponse.get(2).getCurrency(), "bar");
-        Assert.assertEquals(tickersResponse.get(2).getPair(), "foo");
+        Assert.assertEquals(rates.size(), 3);
+        Assert.assertEquals(rates.get(0).getAsk(), "foo");
+        Assert.assertEquals(rates.get(0).getBid(), "bar");
+        Assert.assertEquals(rates.get(0).getCurrency(), "foobar");
+        Assert.assertEquals(rates.get(0).getPair(), "foobiz");
+        Assert.assertEquals(rates.get(1).getAsk(), "fiz");
+        Assert.assertEquals(rates.get(1).getBid(), "biz");
+        Assert.assertEquals(rates.get(1).getCurrency(), "foobiz");
+        Assert.assertEquals(rates.get(1).getPair(), "bar");
+        Assert.assertEquals(rates.get(2).getAsk(), "foobar");
+        Assert.assertEquals(rates.get(2).getBid(), "foobaz");
+        Assert.assertEquals(rates.get(2).getCurrency(), "bar");
+        Assert.assertEquals(rates.get(2).getPair(), "foo");
     }
 
     @Test
-    public void getTickersByCurrencyShouldReturnTheListOfRatesByCurrency() throws Exception {
-        final AtomicReference<List<Rate>> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+    public void getTickersByCurrencyShouldReturnTheListOfRates() throws Exception {
+        String responseString = "[" +
+          "{" +
+              "\"ask\": \"foo\"," +
+              "\"bid\": \"bar\"," +
+              "\"currency\": \"foobar\"," +
+              "\"pair\": \"foobiz\"" +
+          "}, {"  +
+              "\"ask\": \"fuz\"," +
+              "\"bid\": \"buz\"," +
+              "\"currency\": \"foobuz\"," +
+              "\"pair\": \"bar\"" +
+          "}, {"  +
+              "\"ask\": \"foobar\"," +
+              "\"bid\": \"foobaz\"," +
+              "\"currency\": \"bar\"," +
+              "\"pair\": \"foo\"" +
+          "}" +
+        "]";
+        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "[ { \"ask\": \"foobar\" }, { \"ask\": \"foo\" }, { \"ask\": \"bar\" } ]";
+            public Promise<List<Rate>> call(BitreserveRestAdapter adapter) {
+                BitreserveClient client = new BitreserveClient("foobar");
 
-                bodyRefRequest.set(request);
+                client.getToken().setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        bitreserveClient.getToken().setBitreserveRestAdapter(mockRestAdapter);
-        bitreserveClient.getTickersByCurrency("USD").then(new PromiseAction<List<Rate>>() {
-            @Override
-            public void call(List<Rate> tickers) {
-                bodyRefResponse.set(tickers);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return client.getTickersByCurrency("USD");
             }
         });
-        latch.await();
 
-        Request request = bodyRefRequest.get();
-        List<Rate> tickersResponse = bodyRefResponse.get();
+        List<Rate> rates = adapter.getResult();
 
-        Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/ticker/USD");
-        Assert.assertEquals(tickersResponse.size(), 3);
-        Assert.assertEquals(tickersResponse.get(0).getAsk(), "foobar");
-        Assert.assertEquals(tickersResponse.get(1).getAsk(), "foo");
-        Assert.assertEquals(tickersResponse.get(2).getAsk(), "bar");
+        Assert.assertEquals(adapter.getRequest().getMethod(), "GET");
+        Assert.assertEquals(adapter.getRequest().getUrl(), "https://api.bitreserve.org/v0/ticker/USD");
+        Assert.assertEquals(rates.size(), 3);
+        Assert.assertEquals(rates.get(0).getAsk(), "foo");
+        Assert.assertEquals(rates.get(1).getAsk(), "fuz");
+        Assert.assertEquals(rates.get(2).getAsk(), "foobar");
     }
 
     @Test
-    public void getTokenShouldReturnToken() {
+    public void getTokenShouldReturnTheToken() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
         Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
     }
 
     @Test
-    public void setTokenShouldSetToken() {
+    public void setTokenShouldSetTheToken() {
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
         bitreserveClient.setToken(new Token("new foobar"));
 
@@ -244,104 +197,85 @@ public class BitreserveClientTest {
 
     @Test
     public void getUserShouldReturnTheUser() throws Exception {
-        final AtomicReference<User> bodyRefResponse = new AtomicReference<>();
-        final AtomicReference<Request> bodyRefRequest = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        BitreserveClient mockedBitreserveClient = new BitreserveClient("foobar");
-        BitreserveRestAdapter mockRestAdapter = new BitreserveRestAdapter("foobar");
+        String responseString = "{" +
+            "\"username\": \"foobar\"," +
+            "\"email\": \"foobar@bfoobar.org\"," +
+            "\"firstName\": \"foo\"," +
+            "\"lastName\": \"bar\"," +
+            "\"name\": \"Foo Bar\"," +
+            "\"country\": \"BAR\"," +
+            "\"state\": \"FOO\"," +
+            "\"currencies\": [" +
+              "\"BTC\"," +
+            "]," +
+            "\"status\": {" +
+            "\"email\": \"ok\"," +
+            "\"phone\": \"pending\"," +
+            "\"review\": \"pending\"," +
+            "\"volume\": \"ok\"," +
+            "\"identity\": \"pending\"," +
+            "\"overview\": \"pending\"," +
+            "\"screening\": \"pending\"," +
+            "\"registration\": \"running\"" +
+            "}," +
+            "\"settings\": {" +
+              "\"theme\": \"minimalistic\"," +
+              "\"currency\": \"USD\"," +
+              "\"hasNewsSubscription\": \"true\"," +
+              "\"intl\": {" +
+                  "\"language\": {" +
+                      "\"locale\": \"en-US\"" +
+                  "}," +
+                  "\"dateTimeFormat\": {" +
+                      "\"locale\": \"en-US\"" +
+                  "}," +
+                  "\"numberFormat\": {" +
+                      "\"locale\": \"en-US\"" +
+                  "}" +
+              "}," +
+              "\"hasOtpEnabled\": \"false\"" +
+            "}" +
+        "}";
+        MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
-        mockRestAdapter.setAdapter(new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL).setClient(new Client() {
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, User>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                String responseString = "{" +
-                    "\"username\": \"foobar\"," +
-                    "\"email\": \"foobar@bfoobar.org\"," +
-                    "\"firstName\": \"foo\"," +
-                    "\"lastName\": \"bar\"," +
-                    "\"name\": \"Foo Bar\"," +
-                    "\"country\": \"BAR\"," +
-                    "\"state\": \"FOO\"," +
-                    "\"currencies\": [" +
-                        "\"BTC\"" +
-                    "]," +
-                    "\"status\": {" +
-                    "\"email\": \"ok\"," +
-                    "\"phone\": \"pending\"," +
-                    "\"review\": \"pending\"," +
-                    "\"volume\": \"ok\"," +
-                    "\"identity\": \"pending\"," +
-                    "\"overview\": \"pending\"," +
-                    "\"screening\": \"pending\"," +
-                    "\"registration\": \"running\"" +
-                    "}," +
-                    "\"settings\": {" +
-                        "\"theme\": \"minimalistic\"," +
-                        "\"currency\": \"USD\"," +
-                        "\"hasNewsSubscription\": \"true\"," +
-                        "\"intl\": {" +
-                            "\"language\": {" +
-                                "\"locale\": \"en-US\"" +
-                            "}," +
-                            "\"dateTimeFormat\": {" +
-                                "\"locale\": \"en-US\"" +
-                            "}," +
-                            "\"numberFormat\": {" +
-                                "\"locale\": \"en-US\"" +
-                            "}" +
-                        "}," +
-                        "\"hasOtpEnabled\": \"false\"" +
-                    "}" +
-                    "}";
+            public Promise<User> call(BitreserveRestAdapter adapter) {
+                BitreserveClient client = new BitreserveClient("foobar");
 
-                bodyRefRequest.set(request);
+                client.getToken().setBitreserveRestAdapter(adapter);
 
-                return new Response("some/url", 200, "reason", new ArrayList<Header>(), new TypedByteArray("application/json", responseString.getBytes()));
-            }
-        }).build());
-        mockedBitreserveClient.getToken().setBitreserveRestAdapter(mockRestAdapter);
-        mockedBitreserveClient.getUser().then(new PromiseAction<User>() {
-            @Override
-            public void call(User user) {
-                bodyRefResponse.set(user);
-                latch.countDown();
-            }
-        }).fail(new PromiseAction<Exception>() {
-            @Override
-            public void call(Exception e) {
-                latch.countDown();
+                return client.getUser();
             }
         });
-        latch.await();
 
-        Request request = bodyRefRequest.get();
-        User userResponse = bodyRefResponse.get();
+        Request request = adapter.getRequest();
+        User user = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
-        Assert.assertEquals(userResponse.getCountry(), "BAR");
-        Assert.assertEquals(userResponse.getCurrencies().size(), 1);
-        Assert.assertEquals(userResponse.getCurrencies().get(0), "BTC");
-        Assert.assertEquals(userResponse.getEmail(), "foobar@bfoobar.org");
-        Assert.assertEquals(userResponse.getFirstName(), "foo");
-        Assert.assertEquals(userResponse.getLastName(), "bar");
-        Assert.assertEquals(userResponse.getName(), "Foo Bar");
-        Assert.assertEquals(userResponse.getSettings().getCurrency(), "USD");
-        Assert.assertEquals(userResponse.getSettings().getIntl().getDateTimeFormat().getLocale(), "en-US");
-        Assert.assertEquals(userResponse.getSettings().getIntl().getLanguage().getLocale(), "en-US");
-        Assert.assertEquals(userResponse.getSettings().getIntl().getNumberFormat().getLocale(), "en-US");
-        Assert.assertEquals(userResponse.getSettings().getTheme(), "minimalistic");
-        Assert.assertEquals(userResponse.getState(), "FOO");
-        Assert.assertEquals(userResponse.getStatus().getEmail(), "ok");
-        Assert.assertEquals(userResponse.getStatus().getIdentity(), "pending");
-        Assert.assertEquals(userResponse.getStatus().getOverview(), "pending");
-        Assert.assertEquals(userResponse.getStatus().getPhone(), "pending");
-        Assert.assertEquals(userResponse.getStatus().getRegistration(), "running");
-        Assert.assertEquals(userResponse.getStatus().getReview(), "pending");
-        Assert.assertEquals(userResponse.getStatus().getScreening(), "pending");
-        Assert.assertEquals(userResponse.getStatus().getVolume(), "ok");
-        Assert.assertEquals(userResponse.getUsername(), "foobar");
-        Assert.assertFalse(userResponse.getSettings().getHasOtpEnabled());
-        Assert.assertTrue(userResponse.getSettings().getHasNewsSubscription());
+        Assert.assertEquals(user.getCountry(), "BAR");
+        Assert.assertEquals(user.getEmail(), "foobar@bfoobar.org");
+        Assert.assertEquals(user.getFirstName(), "foo");
+        Assert.assertEquals(user.getLastName(), "bar");
+        Assert.assertEquals(user.getName(), "Foo Bar");
+        Assert.assertEquals(user.getSettings().getCurrency(), "USD");
+        Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), "en-US");
+        Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), "en-US");
+        Assert.assertEquals(user.getSettings().getIntl().getNumberFormat().getLocale(), "en-US");
+        Assert.assertEquals(user.getSettings().getTheme(), "minimalistic");
+        Assert.assertEquals(user.getState(), "FOO");
+        Assert.assertEquals(user.getStatus().getEmail(), "ok");
+        Assert.assertEquals(user.getStatus().getIdentity(), "pending");
+        Assert.assertEquals(user.getStatus().getOverview(), "pending");
+        Assert.assertEquals(user.getStatus().getPhone(), "pending");
+        Assert.assertEquals(user.getStatus().getRegistration(), "running");
+        Assert.assertEquals(user.getStatus().getReview(), "pending");
+        Assert.assertEquals(user.getStatus().getScreening(), "pending");
+        Assert.assertEquals(user.getStatus().getVolume(), "ok");
+        Assert.assertEquals(user.getUsername(), "foobar");
+        Assert.assertFalse(user.getSettings().getHasOtpEnabled());
+        Assert.assertTrue(user.getSettings().getHasNewsSubscription());
     }
 
 }

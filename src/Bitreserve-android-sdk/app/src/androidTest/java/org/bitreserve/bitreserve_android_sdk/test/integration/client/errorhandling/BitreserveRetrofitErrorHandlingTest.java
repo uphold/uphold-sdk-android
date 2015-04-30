@@ -73,7 +73,7 @@ public class BitreserveRetrofitErrorHandlingTest {
     }
 
     @Test
-    public void bitreserveRetrofitErrorHandlingShouldReturnBitreserveExceptions() throws Exception {
+    public void bitreserveRetrofitErrorHandlingShouldReturnTheBitreserveClientException() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicReference<Exception> bodyRef = new AtomicReference<>();
         RetrofitPromise<User> promise = new RetrofitPromise<>();

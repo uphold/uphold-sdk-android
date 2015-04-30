@@ -1,25 +1,24 @@
 package org.bitreserve.bitreserve_android_sdk.test.integration.service;
 
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.RepromiseFunction;
+
 import junit.framework.Assert;
 
+import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.service.TickerService;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicReference;
 
-import retrofit.RestAdapter;
-import retrofit.client.Client;
 import retrofit.client.Request;
-import retrofit.client.Response;
 
 /**
  * Integration tests to the class {@link TickerService}
@@ -29,50 +28,48 @@ import retrofit.client.Response;
 @SmallTest
 public class TickerServiceTest {
 
-    private static final String MOCK_URL = "http://www.foobar.com";
-
     @Test
     public void getAllTickersShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<List<Rate>> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                TickerService tickerService = adapter.getRestAdapter().create(TickerService.class);
+                RetrofitPromise<List<Rate>> promise = new RetrofitPromise<>();
 
-                return null;
+                tickerService.getAllTickers(promise);
+
+                return promise;
             }
-        }).build();
-        final TickerService tickerService = adapter.create(TickerService.class);
+        });
 
-        tickerService.getAllTickers(new RetrofitPromise<List<Rate>>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "GET");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/ticker", MOCK_URL));
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/ticker");
     }
 
     @Test
     public void getAllTickersByCurrencyShouldReturnTheRequest() throws Exception {
-        final AtomicReference<Request> bodyRef = new AtomicReference<>();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(MOCK_URL).setClient(new Client() {
+        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
-            public Response execute(Request request) throws IOException {
-                bodyRef.set(request);
-                latch.countDown();
+            public Promise<List<Rate>> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                TickerService tickerService = adapter.getRestAdapter().create(TickerService.class);
+                RetrofitPromise<List<Rate>> promise = new RetrofitPromise<>();
 
-                return null;
+                tickerService.getAllTickersByCurrency("foobar", promise);
+
+                return promise;
             }
-        }).build();
-        final TickerService tickerService = adapter.create(TickerService.class);
+        });
 
-        tickerService.getAllTickersByCurrency("foobar", new RetrofitPromise<List<Rate>>());
-        latch.await();
+        Request request = adapter.getRequest();
 
-        Assert.assertEquals(bodyRef.get().getMethod(), "GET");
-        Assert.assertEquals(bodyRef.get().getUrl(), String.format("%s/v0/ticker/%s", MOCK_URL, "foobar"));
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/ticker/foobar");
     }
 
 }

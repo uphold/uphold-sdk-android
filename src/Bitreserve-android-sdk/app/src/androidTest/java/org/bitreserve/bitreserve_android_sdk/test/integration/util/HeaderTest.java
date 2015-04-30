@@ -23,17 +23,17 @@ import java.util.List;
 public class HeaderTest {
 
     @Test
-    public void buildRangeHeaderShouldReturnStringRangeHeader() {
+    public void buildRangeHeaderShouldReturnTheRangeHeader() {
         Assert.assertEquals("items=0-10", Header.buildRangeHeader(0, 10));
     }
 
     @Test
-    public void encodeCredentialsForBasicAuthorizationShouldReturnBasicHeader() {
+    public void encodeCredentialsForBasicAuthorizationShouldReturnTheBasicAuthorizationHeader() {
         Assert.assertEquals("Basic Zm9vQGJhci5vcmc6Zm9vYmFy", Header.encodeCredentialsForBasicAuthorization("foo@bar.org", "foobar"));
     }
 
     @Test
-    public void getHeadersShouldReturnHeaders() {
+    public void getHeadersShouldReturnTheHeaders() {
         HashMap<String, String> headers = new HashMap<String, String>() {{
             put("Accept", "application/json");
             put("Content-Type", "application/json");
@@ -44,7 +44,7 @@ public class HeaderTest {
     }
 
     @Test
-    public void getRateLimitValueShouldReturn300() {
+    public void getRateLimitValueShouldReturnTheRateLimitHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
             add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
@@ -55,7 +55,7 @@ public class HeaderTest {
     }
 
     @Test
-    public void getSecondsUntilRateLimitResetShouldReturn10() {
+    public void getSecondsUntilRateLimitResetShouldReturnTheRetryAfterHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
             add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
@@ -66,7 +66,7 @@ public class HeaderTest {
     }
 
     @Test
-    public void getTotalNumberOfResultsShouldReturn20() {
+    public void getTotalNumberOfResultsShouldReturnTheTotalNumberOfResults() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Content-Range", "0-4/20"));
             add(new retrofit.client.Header("Retry-After", "10"));
@@ -78,7 +78,7 @@ public class HeaderTest {
     }
 
     @Test
-    public void isOTPRequiredShouldReturnTrue() {
+    public void isOTPRequiredShouldReturnTheIsOTPRequiredHeader() {
         List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
             add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));

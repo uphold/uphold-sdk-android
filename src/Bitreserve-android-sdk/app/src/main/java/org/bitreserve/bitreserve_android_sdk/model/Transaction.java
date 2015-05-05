@@ -3,7 +3,6 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.exception.LogicException;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Denomination;
@@ -27,7 +26,7 @@ public class Transaction extends BaseModel {
     private final String message;
     private final Origin origin;
     private final Parameters params;
-    private final String refundedById;
+    private final String RefundedById;
     private final String status;
     private final String type;
 
@@ -54,7 +53,7 @@ public class Transaction extends BaseModel {
         this.message = message;
         this.origin = origin;
         this.params = params;
-        this.refundedById = refundedById;
+        this.RefundedById = refundedById;
         this.status = status;
         this.type = type;
     }
@@ -208,7 +207,7 @@ public class Transaction extends BaseModel {
      */
 
     public String getRefundedById() {
-        return refundedById;
+        return RefundedById;
     }
 
     /**

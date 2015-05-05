@@ -2,13 +2,16 @@ package org.bitreserve.bitreserve_android_sdk.test.util;
 
 import com.github.javafaker.Faker;
 
+import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.User;
+import org.bitreserve.bitreserve_android_sdk.model.card.Address;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSetting;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSettings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -53,7 +56,7 @@ public class Fixtures {
             fakerFields.putAll(fields);
         }
 
-        ArrayList<String> currencies = new ArrayList<String>(){{
+        ArrayList<String> currencies = new ArrayList<String>() {{
             for (String currency : fakerFields.get("currencies").split(",")) {
                 add(currency);
             }
@@ -66,6 +69,51 @@ public class Fixtures {
         Status status = new Status(fakerFields.get("emailStatus"), fakerFields.get("identityStatus"), fakerFields.get("overviewStatus"), fakerFields.get("phoneStatus"), fakerFields.get("registrationStatus"), fakerFields.get("reviewStatus"), fakerFields.get("screeningStatus"), fakerFields.get("volumeStatus"));
 
         return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), status, fakerFields.get("username"));
+    }
+
+    public static Card loadCard() {
+        return loadCard(null);
+    }
+
+    public static Card loadCard(HashMap<String, String> fields) {
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("addressKeys", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("addressValues", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("addressesKeys", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("addressesValues", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("available", faker.numerify("123456789"));
+            put("balance", faker.numerify("123456789"));
+            put("currency", faker.lorem().fixedString(3));
+            put("id", faker.lorem().fixedString(20));
+            put("label", faker.lorem().fixedString(20));
+            put("lastTransactionAt", faker.lorem().fixedString(24));
+            put("settingsPosition", "1");
+            put("settingsStarred", "true");
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        HashMap<String, String> address = new HashMap<String, String>() {{
+            ArrayList<String> addressKeys = new ArrayList<>(Arrays.asList(fakerFields.get("addressKeys").split(",")));
+            ArrayList<String> addressValues = new ArrayList<>(Arrays.asList(fakerFields.get("addressValues").split(",")));
+
+            for (int position = 0; position < addressKeys.size(); position++) {
+                put(addressKeys.get(position), addressValues.get(position));
+            }
+        }};
+        ArrayList<Address> addresses = new ArrayList<Address>() {{
+            ArrayList<String> addressesKeys = new ArrayList<>(Arrays.asList(fakerFields.get("addressesKeys").split(",")));
+            ArrayList<String> addressesValues = new ArrayList<>(Arrays.asList(fakerFields.get("addressesValues").split(",")));
+
+            for (int position = 0; position < addressesKeys.size(); position++) {
+                add(new Address(addressesKeys.get(position), addressesValues.get(position)));
+            }
+        }};
+
+        return new Card(fakerFields.get("id"), address, addresses, fakerFields.get("available"), fakerFields.get("balance"), fakerFields.get("currency"), fakerFields.get("label"), fakerFields.get("lastTransactionAt"), new org.bitreserve.bitreserve_android_sdk.model.card.Settings(Integer.parseInt(fakerFields.get("settingsPosition")), Boolean.valueOf(fakerFields.get("settingsStarred"))));
     }
 
 }

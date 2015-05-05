@@ -31,7 +31,7 @@ public class Reserve extends BaseModel {
         RetrofitPromise<List<Deposit>> promise = new RetrofitPromise<>();
         ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
-        reserveService.getLedger(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
+        reserveService.getLedger(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), promise);
 
         final PaginatorInterface<Deposit> paginatorInterface = new PaginatorInterface<Deposit>() {
             @Override
@@ -120,7 +120,7 @@ public class Reserve extends BaseModel {
         RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
         ReserveService reserveService = this.getBitreserveRestAdapter().create(ReserveService.class);
 
-        reserveService.getReserveTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
+        reserveService.getReserveTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), promise);
 
         PaginatorInterface<Transaction> paginatorInterface = new PaginatorInterface<Transaction>() {
             @Override

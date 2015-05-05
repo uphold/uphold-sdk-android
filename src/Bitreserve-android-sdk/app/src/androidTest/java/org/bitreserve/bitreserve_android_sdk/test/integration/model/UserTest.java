@@ -57,12 +57,10 @@ public class UserTest {
                     "\"network\": \"bitcoin\"" +
                 "}" +
             "]," +
-            "\"settings\": [" +
-                "{" +
-                    "\"position\": \"7\"," +
-                    "\"starred\": true" +
-                "}" +
-            "]" +
+            "\"settings\": {" +
+                "\"position\": 7," +
+                "\"starred\": true" +
+            "}" +
         "}";
         MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -94,10 +92,9 @@ public class UserTest {
         Assert.assertEquals(cards.getId(), "foobar");
         Assert.assertEquals(cards.getLabel(), "foo");
         Assert.assertEquals(cards.getLastTransactionAt(), "2014-07-07T05:40:46.624Z");
-        Assert.assertEquals(cards.getSettings().size(), 1);
-        Assert.assertEquals(cards.getSettings().get(0).getPosition(), "7");
+        Assert.assertEquals(cards.getSettings().getPosition(), Integer.valueOf(7));
         Assert.assertTrue(cards.getAddress().containsKey("bitcoin"));
-        Assert.assertTrue(cards.getSettings().get(0).getStarred());
+        Assert.assertTrue(cards.getSettings().getStarred());
     }
 
     @Test
@@ -536,7 +533,7 @@ public class UserTest {
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
-        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-50");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-49");
         Assert.assertEquals(transactions.size(), 2);
         Assert.assertEquals(transactions.get(0).getId(), "FOOBAR");
         Assert.assertEquals(transactions.get(1).getId(), "FOOBIZ");

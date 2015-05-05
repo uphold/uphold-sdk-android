@@ -1,12 +1,13 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+
 /**
  * Destination model.
  */
 
 public class Destination {
 
-    private final String cardId;
+    private final String CardId;
     private final String amount;
     private final String base;
     private final String commission;
@@ -33,7 +34,7 @@ public class Destination {
      */
 
     public Destination(String cardId, String amount, String base, String commission, String currency, String description, String fee, String rate, String type, String username) {
-        this.cardId = cardId;
+        this.CardId = cardId;
         this.amount = amount;
         this.base = base;
         this.commission = commission;
@@ -52,7 +53,7 @@ public class Destination {
      */
 
     public String getCardId() {
-        return cardId;
+        return CardId;
     }
 
     /**

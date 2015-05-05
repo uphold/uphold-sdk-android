@@ -113,7 +113,6 @@
           <option name="BINARY_OPERATION_SIGN_ON_NEXT_LINE" value="true" />
           <option name="TERNARY_OPERATION_SIGNS_ON_NEXT_LINE" value="true" />
           <option name="PLACE_ASSIGNMENT_SIGN_ON_NEXT_LINE" value="true" />
-          <option name="WRAP_COMMENTS" value="true" />
           <option name="IF_BRACE_FORCE" value="3" />
           <option name="DOWHILE_BRACE_FORCE" value="3" />
           <option name="WHILE_BRACE_FORCE" value="3" />
@@ -125,9 +124,12 @@
             <option name="TAB_SIZE" value="8" />
           </indentOptions>
         </codeStyleSettings>
+        <codeStyleSettings language="JSON">
+          <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
-

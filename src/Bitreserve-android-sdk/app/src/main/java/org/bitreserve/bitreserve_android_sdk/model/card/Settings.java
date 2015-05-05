@@ -6,7 +6,7 @@ package org.bitreserve.bitreserve_android_sdk.model.card;
 
 public class Settings {
 
-    private final String position;
+    private final Integer position;
     private final Boolean starred;
 
     /**
@@ -16,7 +16,7 @@ public class Settings {
      * @param starred A boolean indicating if the card is starred.
      */
 
-    public Settings(String position, Boolean starred) {
+    public Settings(Integer position, Boolean starred) {
         this.position = position;
         this.starred = starred;
     }
@@ -27,7 +27,7 @@ public class Settings {
      * @return the position of the card
      */
 
-    public String getPosition() {
+    public Integer getPosition() {
         return position;
     }
 

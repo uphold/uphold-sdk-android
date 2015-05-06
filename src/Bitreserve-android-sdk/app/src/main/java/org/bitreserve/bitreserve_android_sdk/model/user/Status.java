@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
+import java.io.Serializable;
+
 /**
  * Status model.
  */
 
-public class Status {
+public class Status implements Serializable {
 
     private final String email;
     private final String identity;

@@ -140,15 +140,6 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getReserveShouldReturnTheReserveWithRestAdapter() throws Exception {
-        BitreserveClient.initialize(new MockSharedPreferencesContext());
-
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
-
-        Assert.assertEquals(bitreserveClient.getReserve().getBitreserveRestAdapter(), bitreserveClient.getToken().getBitreserveRestAdapter());
-    }
-
-    @Test
     public void getTickersShouldReturnTheListOfRates() throws Exception {
         BitreserveClient.initialize(new MockSharedPreferencesContext());
 

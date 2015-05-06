@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
+import java.io.Serializable;
+
 /**
  * Phone model.
  */
 
-public class Phone {
+public class Phone implements Serializable {
 
     private final String id;
     private final String e164Masked;

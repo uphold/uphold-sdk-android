@@ -1,5 +1,6 @@
 package org.bitreserve.bitreserve_android_sdk.model.balance;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Balance model
  */
 
-public class UserBalance {
+public class UserBalance implements Serializable {
 
     private final HashMap<String, Currency> currencies;
     private final String total;

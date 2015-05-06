@@ -19,6 +19,7 @@ import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.TreeSet;
  * User model.
  */
 
-public class User extends BaseModel {
+public class User extends BaseModel implements Serializable {
 
     private final String country;
     private final List<String> currencies;
@@ -85,13 +86,7 @@ public class User extends BaseModel {
 
         userCardService.createUserCard(cardRequest, promise);
 
-        return promise.then(new PromiseFunction<Card, Card>() {
-            public Card call(Card card) {
-                card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-
-                return card;
-            }
-        });
+        return promise;
     }
 
     /**
@@ -183,15 +178,7 @@ public class User extends BaseModel {
 
         userCardService.getUserCards(promise);
 
-        return promise.then(new PromiseFunction<List<Card>, List<Card>>() {
-            public List<Card> call(List<Card> cardList) {
-                for (Card card : cardList) {
-                    card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-                }
-
-                return cardList;
-            }
-        });
+        return promise;
     }
 
     /**
@@ -208,13 +195,7 @@ public class User extends BaseModel {
 
         userCardService.getUserCardById(cardId, promise);
 
-        return promise.then(new PromiseFunction<Card, Card>() {
-            public Card call(Card card) {
-                card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-
-                return card;
-            }
-        });
+        return promise;
     }
 
     /**
@@ -238,7 +219,6 @@ public class User extends BaseModel {
 
                 for (Card card : cardList) {
                     if (card.getCurrency().compareTo(currency) == 0) {
-                        card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
                         filteredCards.add(card);
                     }
                 }
@@ -399,16 +379,6 @@ public class User extends BaseModel {
 
         userService.getUserTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), promise);
 
-        Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
-            public List<Transaction> call(List<Transaction> transactions) {
-                for (Transaction transaction : transactions) {
-                    transaction.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-                }
-
-                return transactions;
-            }
-        });
-
         PaginatorInterface<Transaction> paginatorInterface = new PaginatorInterface<Transaction>() {
             @Override
             public Promise<List<Transaction>> getNext(String range) {
@@ -417,15 +387,7 @@ public class User extends BaseModel {
 
                 userService.getUserTransactions(range, promise);
 
-                return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
-                    public List<Transaction> call(List<Transaction> listTransactions) {
-                        for (Transaction transaction : listTransactions) {
-                            transaction.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-                        }
-
-                        return listTransactions;
-                    }
-                });
+                return promise;
             }
 
             @Override
@@ -459,7 +421,7 @@ public class User extends BaseModel {
             }
         };
 
-        return new Paginator<>(transactions, paginatorInterface);
+        return new Paginator<>(promise, paginatorInterface);
     }
 
 
@@ -487,13 +449,7 @@ public class User extends BaseModel {
 
         userService.updateUser(updateRequest, promise);
 
-        return promise.then(new PromiseFunction<User, User>() {
-            public User call(User user) {
-                user.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
-
-                return user;
-            }
-        });
+        return promise;
     }
 
 }

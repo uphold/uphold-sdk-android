@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
+
 /**
  * Parameters model.
  */
 
-public class Parameters {
+public class Parameters implements Serializable {
 
     private final String currency;
     private final String margin;

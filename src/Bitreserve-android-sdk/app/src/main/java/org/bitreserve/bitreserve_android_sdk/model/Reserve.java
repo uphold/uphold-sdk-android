@@ -12,13 +12,14 @@ import org.bitreserve.bitreserve_android_sdk.paginator.PaginatorInterface;
 import org.bitreserve.bitreserve_android_sdk.service.ReserveService;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Reserve model.
  */
 
-public class Reserve extends BaseModel {
+public class Reserve extends BaseModel implements Serializable {
 
     /**
      * Gets the ledger.

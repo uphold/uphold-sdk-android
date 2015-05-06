@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.balance;
 
+import java.io.Serializable;
+
 /**
  * Currency model.
  */
 
-public class Currency {
+public class Currency implements Serializable {
 
     private final String amount;
     private final String balance;

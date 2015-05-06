@@ -32,11 +32,11 @@ public class TransactionRequestTest {
     @Test
     public void getDenominationShouldReturnTheDenomination() {
         TransactionRequest transactionRequest = Fixtures.loadTransactionRequest(new HashMap<String, String>() {{
-            put("amount", "foobiz");
+            put("amount", "0.01");
             put("currency", "foobar");
         }});
 
-        Assert.assertEquals(transactionRequest.getDenomination().getAmount(), "foobiz");
+        Assert.assertEquals(transactionRequest.getDenomination().getAmount(), "0.01");
         Assert.assertEquals(transactionRequest.getDenomination().getCurrency(), "foobar");
     }
 

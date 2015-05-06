@@ -1,7 +1,6 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
 import com.darylteo.rx.promises.java.Promise;
-import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.exception.LogicException;
@@ -14,11 +13,13 @@ import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 
 import android.text.TextUtils;
 
+import java.io.Serializable;
+
 /**
  * Transaction model.
  */
 
-public class Transaction extends BaseModel {
+public class Transaction extends BaseModel implements Serializable {
 
     private final String id;
     private final String createdAt;
@@ -89,13 +90,7 @@ public class Transaction extends BaseModel {
 
         userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), promise);
 
-        return promise.then(new PromiseFunction<Transaction, Transaction>() {
-            public Transaction call(Transaction transaction) {
-                transaction.setBitreserveRestAdapter(Transaction.this.getBitreserveRestAdapter());
-
-                return transaction;
-            }
-        });
+        return promise;
     }
 
     /**
@@ -138,13 +133,7 @@ public class Transaction extends BaseModel {
 
         userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), transactionCommitRequest, promise);
 
-        return promise.then(new PromiseFunction<Transaction, Transaction>() {
-            public Transaction call(Transaction transaction) {
-                transaction.setBitreserveRestAdapter(Transaction.this.getBitreserveRestAdapter());
-
-                return transaction;
-            }
-        });
+        return promise;
     }
 
     /**

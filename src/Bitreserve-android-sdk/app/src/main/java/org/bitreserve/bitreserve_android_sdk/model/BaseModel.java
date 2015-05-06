@@ -2,13 +2,15 @@ package org.bitreserve.bitreserve_android_sdk.model;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 
+import java.io.Serializable;
+
 /**
  * Base model.
  */
 
-public class BaseModel {
+public class BaseModel implements Serializable {
 
-    private BitreserveRestAdapter bitreserveRestAdapter;
+    private transient BitreserveRestAdapter bitreserveRestAdapter;
 
     /**
      * Constructor.
@@ -25,7 +27,11 @@ public class BaseModel {
      */
 
     public BitreserveRestAdapter getBitreserveRestAdapter() {
-        return bitreserveRestAdapter;
+        if (this.bitreserveRestAdapter == null) {
+            return new BitreserveRestAdapter();
+        }
+
+        return this.bitreserveRestAdapter;
     }
 
     /**

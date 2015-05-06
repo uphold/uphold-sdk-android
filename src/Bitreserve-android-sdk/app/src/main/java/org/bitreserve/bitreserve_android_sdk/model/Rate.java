@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
+import java.io.Serializable;
+
 /**
  * Rate model.
  */
 
-public class Rate {
+public class Rate implements Serializable {
 
     private final String ask;
     private final String bid;

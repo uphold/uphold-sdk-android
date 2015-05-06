@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
+import java.io.Serializable;
+
 /**
  * Card settings model.
  */
 
-public class Settings {
+public class Settings implements Serializable {
 
     private final Integer position;
     private final Boolean starred;

@@ -1,12 +1,13 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Reserve statistics model.
  */
 
-public class ReserveStatistics {
+public class ReserveStatistics implements Serializable {
 
     private final String currency;
     private final Total totals;

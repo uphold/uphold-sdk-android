@@ -2,11 +2,13 @@ package org.bitreserve.bitreserve_android_sdk.model;
 
 import org.bitreserve.bitreserve_android_sdk.model.balance.UserBalance;
 
+import java.io.Serializable;
+
 /**
  * Balance model.
  */
 
-public class Balance {
+public class Balance implements Serializable {
 
     private final UserBalance balances;
 

@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
+
 /**
  * Transaction request model.
  */
 
-public class TransactionRequest {
+public class TransactionRequest implements Serializable {
 
     private final TransactionDenominationRequest denomination;
     private final String destination;

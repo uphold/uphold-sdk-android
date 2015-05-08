@@ -23,7 +23,7 @@ import java.util.List;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link Reserve}.
+ * Reserve integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

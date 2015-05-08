@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Integration tests to the class {@link Header}.
+ * Header integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

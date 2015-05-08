@@ -15,6 +15,7 @@ import org.bitreserve.bitreserve_android_sdk.exception.RuntimeException;
 import org.bitreserve.bitreserve_android_sdk.exception.TwoFactorAuthenticationRequiredException;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockClientBitreserveRetrofitErrorHandlingTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,7 +31,7 @@ import retrofit.RestAdapter;
 import retrofit.client.Header;
 
 /**
- * Integration tests to the class {@link BitreserveRetrofitErrorHandling}.
+ * BitreserveRetrofitErrorHandling integration tests.
  */
 
 @RunWith(Parameterized.class)

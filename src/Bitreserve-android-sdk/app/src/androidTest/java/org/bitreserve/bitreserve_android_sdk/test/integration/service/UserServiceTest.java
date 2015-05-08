@@ -27,7 +27,7 @@ import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link UserService}
+ * UserService integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

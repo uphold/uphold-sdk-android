@@ -1,4 +1,4 @@
-package org.bitreserve.bitreserve_android_sdk.test.integration.client.errorhandling;
+package org.bitreserve.bitreserve_android_sdk.test.util;
 
 import java.io.IOException;
 import java.util.List;

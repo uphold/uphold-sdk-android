@@ -22,7 +22,7 @@ import java.util.HashMap;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link Transaction}.
+ * Transaction integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

@@ -29,7 +29,7 @@ import java.util.List;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link User}.
+ * User integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

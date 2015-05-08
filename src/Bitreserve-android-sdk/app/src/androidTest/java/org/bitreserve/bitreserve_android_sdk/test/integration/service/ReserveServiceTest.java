@@ -24,7 +24,7 @@ import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link ReserveService}
+ * ReserveService integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

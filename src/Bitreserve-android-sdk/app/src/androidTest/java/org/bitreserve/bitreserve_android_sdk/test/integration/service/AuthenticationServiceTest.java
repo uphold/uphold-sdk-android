@@ -21,7 +21,7 @@ import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
- * Integration tests to the class {@link AuthenticationService}
+ * AuthenticationService integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)

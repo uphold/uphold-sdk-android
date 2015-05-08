@@ -3,7 +3,6 @@ package org.bitreserve.bitreserve_android_sdk.model;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
-import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.Deposit;
@@ -128,7 +127,7 @@ public class Reserve extends BaseModel {
                 RetrofitPromise<List<Transaction>> promise = new RetrofitPromise<>();
                 ReserveService reserveService = Reserve.this.getBitreserveRestAdapter().create(ReserveService.class);
 
-                reserveService.getReserveTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET), promise);
+                reserveService.getReserveTransactions(range, promise);
 
                 return promise;
             }

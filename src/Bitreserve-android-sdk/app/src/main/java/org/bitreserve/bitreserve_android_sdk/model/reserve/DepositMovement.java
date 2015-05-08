@@ -6,8 +6,8 @@ package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
 public class DepositMovement {
 
-    public final String amount;
-    public final String currency;
+    private final String amount;
+    private final String currency;
 
     /**
      * Constructor.

@@ -10,7 +10,7 @@ public class Deposit {
     private final DepositMovement out;
     private final DepositMovement in;
     private final String createdAt;
-    private final String transactionId;
+    private final String TransactionId;
 
     /**
      * Constructor.
@@ -27,7 +27,7 @@ public class Deposit {
         this.out = out;
         this.in = in;
         this.createdAt = createdAt;
-        this.transactionId = transactionId;
+        this.TransactionId = transactionId;
     }
 
     /**
@@ -77,7 +77,7 @@ public class Deposit {
      */
 
     public String getTransactionId() {
-        return transactionId;
+        return TransactionId;
     }
 
 }

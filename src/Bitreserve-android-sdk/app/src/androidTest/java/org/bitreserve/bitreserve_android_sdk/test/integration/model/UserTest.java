@@ -524,6 +524,76 @@ public class UserTest {
     }
 
     @Test
+    public void getUserTransactionsShouldReturnThePaginatorCount() throws Exception {
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-2/60");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Integer>() {
+            @Override
+            public Promise<Integer> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Integer>() {
+                    @Override
+                    public Promise<Integer> call(List<Transaction> transactions) {
+                        return paginator.count();
+                    }
+                });
+            }
+        });
+
+        Integer count = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertEquals(count, Integer.valueOf(60));
+    }
+
+    @Test
+    public void getUserTransactionsShouldReturnThePaginatorHasNext() throws Exception {
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-49/51");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Boolean>() {
+            @Override
+            public Promise<Boolean> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Transaction> paginator = user.getUserTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Boolean>() {
+                    @Override
+                    public Promise<Boolean> call(List<Transaction> transactions) {
+                        return paginator.hasNext();
+                    }
+                });
+            }
+        });
+
+        Boolean hasNext = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertTrue(hasNext);
+    }
+
+    @Test
     public void getUserTransactionsShouldReturnTheListOfTransactions() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
         MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -559,7 +629,7 @@ public class UserTest {
     }
 
     @Test
-    public void getUserTransactionsShouldReturnTheNextPage() throws Exception {
+    public void getUserTransactionsShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
         MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -581,16 +651,12 @@ public class UserTest {
             }
         });
 
-        List<Transaction> transactions = adapter.getResult();
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
-        Assert.assertEquals(transactions.size(), 2);
-        Assert.assertEquals(transactions.get(0).getId(), "FOOBAR");
-        Assert.assertEquals(transactions.get(1).getId(), "FOOBIZ");
     }
 
     @Test

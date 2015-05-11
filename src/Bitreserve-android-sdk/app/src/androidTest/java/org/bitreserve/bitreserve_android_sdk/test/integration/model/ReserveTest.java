@@ -20,6 +20,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.lang.String;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit.client.Request;
@@ -31,6 +32,76 @@ import retrofit.client.Request;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class ReserveTest {
+
+    @Test
+    public void getLedgerShouldReturnThePaginatorCount() throws Exception {
+        String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-2/60");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Integer>() {
+            @Override
+            public Promise<Integer> call(BitreserveRestAdapter adapter) {
+                Reserve reserve = new Reserve();
+
+                reserve.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Deposit> paginator = reserve.getLedger();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Deposit>, Integer>() {
+                    @Override
+                    public Promise<Integer> call(List<Deposit> transactions) {
+                        return paginator.count();
+                    }
+                });
+            }
+        });
+
+        Integer count = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertEquals(count, Integer.valueOf(60));
+    }
+
+    @Test
+    public void getLedgerShouldReturnThePaginatorHasNext() throws Exception {
+        String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-49/51");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Boolean>() {
+            @Override
+            public Promise<Boolean> call(BitreserveRestAdapter adapter) {
+                Reserve reserve = new Reserve();
+
+                reserve.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Deposit> paginator = reserve.getLedger();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Deposit>, Boolean>() {
+                    @Override
+                    public Promise<Boolean> call(List<Deposit> transactions) {
+                        return paginator.hasNext();
+                    }
+                });
+            }
+        });
+
+        Boolean hasNext = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertTrue(hasNext);
+    }
 
     @Test
     public void getLedgerShouldReturnTheListWithDeposits() throws Exception {
@@ -103,7 +174,7 @@ public class ReserveTest {
     }
 
     @Test
-    public void getLedgerShouldReturnTheNextPage() throws Exception {
+    public void getLedgerShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
         MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -125,20 +196,16 @@ public class ReserveTest {
             }
         });
 
-        List<Deposit> deposits = adapter.getResult();
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
-        Assert.assertEquals(deposits.size(), 2);
-        Assert.assertEquals(deposits.get(0).getType(), "asset");
-        Assert.assertEquals(deposits.get(1).getType(), "liability");
     }
 
     @Test
-    public void getStatisticsShouldTheListWithReserveStatistics() throws Exception {
+    public void getStatisticsShouldReturnTheListWithReserveStatistics() throws Exception {
         String responseString = "[{" +
             "\"currency\": \"FOO\"," +
             "\"values\": [{" +
@@ -234,6 +301,76 @@ public class ReserveTest {
     }
 
     @Test
+    public void getTransactionsShouldReturnThePaginatorCount() throws Exception {
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-2/60");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Integer>() {
+            @Override
+            public Promise<Integer> call(BitreserveRestAdapter adapter) {
+                Reserve reserve = new Reserve();
+
+                reserve.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Transaction> paginator = reserve.getTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Integer>() {
+                    @Override
+                    public Promise<Integer> call(List<Transaction> transactions) {
+                        return paginator.count();
+                    }
+                });
+            }
+        });
+
+        Integer count = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertEquals(count, Integer.valueOf(60));
+    }
+
+    @Test
+    public void getTransactionsShouldReturnThePaginatorHasNext() throws Exception {
+        String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+            put("Content-Range", "0-49/51");
+        }});
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Boolean>() {
+            @Override
+            public Promise<Boolean> call(BitreserveRestAdapter adapter) {
+                Reserve reserve = new Reserve();
+
+                reserve.setBitreserveRestAdapter(adapter);
+
+                final Paginator<Transaction> paginator = reserve.getTransactions();
+
+                return paginator.getElements().then(new RepromiseFunction<List<Transaction>, Boolean>() {
+                    @Override
+                    public Promise<Boolean> call(List<Transaction> transactions) {
+                        return paginator.hasNext();
+                    }
+                });
+            }
+        });
+
+        Boolean hasNext = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
+        Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-1");
+        Assert.assertTrue(hasNext);
+    }
+
+    @Test
     public void getTransactionsShouldReturnTheListOfTransactions() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
         MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -269,7 +406,7 @@ public class ReserveTest {
     }
 
     @Test
-    public void getTransactionsShouldReturnTheNextPage() throws Exception {
+    public void getTransactionsShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
         MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -292,15 +429,11 @@ public class ReserveTest {
         });
 
         Request request = adapter.getRequest();
-        List<Transaction> transactions = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
-        Assert.assertEquals(transactions.size(), 2);
-        Assert.assertEquals(transactions.get(0).getId(), "FOOBAR");
-        Assert.assertEquals(transactions.get(1).getId(), "FOOBIZ");
     }
 
 }

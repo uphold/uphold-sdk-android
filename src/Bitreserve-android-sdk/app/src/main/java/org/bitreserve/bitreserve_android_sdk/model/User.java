@@ -39,7 +39,7 @@ public class User extends BaseModel {
     private final String name;
     private final Settings settings;
     private final String state;
-    private final Status status;
+    private final String status;
     private final String username;
 
     /**
@@ -57,7 +57,7 @@ public class User extends BaseModel {
      * @param username The user username
      */
 
-    public User(String country, List<String> currencies, String email, String firstName, String lastName, String name, Settings settings, String state, Status status, String username) {
+    public User(String country, List<String> currencies, String email, String firstName, String lastName, String name, Settings settings, String state, String status, String username) {
         this.country = country;
         this.currencies = currencies;
         this.email = email;
@@ -342,7 +342,7 @@ public class User extends BaseModel {
      * @return the user {@link Status}
      */
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 

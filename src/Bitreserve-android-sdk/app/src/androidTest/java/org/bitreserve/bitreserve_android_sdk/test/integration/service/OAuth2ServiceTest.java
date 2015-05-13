@@ -7,9 +7,8 @@ import junit.framework.Assert;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
-import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
-import org.bitreserve.bitreserve_android_sdk.service.AuthenticationService;
+import org.bitreserve.bitreserve_android_sdk.service.OAuth2Service;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,28 +16,31 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.io.ByteArrayOutputStream;
+
 import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
- * AuthenticationService integration tests.
+ * OAuth2Service integration tests.
  */
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class AuthenticationServiceTest {
+public class OAuth2ServiceTest {
 
     @Test
-    public void authenticateUserShouldReturnTheRequest() throws Exception {
+    public void requestToken() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         final MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>(null, null, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
             @Override
             public Promise<AuthenticationResponse> call(BitreserveRestAdapter bitreserveRestAdapter) {
-                AuthenticationService authenticationService = adapter.getRestAdapter().create(AuthenticationService.class);
+                OAuth2Service oauth2Service = adapter.getRestAdapter().create(OAuth2Service.class);
                 RetrofitPromise<AuthenticationResponse> promise = new RetrofitPromise<>();
 
-                authenticationService.authenticateUser("foobar", "authorizationfoobar", new AuthenticationRequest("foobar"), promise);
+                oauth2Service.requestToken("foo", "bar", "foobar", promise);
 
                 return promise;
             }
@@ -46,10 +48,12 @@ public class AuthenticationServiceTest {
 
         Request request = adapter.getRequest();
 
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals("code=bar&grant_type=foobar", bodyOutput.toString());
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/tokens");
-        Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "authorizationfoobar")));
-        Assert.assertTrue(request.getHeaders().contains(new Header("X-Bitreserve-OTP", "foobar")));
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/oauth2/token");
+        Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "foo")));
     }
 
 }

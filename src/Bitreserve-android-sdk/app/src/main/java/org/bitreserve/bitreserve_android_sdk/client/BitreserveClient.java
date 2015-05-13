@@ -4,15 +4,21 @@ import com.darylteo.rx.promises.java.Promise;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
-import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
+import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
+import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
+import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.model.Reserve;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.model.User;
-import org.bitreserve.bitreserve_android_sdk.service.AuthenticationService;
+import org.bitreserve.bitreserve_android_sdk.service.OAuth2Service;
 import org.bitreserve.bitreserve_android_sdk.service.TickerService;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 import java.util.List;
 
@@ -45,21 +51,41 @@ public class BitreserveClient {
     }
 
     /**
-     * Gets the {@link AuthenticationResponse} with the user personal access token.
+     * Starts the authorization flow.
      *
-     * @param otp The OTP sent to the user.
-     * @param user The user username.
-     * @param password The user password.
-     * @param authorizationRequest The {@link AuthenticationRequest}.
-     *
-     * @return a {@link Promise<AuthenticationResponse>} with the user personal access token.
+     * @param context The context where the Bitreserve connect flow starts.
+     * @param clientId The client id.
+     * @param state The state.
      */
 
-    public Promise<AuthenticationResponse> authenticateUser(String otp, String user, String password, AuthenticationRequest authorizationRequest) {
-        RetrofitPromise<AuthenticationResponse> promise = new RetrofitPromise<>();
-        AuthenticationService authenticationService = this.getToken().getBitreserveRestAdapter().create(AuthenticationService.class);
+    public void beginAuthorization(Context context, String clientId, String state) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri clientUri = Uri.parse(String.format("%s/authorize/%s?state=%s", GlobalConfigurations.AUTHORIZATION_SERVER_URL, clientId, state));
 
-        authenticationService.authenticateUser(otp, Header.encodeCredentialsForBasicAuthorization(user, password), authorizationRequest, promise);
+        intent.setData(clientUri);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Completes the authorization flow.
+     *
+     * @param uri The uri returned by the intent called by the begin authorization flow.
+     * @param clientId The client secret.
+     * @param clientSecret The client id.
+     * @param state The state.
+     *
+     * @return the {@link AuthenticationResponse}.
+     */
+
+    public Promise<AuthenticationResponse> completeAuthorization(Uri uri, String clientId, String clientSecret, String grantType, String state) {
+        RetrofitPromise<AuthenticationResponse> promise = new RetrofitPromise<>();
+        OAuth2Service oAuth2Service = this.getToken().getBitreserveRestAdapter().create(OAuth2Service.class);
+
+        if (state.compareTo(uri.getQueryParameter("state")) != 0) {
+            promise.reject(new StateMatchException("State does not match."));
+        }
+
+        oAuth2Service.requestToken(Header.encodeCredentialsForBasicAuthorization(clientId, clientSecret), uri.getQueryParameter("code"), grantType, promise);
 
         return promise;
     }

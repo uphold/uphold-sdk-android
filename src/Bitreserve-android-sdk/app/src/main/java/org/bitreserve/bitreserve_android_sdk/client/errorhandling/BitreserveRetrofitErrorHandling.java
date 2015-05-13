@@ -5,7 +5,6 @@ import org.bitreserve.bitreserve_android_sdk.exception.AuthenticationRequiredExc
 import org.bitreserve.bitreserve_android_sdk.exception.BadRequestException;
 import org.bitreserve.bitreserve_android_sdk.exception.NotFoundException;
 import org.bitreserve.bitreserve_android_sdk.exception.RuntimeException;
-import org.bitreserve.bitreserve_android_sdk.exception.TwoFactorAuthenticationRequiredException;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
 import java.util.List;
@@ -29,10 +28,6 @@ public class BitreserveRetrofitErrorHandling implements ErrorHandler {
                 return new BadRequestException(cause.getMessage(), cause, httpStatusCode);
 
             case 401:
-                if (Header.isOTPRequired(responseHeaders)) {
-                    return new TwoFactorAuthenticationRequiredException("Two factor authentication is enabled on this account", cause, httpStatusCode);
-                }
-
                 return new AuthenticationRequiredException(cause.getMessage(), cause, httpStatusCode);
 
             case 404:

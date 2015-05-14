@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bitreserve Android SDK Demo</string>
+    <string name="org.bitreserve.login_activity.toast.authentication_message">performing authentication</string>
+    <string name="org.bitreserve.login_activity.text.welcome">Bitreserve Android SDK Demo</string>
+    <string name="org.bitreserve.login_activity.hint.username">Username</string>
+    <string name="org.bitreserve.login_activity.hint.password">Password</string>
+    <string name="org.bitreserve.login_activity.hint.otp">OTP</string>
+    <string name="org.bitreserve.login_activity.button.login">Login</string>
+    <string name="org.bitreserve.user_activity.toast.getting_information">getting user information</string>
+    <string name="org.bitreserve.user_activity.welcome_message">Hello %1$s</string>
+    <string name="org.bitreserve.user_activity.cards_message">%1$s you have %2$s cards.</string>
+</resources>

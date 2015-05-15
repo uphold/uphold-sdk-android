@@ -11,6 +11,8 @@ import org.bitreserve.bitreserve_android_sdk.model.transaction.Destination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Origin;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Parameters;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Source;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionDenominationRequest;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSetting;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSettings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
@@ -138,6 +140,27 @@ public class Fixtures {
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
         return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fakerFields.get("transactionMessage"), origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
+    }
+
+    public static TransactionRequest loadTransactionRequest(){
+        return loadTransactionRequest(null);
+    }
+
+    public static TransactionRequest loadTransactionRequest(HashMap<String, String> fields){
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("amount", faker.numerify("123456789"));
+            put("currency", faker.lorem().fixedString(3));
+            put("destination", faker.internet().emailAddress());
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
+
+        return new TransactionRequest(transactionDenominationRequest, fakerFields.get("destination"));
     }
 
     public static User loadUser() {

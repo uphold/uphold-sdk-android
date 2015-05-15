@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.exception.LogicException;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import retrofit.client.Request;
@@ -139,7 +141,7 @@ public class TransactionTest {
 
                 transaction.setBitreserveRestAdapter(adapter);
 
-                return transaction.commit();
+                return transaction.commit(new TransactionCommitRequest("foobar"));
             }
         });
 
@@ -162,7 +164,7 @@ public class TransactionTest {
 
                 transaction.setBitreserveRestAdapter(adapter);
 
-                return transaction.commit();
+                return transaction.commit(new TransactionCommitRequest("foobar"));
             }
         });
 
@@ -173,7 +175,8 @@ public class TransactionTest {
     }
 
     @Test
-    public void commitShouldReturnTheTransaction() throws Exception{
+    public void commitWithMessageShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
         MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -189,6 +192,39 @@ public class TransactionTest {
 
                 transaction.setBitreserveRestAdapter(adapter);
 
+                return transaction.commit(new TransactionCommitRequest("foobar"));
+            }
+        });
+
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\"}");
+    }
+
+    @Test
+    public void commitShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(BitreserveRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                    put("transactionStatus", "pending");
+                }});
+
+                transaction.setBitreserveRestAdapter(adapter);
+
                 return transaction.commit();
             }
         });
@@ -196,9 +232,12 @@ public class TransactionTest {
         Request request = adapter.getRequest();
         Transaction transaction = adapter.getResult();
 
+        request.getBody().writeTo(bodyOutput);
+
         Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{}");
     }
 
     @Test

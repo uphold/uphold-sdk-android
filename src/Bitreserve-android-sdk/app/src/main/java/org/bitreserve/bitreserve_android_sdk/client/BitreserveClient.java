@@ -5,7 +5,6 @@ import com.darylteo.rx.promises.java.Promise;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
-import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
 import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;

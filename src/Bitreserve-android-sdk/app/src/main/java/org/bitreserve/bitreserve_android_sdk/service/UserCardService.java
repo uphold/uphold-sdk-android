@@ -3,6 +3,7 @@ package org.bitreserve.bitreserve_android_sdk.service;
 import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public interface UserCardService {
      */
 
     @POST("/v0/me/cards/{cardId}/transactions/{transactionId}/commit")
-    void confirmTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, Callback<Transaction> callback);
+    void confirmTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, @Body TransactionCommitRequest transactionCommitRequest, Callback<Transaction> callback);
 
     /**
      * Performs a request to create a transaction for a card.

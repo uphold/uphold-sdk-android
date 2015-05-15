@@ -9,6 +9,7 @@ import org.bitreserve.bitreserve_android_sdk.model.transaction.Denomination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Destination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Origin;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Parameters;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 
 import android.text.TextUtils;
@@ -104,6 +105,18 @@ public class Transaction extends BaseModel {
      */
 
     public Promise<Transaction> commit() {
+        return commit(null);
+    }
+
+    /**
+     * Commit a transaction.
+     *
+     * @param transactionCommitRequest an optional transaction message.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> commit(TransactionCommitRequest transactionCommitRequest) {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
@@ -119,7 +132,11 @@ public class Transaction extends BaseModel {
             return promise;
         }
 
-        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), promise);
+        if (transactionCommitRequest == null) {
+            transactionCommitRequest = new TransactionCommitRequest(null);
+        }
+
+        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), transactionCommitRequest, promise);
 
         return promise.then(new PromiseFunction<Transaction, Transaction>() {
             public Transaction call(Transaction transaction) {

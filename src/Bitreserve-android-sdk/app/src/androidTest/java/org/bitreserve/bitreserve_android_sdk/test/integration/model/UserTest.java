@@ -98,6 +98,38 @@ public class UserTest {
     }
 
     @Test
+    public void createContactShouldReturnTheContact() throws Exception {
+        String responseString = "{\"id\": \"FOOBAR\", \"firstName\": \"Foo\", \"lastName\": \"Bar\", \"company\": \"FOO\", \"emails\": [\"foo@bar.org\"], \"addresses\": [\"foobiz\"], \"name\": \"Foo Bar\"}";
+        MockRestAdapter<Contact> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Contact>() {
+            @Override
+            public Promise<Contact> call(BitreserveRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setBitreserveRestAdapter(adapter);
+
+                return user.createContact(Fixtures.loadContactRequest());
+            }
+        });
+
+        Contact contact = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+        Assert.assertEquals(contact.getAddresses().size(), 1);
+        Assert.assertEquals(contact.getAddresses().get(0), "foobiz");
+        Assert.assertEquals(contact.getCompany(), "FOO");
+        Assert.assertEquals(contact.getEmails().size(), 1);
+        Assert.assertEquals(contact.getEmails().get(0), "foo@bar.org");
+        Assert.assertEquals(contact.getFirstName(), "Foo");
+        Assert.assertEquals(contact.getId(), "FOOBAR");
+        Assert.assertEquals(contact.getLastName(), "Bar");
+        Assert.assertEquals(contact.getName(), "Foo Bar");
+    }
+
+    @Test
     public void getBalancesShouldReturnTheListOfBalances() throws Exception {
         String responseString = "{ \"balances\": { \"total\": \"1083.77\", \"currencies\": { \"CNY\": { \"amount\": \"6.98\" }, \"EUR\": { \"amount\": \"75.01\" } } } }";
         MockRestAdapter<List<Currency>> adapter = new MockRestAdapter<>("foobar", responseString, null);

@@ -13,10 +13,10 @@ import org.bitreserve.bitreserve_android_sdk.model.transaction.Parameters;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Source;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionDenominationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
+import org.bitreserve.bitreserve_android_sdk.model.user.ContactRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSetting;
 import org.bitreserve.bitreserve_android_sdk.model.user.InternationalizationUserSettings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
-import org.bitreserve.bitreserve_android_sdk.model.user.Status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +71,30 @@ public class Fixtures {
         }};
 
         return new Card(fakerFields.get("id"), address, addresses, fakerFields.get("available"), fakerFields.get("balance"), fakerFields.get("currency"), fakerFields.get("label"), fakerFields.get("lastTransactionAt"), new org.bitreserve.bitreserve_android_sdk.model.card.Settings(Integer.parseInt(fakerFields.get("settingsPosition")), Boolean.valueOf(fakerFields.get("settingsStarred"))));
+    }
+
+    public static ContactRequest loadContactRequest() {
+        return loadContactRequest(null);
+    }
+
+    public static ContactRequest loadContactRequest(HashMap<String, String> fields) {
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("addresses", String.format("%s,%s,%s", faker.numerify("123456789"), faker.numerify("123456789"), faker.numerify("123456789")));
+            put("company", faker.name().name());
+            put("emails", String.format("%s,%s,%s", faker.internet().emailAddress(), faker.internet().emailAddress(), faker.internet().emailAddress()));
+            put("firstName", faker.name().firstName());
+            put("lastName", faker.name().lastName());
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        ArrayList<String> addresses = new ArrayList<>(Arrays.asList(fakerFields.get("addresses").split(",")));
+        ArrayList<String> emails = new ArrayList<>(Arrays.asList(fakerFields.get("emails").split(",")));
+
+        return new ContactRequest(addresses, fakerFields.get("company"), emails, fakerFields.get("firstName"), fakerFields.get("lastName"));
     }
 
     public static Transaction loadTransaction() {

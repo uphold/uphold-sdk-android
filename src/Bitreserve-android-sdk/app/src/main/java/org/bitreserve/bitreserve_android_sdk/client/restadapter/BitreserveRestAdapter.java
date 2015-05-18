@@ -66,6 +66,7 @@ public class BitreserveRestAdapter {
      *
      * @return the {@link RequestInterceptor}.
      */
+
     public RequestInterceptor getBitreserveRequestInterceptor(final String token) {
         return new RequestInterceptor() {
             @Override

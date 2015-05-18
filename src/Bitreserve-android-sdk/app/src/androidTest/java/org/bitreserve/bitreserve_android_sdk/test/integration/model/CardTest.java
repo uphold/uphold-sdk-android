@@ -303,7 +303,6 @@ public class CardTest {
     @Test
     public void updateShouldReturnPromiseWithCard() throws Exception {
         String responseString = "{ \"id\": \"FOOBAR\" }";
-
         MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {

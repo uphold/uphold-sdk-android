@@ -14,6 +14,7 @@ import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionDenomi
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/cancel");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/cancel", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -76,7 +78,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -98,7 +100,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -120,7 +122,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -142,7 +144,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -164,7 +166,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -186,7 +188,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/bar/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/bar/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertTrue(request.getHeaders().contains(new Header("Range", "foo")));
     }
 
@@ -209,7 +211,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "PATCH");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar", BuildConfig.API_SERVER_URL));
     }
 
 }

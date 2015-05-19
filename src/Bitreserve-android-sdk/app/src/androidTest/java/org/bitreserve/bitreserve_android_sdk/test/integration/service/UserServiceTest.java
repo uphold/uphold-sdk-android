@@ -14,6 +14,7 @@ import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +55,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/contacts", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -120,7 +121,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/contacts", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -142,7 +143,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/phones");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/phones", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -164,7 +165,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertTrue(request.getHeaders().contains(new Header("Range", "foobar")));
     }
 
@@ -187,7 +188,7 @@ public class UserServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "PATCH");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
     }
 
 }

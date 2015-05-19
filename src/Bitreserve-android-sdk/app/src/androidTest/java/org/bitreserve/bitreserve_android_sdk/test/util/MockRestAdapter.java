@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
+import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
-import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class MockRestAdapter<T> {
         this.requestReference = new AtomicReference<>();
         this.resultReference = new AtomicReference<>();
         this.mockRestAdapter = new BitreserveRestAdapter(token);
-        this.restAdapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.API_SERVER_URL)
+        this.restAdapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setRequestInterceptor(this.mockRestAdapter.getBitreserveRequestInterceptor(token))
             .setClient(new Client() {
                 @Override

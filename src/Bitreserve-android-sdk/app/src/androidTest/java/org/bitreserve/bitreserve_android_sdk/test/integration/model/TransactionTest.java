@@ -10,6 +10,7 @@ import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAd
 import org.bitreserve.bitreserve_android_sdk.exception.LogicException;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.String;
 import java.util.HashMap;
 
 import retrofit.client.Request;
@@ -124,7 +126,7 @@ public class TransactionTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/cancel");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/cancel", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(transaction.getId(), "foobar");
     }
 
@@ -201,7 +203,7 @@ public class TransactionTest {
 
         request.getBody().writeTo(bodyOutput);
 
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\"}");
@@ -234,7 +236,7 @@ public class TransactionTest {
 
         request.getBody().writeTo(bodyOutput);
 
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foo/transactions/bar/commit");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(bodyOutput.toString(), "{}");

@@ -9,6 +9,7 @@ import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAd
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.service.OAuth2Service;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +53,7 @@ public class OAuth2ServiceTest {
 
         Assert.assertEquals("code=bar&grant_type=foobar", bodyOutput.toString());
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/oauth2/token");
+        Assert.assertEquals(request.getUrl(), String.format("%s/oauth2/token", BuildConfig.API_SERVER_URL));
         Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "foo")));
     }
 

@@ -11,6 +11,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.Deposit;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.ReserveStatistics;
 import org.bitreserve.bitreserve_android_sdk.service.ReserveService;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.lang.String;
 import java.util.List;
 
 import retrofit.client.Header;
@@ -50,7 +52,7 @@ public class ReserveServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/ledger");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
         Assert.assertTrue(request.getHeaders().contains(new Header("Range", "foobar")));
     }
 
@@ -73,7 +75,7 @@ public class ReserveServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/transactions/foobar");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions/foobar", BuildConfig.API_SERVER_URL));
     }
 
     @Test
@@ -95,7 +97,7 @@ public class ReserveServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertTrue(request.getHeaders().contains(new Header("Range", "foobar")));
     }
 
@@ -118,7 +120,7 @@ public class ReserveServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/statistics");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/statistics", BuildConfig.API_SERVER_URL));
     }
 
 }

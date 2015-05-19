@@ -5,9 +5,9 @@ import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
 import junit.framework.Assert;
 
+import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.errorhandling.BitreserveRetrofitErrorHandling;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
-import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
@@ -33,7 +33,7 @@ public class BitreserveRestAdapterTest {
     @Test
     public void setAdapterShouldSetTheAdapter() {
         BitreserveRestAdapter bitreserveRestAdapter = new BitreserveRestAdapter("foobar");
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.API_SERVER_URL)
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setRequestInterceptor(bitreserveRestAdapter.getBitreserveRequestInterceptor("foobar"))
             .build();

@@ -174,25 +174,18 @@ public class Fixtures {
             put("currencies", String.format("%s,%s,%s", faker.lorem().fixedString(3), faker.lorem().fixedString(3), faker.lorem().fixedString(3)));
             put("currency", faker.lorem().fixedString(3));
             put("email", faker.internet().emailAddress());
-            put("emailStatus", faker.lorem().fixedString(10));
             put("firstName", faker.name().firstName());
             put("hasNewsSubscription", "true");
             put("hasOtpEnabled", "true");
-            put("identityStatus", faker.lorem().fixedString(10));
             put("internationalizationUserSettingDateTimeFormat", faker.lorem().fixedString(5));
             put("internationalizationUserSettingLanguage", faker.lorem().fixedString(5));
             put("internationalizationUserSettingNumberFormat", faker.lorem().fixedString(5));
             put("lastName", faker.name().lastName());
             put("name", faker.name().name());
-            put("overviewStatus", faker.lorem().fixedString(10));
-            put("phoneStatus", faker.lorem().fixedString(10));
-            put("registrationStatus", faker.lorem().fixedString(10));
-            put("reviewStatus", faker.lorem().fixedString(10));
-            put("screeningStatus", faker.lorem().fixedString(10));
             put("state", faker.address().stateAbbr());
+            put("status", faker.lorem().fixedString(10));
             put("theme", faker.lorem().fixedString(10));
             put("username", faker.lorem().fixedString(10));
-            put("volumeStatus", faker.lorem().fixedString(10));
         }};
 
         if (fields != null) {
@@ -209,9 +202,8 @@ public class Fixtures {
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingNumberFormat"));
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
         Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, fakerFields.get("theme"));
-        Status status = new Status(fakerFields.get("emailStatus"), fakerFields.get("identityStatus"), fakerFields.get("overviewStatus"), fakerFields.get("phoneStatus"), fakerFields.get("registrationStatus"), fakerFields.get("reviewStatus"), fakerFields.get("screeningStatus"), fakerFields.get("volumeStatus"));
 
-        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), status, fakerFields.get("username"));
+        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"));
     }
 
 }

@@ -239,16 +239,7 @@ public class BitreserveClientTest {
             "\"currencies\": [" +
               "\"BTC\"," +
             "]," +
-            "\"status\": {" +
-            "\"email\": \"ok\"," +
-            "\"phone\": \"pending\"," +
-            "\"review\": \"pending\"," +
-            "\"volume\": \"ok\"," +
-            "\"identity\": \"pending\"," +
-            "\"overview\": \"pending\"," +
-            "\"screening\": \"pending\"," +
-            "\"registration\": \"running\"" +
-            "}," +
+            "\"status\": \"ok\"," +
             "\"settings\": {" +
               "\"theme\": \"minimalistic\"," +
               "\"currency\": \"USD\"," +
@@ -296,14 +287,7 @@ public class BitreserveClientTest {
         Assert.assertEquals(user.getSettings().getIntl().getNumberFormat().getLocale(), "en-US");
         Assert.assertEquals(user.getSettings().getTheme(), "minimalistic");
         Assert.assertEquals(user.getState(), "FOO");
-        Assert.assertEquals(user.getStatus().getEmail(), "ok");
-        Assert.assertEquals(user.getStatus().getIdentity(), "pending");
-        Assert.assertEquals(user.getStatus().getOverview(), "pending");
-        Assert.assertEquals(user.getStatus().getPhone(), "pending");
-        Assert.assertEquals(user.getStatus().getRegistration(), "running");
-        Assert.assertEquals(user.getStatus().getReview(), "pending");
-        Assert.assertEquals(user.getStatus().getScreening(), "pending");
-        Assert.assertEquals(user.getStatus().getVolume(), "ok");
+        Assert.assertEquals(user.getStatus(), "ok");
         Assert.assertEquals(user.getUsername(), "foobar");
         Assert.assertFalse(user.getSettings().getHasOtpEnabled());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());

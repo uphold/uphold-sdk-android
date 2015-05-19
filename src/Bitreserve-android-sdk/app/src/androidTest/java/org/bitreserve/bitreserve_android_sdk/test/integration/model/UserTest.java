@@ -433,25 +433,11 @@ public class UserTest {
     @Test
     public void getStatusShouldReturnTheStatus() {
         HashMap<String, String> data = new HashMap<String, String>() {{
-            put("emailStatus", "ok");
-            put("identityStatus", "pending");
-            put("overviewStatus", "ok");
-            put("phoneStatus", "pending");
-            put("registrationStatus", "running");
-            put("reviewStatus", "ok");
-            put("screeningStatus", "pending");
-            put("volumeStatus", "running");
+            put("status", "ok");
         }};
         User user = Fixtures.loadUser(data);
 
-        Assert.assertEquals(user.getStatus().getEmail(), "ok");
-        Assert.assertEquals(user.getStatus().getIdentity(), "pending");
-        Assert.assertEquals(user.getStatus().getOverview(), "ok");
-        Assert.assertEquals(user.getStatus().getPhone(), "pending");
-        Assert.assertEquals(user.getStatus().getRegistration(), "running");
-        Assert.assertEquals(user.getStatus().getReview(), "ok");
-        Assert.assertEquals(user.getStatus().getScreening(), "pending");
-        Assert.assertEquals(user.getStatus().getVolume(), "running");
+        Assert.assertEquals(user.getStatus(), "ok");
     }
 
     @Test

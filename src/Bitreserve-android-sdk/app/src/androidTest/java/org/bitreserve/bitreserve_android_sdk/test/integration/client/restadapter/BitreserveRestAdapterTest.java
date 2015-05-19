@@ -33,7 +33,7 @@ public class BitreserveRestAdapterTest {
     @Test
     public void setAdapterShouldSetTheAdapter() {
         BitreserveRestAdapter bitreserveRestAdapter = new BitreserveRestAdapter("foobar");
-        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.API_SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setRequestInterceptor(bitreserveRestAdapter.getBitreserveRequestInterceptor("foobar"))
             .build();
@@ -60,10 +60,8 @@ public class BitreserveRestAdapterTest {
 
         Request request = adapter.getRequest();
 
-        Assert.assertEquals(request.getHeaders().size(), 4);
-        Assert.assertTrue(request.getHeaders().contains(new Header("Accept", "application/json")));
+        Assert.assertEquals(request.getHeaders().size(), 2);
         Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Basic Zm9vYmFyOlgtT0F1dGgtQmFzaWM=")));
-        Assert.assertTrue(request.getHeaders().contains(new Header("Content-Type", "application/json")));
         Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "bitreserve-android-sdk 0.1 (https://github.com/bitreserve/bitreserve-sdk-android)")));
     }
 
@@ -84,9 +82,7 @@ public class BitreserveRestAdapterTest {
 
         Request request = adapter.getRequest();
 
-        Assert.assertEquals(request.getHeaders().size(), 3);
-        Assert.assertTrue(request.getHeaders().contains(new Header("Accept", "application/json")));
-        Assert.assertTrue(request.getHeaders().contains(new Header("Content-Type", "application/json")));
+        Assert.assertEquals(request.getHeaders().size(), 1);
         Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "bitreserve-android-sdk 0.1 (https://github.com/bitreserve/bitreserve-sdk-android)")));
     }
 
@@ -107,9 +103,7 @@ public class BitreserveRestAdapterTest {
 
         Request request = adapter.getRequest();
 
-        Assert.assertEquals(request.getHeaders().size(), 3);
-        Assert.assertTrue(request.getHeaders().contains(new Header("Accept", "application/json")));
-        Assert.assertTrue(request.getHeaders().contains(new Header("Content-Type", "application/json")));
+        Assert.assertEquals(request.getHeaders().size(), 1);
         Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "bitreserve-android-sdk 0.1 (https://github.com/bitreserve/bitreserve-sdk-android)")));
     }
 

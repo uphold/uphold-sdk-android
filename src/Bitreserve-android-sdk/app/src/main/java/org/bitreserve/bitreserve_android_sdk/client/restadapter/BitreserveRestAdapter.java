@@ -29,7 +29,7 @@ public class BitreserveRestAdapter {
      */
 
     public BitreserveRestAdapter(final String token) {
-        this.adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.SERVER_URL)
+        this.adapter = new RestAdapter.Builder().setEndpoint(GlobalConfigurations.API_SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setLogLevel(GlobalConfigurations.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
             .setRequestInterceptor(getBitreserveRequestInterceptor(token))

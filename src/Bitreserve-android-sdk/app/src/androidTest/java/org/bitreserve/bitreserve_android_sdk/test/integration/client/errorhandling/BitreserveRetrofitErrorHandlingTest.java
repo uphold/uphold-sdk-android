@@ -12,7 +12,6 @@ import org.bitreserve.bitreserve_android_sdk.exception.BadRequestException;
 import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
 import org.bitreserve.bitreserve_android_sdk.exception.NotFoundException;
 import org.bitreserve.bitreserve_android_sdk.exception.RuntimeException;
-import org.bitreserve.bitreserve_android_sdk.exception.TwoFactorAuthenticationRequiredException;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockClientBitreserveRetrofitErrorHandlingTest;
@@ -60,9 +59,6 @@ public class BitreserveRetrofitErrorHandlingTest {
         return Arrays.asList(new Object[][] {
             { 400, new ArrayList<Header>(), "reason", 400, BadRequestException.class.getName(), "400 reason" },
             { 401, new ArrayList<Header>(), "reason", 401, AuthenticationRequiredException.class.getName(), "401 reason" },
-            { 401, new ArrayList<Header>() {{
-                add(new Header("X-Bitreserve-OTP", "required"));
-            }}, "reason", 401, TwoFactorAuthenticationRequiredException.class.getName(), "Two factor authentication is enabled on this account" },
             { 404, new ArrayList<Header>(), "reason", 404, NotFoundException.class.getName(), String.format("Object or route not found: %s/v0/me", MOCK_URL) },
             { 412, new ArrayList<Header>(), "reason", 412, BadRequestException.class.getName(), "Precondition failed" },
             { 419, new ArrayList<Header>(), "reason", 419, BadRequestException.class.getName(), "Requested range not satisfiable" },

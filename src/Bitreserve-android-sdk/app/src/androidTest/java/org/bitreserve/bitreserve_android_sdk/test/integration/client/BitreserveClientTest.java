@@ -7,6 +7,8 @@ import junit.framework.Assert;
 
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
+import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
@@ -16,11 +18,15 @@ import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.net.Uri;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.mock.MockContext;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
@@ -48,7 +54,7 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void authenticateUserShouldReturnTheAuthenticationResponse() throws Exception {
+    public void completeAuthorizationShouldReturnBitreserveClientExceptionStateMatchError() throws Exception {
         String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
         MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -56,25 +62,50 @@ public class BitreserveClientTest {
             @Override
             public Promise<AuthenticationResponse> call(BitreserveRestAdapter adapter) {
                 BitreserveClient client = new BitreserveClient("foobar");
+                Uri uri = Uri.parse("bitreserve://foobar.com?state=foobar");
 
                 client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.authenticateUser("otp", "user", "password", new AuthenticationRequest("description"));
+                return client.completeAuthorization(uri, "foo", "bar", "foobar", "foobuz");
+            }
+        });
+
+        Exception exception = adapter.getException();
+
+        Assert.assertEquals(exception.getClass().getName(), StateMatchException.class.getName());
+        Assert.assertEquals(exception.getMessage(), "State does not match.");
+    }
+
+    @Test
+    public void completeAuthorizationShouldReturnTheAuthenticationResponse() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
+        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
+            @Override
+            public Promise<AuthenticationResponse> call(BitreserveRestAdapter adapter) {
+                BitreserveClient client = new BitreserveClient("foobar");
+                Uri uri = Uri.parse("bitreserve://foobar.com?code=foo&state=foobar");
+
+                client.getToken().setBitreserveRestAdapter(adapter);
+
+                return client.completeAuthorization(uri, "foo", "bar", "foobiz", "foobar");
             }
         });
 
         AuthenticationResponse authenticationResponse = adapter.getResult();
         Request request = adapter.getRequest();
 
-        Assert.assertEquals(request.getHeaders().get(0).getName(), "X-Bitreserve-OTP");
-        Assert.assertEquals(request.getHeaders().get(0).getValue(), "otp");
-        Assert.assertEquals(request.getHeaders().get(1).getName(), "Authorization");
-        Assert.assertEquals(request.getHeaders().get(1).getValue(), "Basic dXNlcjpwYXNzd29yZA==");
-        Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/tokens");
+        request.getBody().writeTo(bodyOutput);
+
         Assert.assertEquals(authenticationResponse.getAccessToken(), "foo");
         Assert.assertEquals(authenticationResponse.getDescription(), "bar");
+        Assert.assertEquals(bodyOutput.toString(), "code=foo&grant_type=foobiz");
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/oauth2/token");
         Assert.assertNull(authenticationResponse.getExpiresIn());
+        Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Basic Zm9vOmJhcg==")));
     }
 
     @Test

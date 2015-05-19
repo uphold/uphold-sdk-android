@@ -51,9 +51,7 @@ public class Header {
      */
 
     public static HashMap<String, String> getHeaders() {
-        return new HashMap<String, String>(){{
-            put("Accept", "application/json");
-            put("Content-Type", "application/json");
+        return new HashMap<String, String>() {{
             put("User-Agent", String.format("bitreserve-android-sdk %s (%s)", GlobalConfigurations.BITRESERVE_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
         }};
     }

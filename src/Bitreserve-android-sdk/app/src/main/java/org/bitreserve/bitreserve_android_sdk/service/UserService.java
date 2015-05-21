@@ -4,6 +4,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Balance;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
+import org.bitreserve.bitreserve_android_sdk.model.user.ContactRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 
 import java.util.HashMap;
@@ -14,12 +15,23 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.PATCH;
+import retrofit.http.POST;
 
 /**
  * User service.
  */
 
 public interface UserService {
+
+    /**
+     * Creates a user contact.
+     *
+     * @param contact The contact details with the information necessary to create the contact.
+     * @param callback A callback to receive the request information.
+     */
+
+    @POST("/v0/me/contacts")
+    void createContact(@Body ContactRequest contact, Callback<Contact> callback);
 
     /**
      * Performs a request to get the user information.

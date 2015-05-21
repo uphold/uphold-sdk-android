@@ -9,6 +9,7 @@ import org.bitreserve.bitreserve_android_sdk.model.balance.Currency;
 import org.bitreserve.bitreserve_android_sdk.model.balance.UserBalance;
 import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
+import org.bitreserve.bitreserve_android_sdk.model.user.ContactRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.model.user.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.user.Status;
@@ -89,6 +90,27 @@ public class User extends BaseModel {
                 card.setBitreserveRestAdapter(User.this.getBitreserveRestAdapter());
 
                 return card;
+            }
+        });
+    }
+
+    /**
+     * Creates a contact for the user.
+     *
+     * @param contactRequest the {@link ContactRequest} with the information to create the contact.
+     *
+     * @return a {@link Promise<Contact>} with the contact created.
+     */
+
+    public Promise<Contact> createContact(ContactRequest contactRequest) {
+        RetrofitPromise<Contact> promise = new RetrofitPromise<>();
+        UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
+
+        userService.createContact(contactRequest, promise);
+
+        return promise.then(new PromiseFunction<Contact, Contact>() {
+            public Contact call(Contact contact) {
+                return contact;
             }
         });
     }

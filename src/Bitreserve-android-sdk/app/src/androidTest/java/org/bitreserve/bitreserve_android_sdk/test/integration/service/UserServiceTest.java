@@ -13,6 +13,7 @@ import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
+import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,28 @@ import retrofit.client.Request;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class UserServiceTest {
+
+    @Test
+    public void createContactShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<Contact> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Contact>() {
+            @Override
+            public Promise<Contact> call(BitreserveRestAdapter bitreserveRestAdapter) {
+                UserService userService = adapter.getRestAdapter().create(UserService.class);
+                RetrofitPromise<Contact> promise = new RetrofitPromise<>();
+
+                userService.createContact(Fixtures.loadContactRequest(), promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+    }
 
     @Test
     public void getUserShouldReturnTheRequest() throws Exception {

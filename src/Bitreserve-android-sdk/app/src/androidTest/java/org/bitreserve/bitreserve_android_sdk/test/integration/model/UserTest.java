@@ -15,6 +15,7 @@ import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
 import org.bitreserve.bitreserve_android_sdk.model.user.Contact;
 import org.bitreserve.bitreserve_android_sdk.model.user.Phone;
 import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
@@ -79,7 +80,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(cards.getAddress().get("bitcoin"), "foobiz");
         Assert.assertEquals(cards.getAddresses().size(), 2);
         Assert.assertEquals(cards.getAddresses().get(0).getId(), "foobuz");
@@ -117,7 +118,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/contacts", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(contact.getAddresses().size(), 1);
         Assert.assertEquals(contact.getAddresses().get(0), "foobiz");
         Assert.assertEquals(contact.getCompany(), "FOO");
@@ -149,7 +150,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(currencies.size(), 2);
         Assert.assertEquals(currencies.get(0).getAmount(), "6.98");
         Assert.assertEquals(currencies.get(1).getAmount(), "75.01");
@@ -193,7 +194,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(currency.getAmount(), "75.01");
         Assert.assertEquals(currency.getBalance(), "58.05");
         Assert.assertEquals(currency.getCurrency(), "USD");
@@ -220,7 +221,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(cards.size(), 2);
         Assert.assertEquals(cards.get(0).getId(), "FOO");
         Assert.assertEquals(cards.get(1).getId(), "BAR");
@@ -246,7 +247,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/FOOBAR");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/FOOBAR", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(card.getId(), "FOOBAR");
     }
 
@@ -270,7 +271,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(cards.size(), 1);
         Assert.assertEquals(cards.get(0).getId(), "FOOBIZ");
     }
@@ -317,7 +318,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/contacts");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/contacts", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(contacts.size(), 2);
         Assert.assertEquals(contacts.get(0).getAddresses().size(), 0);
         Assert.assertEquals(contacts.get(0).getCompany(), "FOO");
@@ -421,7 +422,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/phones");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/phones", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(phones.size(), 1);
         Assert.assertEquals(phones.get(0).getE164Masked(), "+XXXXXXXXX04");
         Assert.assertEquals(phones.get(0).getId(), "foobar");
@@ -509,7 +510,7 @@ public class UserTest {
         Request request = adapter.getRequest();
         UserBalance balance = adapter.getResult();
 
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getMethod(), "GET");
         Assert.assertEquals(balance.getCurrencies().get("CNY").getAmount(), "6.98");
         Assert.assertEquals(balance.getCurrencies().get("CNY").getBalance(), "42.82");
@@ -549,7 +550,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-49");
         Assert.assertEquals(transactions.size(), 2);
@@ -584,7 +585,7 @@ public class UserTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
         Assert.assertEquals(transactions.size(), 2);
@@ -621,7 +622,7 @@ public class UserTest {
         User userResponse = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "PATCH");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(userResponse.getUsername(), "FOOBAR");
     }
 

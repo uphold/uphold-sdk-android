@@ -5,6 +5,7 @@ import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
 import junit.framework.Assert;
 
+import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
@@ -24,6 +25,7 @@ import android.test.mock.MockContext;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.String;
 import java.util.List;
 
 import retrofit.client.Header;
@@ -103,7 +105,7 @@ public class BitreserveClientTest {
         Assert.assertEquals(authenticationResponse.getDescription(), "bar");
         Assert.assertEquals(bodyOutput.toString(), "code=foo&grant_type=foobiz");
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/oauth2/token");
+        Assert.assertEquals(request.getUrl(), String.format("%s/oauth2/token", BuildConfig.API_SERVER_URL));
         Assert.assertNull(authenticationResponse.getExpiresIn());
         Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Basic Zm9vOmJhcg==")));
     }
@@ -152,7 +154,7 @@ public class BitreserveClientTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/ticker");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/ticker", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(rates.size(), 3);
         Assert.assertEquals(rates.get(0).getAsk(), "foo");
         Assert.assertEquals(rates.get(0).getBid(), "bar");
@@ -204,7 +206,7 @@ public class BitreserveClientTest {
         List<Rate> rates = adapter.getResult();
 
         Assert.assertEquals(adapter.getRequest().getMethod(), "GET");
-        Assert.assertEquals(adapter.getRequest().getUrl(), "https://api.bitreserve.org/v0/ticker/USD");
+        Assert.assertEquals(adapter.getRequest().getUrl(), String.format("%s/v0/ticker/USD", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(rates.size(), 3);
         Assert.assertEquals(rates.get(0).getAsk(), "foo");
         Assert.assertEquals(rates.get(1).getAsk(), "fuz");
@@ -275,7 +277,7 @@ public class BitreserveClientTest {
         User user = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(user.getCountry(), "BAR");
         Assert.assertEquals(user.getEmail(), "foobar@bfoobar.org");
         Assert.assertEquals(user.getFirstName(), "foo");

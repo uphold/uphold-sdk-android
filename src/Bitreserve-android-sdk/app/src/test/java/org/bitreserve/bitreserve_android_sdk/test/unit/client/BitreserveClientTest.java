@@ -1,5 +1,6 @@
 package org.bitreserve.bitreserve_android_sdk.test.unit.client;
 
+import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class BitreserveClientTest {
         bitreserveClient.beginAuthorization(new MockContext(), "foo", "bar");
 
         PowerMockito.verifyStatic();
-        Uri.parse("https://bitreserve.org/authorize/foo?state=bar");
+        Uri.parse(String.format("%s/authorize/foo?state=bar", BuildConfig.AUTHORIZATION_SERVER_URL));
     }
 
 }

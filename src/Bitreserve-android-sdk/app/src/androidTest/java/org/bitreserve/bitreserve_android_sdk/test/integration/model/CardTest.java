@@ -10,6 +10,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.Fixtures;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 
@@ -96,7 +98,7 @@ public class CardTest {
         Transaction transaction = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(transaction.getType(), "transfer");
         Assert.assertEquals(transaction.getMessage(), "foobar");
@@ -255,7 +257,7 @@ public class CardTest {
         List<Transaction> transactions = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-49");
         Assert.assertEquals(transactions.size(), 2);
@@ -292,7 +294,7 @@ public class CardTest {
         List<Transaction> transactions = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
         Assert.assertEquals(transactions.size(), 2);
@@ -322,7 +324,7 @@ public class CardTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "PATCH");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/me/cards/foobar");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(card.getId(), "FOOBAR");
     }
 

@@ -3,6 +3,8 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
+    publishNonDefault true
+    testBuildType "debug"
 
     buildTypes {
         release {
@@ -19,18 +21,30 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions {
-        exclude 'LICENSE.txt'
-    }
-}
-
-android {
     lintOptions {
         abortOnError false
     }
 
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
     testOptions {
         unitTests.returnDefaultValues = true
+    }
+
+    productFlavors {
+        production {
+            buildConfigField 'String', 'API_SERVER_URL', '"https://api.bitreserve.org"'
+            buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://bitreserve.org"'
+            buildConfigField 'Boolean', 'IS_DEBUG_ENABLE', 'false'
+        }
+
+        sandbox {
+            buildConfigField 'String', 'API_SERVER_URL', '"https://api-sandbox.bitreserve.org"'
+            buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://sandbox.bitreserve.org"'
+            buildConfigField 'Boolean', 'IS_DEBUG_ENABLE', 'true'
+        }
     }
 }
 

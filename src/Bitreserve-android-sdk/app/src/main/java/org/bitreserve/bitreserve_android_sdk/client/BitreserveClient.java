@@ -2,9 +2,9 @@ package org.bitreserve.bitreserve_android_sdk.client;
 
 import com.darylteo.rx.promises.java.Promise;
 
+import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
-import org.bitreserve.bitreserve_android_sdk.config.GlobalConfigurations;
 import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
@@ -59,7 +59,7 @@ public class BitreserveClient {
 
     public void beginAuthorization(Context context, String clientId, String state) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri clientUri = Uri.parse(String.format("%s/authorize/%s?state=%s", GlobalConfigurations.AUTHORIZATION_SERVER_URL, clientId, state));
+        Uri clientUri = Uri.parse(String.format("%s/authorize/%s?state=%s", BuildConfig.AUTHORIZATION_SERVER_URL, clientId, state));
 
         intent.setData(clientUri);
         context.startActivity(intent);

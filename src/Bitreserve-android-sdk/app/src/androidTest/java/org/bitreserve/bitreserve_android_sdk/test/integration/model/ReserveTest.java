@@ -11,6 +11,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.Deposit;
 import org.bitreserve.bitreserve_android_sdk.model.reserve.ReserveStatistics;
 import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
+import org.bitreserve.bitreserve_android_sdk.test.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import java.lang.String;
 import java.util.List;
 
 import retrofit.client.Request;
@@ -80,7 +82,7 @@ public class ReserveTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/ledger");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-49");
         Assert.assertEquals(deposits.size(), 2);
@@ -127,7 +129,7 @@ public class ReserveTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/ledger");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/ledger", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
         Assert.assertEquals(deposits.size(), 2);
@@ -183,7 +185,7 @@ public class ReserveTest {
         List<ReserveStatistics> statistics = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/statistics");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/statistics", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(statistics.size(), 2);
         Assert.assertEquals(statistics.get(0).getCurrency(), "FOO");
         Assert.assertEquals(statistics.get(1).getCurrency(), "BAR");
@@ -227,7 +229,7 @@ public class ReserveTest {
         Transaction transaction = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/transactions/foobiz");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions/foobiz", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(transaction.getId(), "FOOBAR");
     }
 
@@ -258,7 +260,7 @@ public class ReserveTest {
         List<Transaction> transactions = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=0-49");
         Assert.assertEquals(transactions.size(), 2);
@@ -293,7 +295,7 @@ public class ReserveTest {
         List<Transaction> transactions = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "GET");
-        Assert.assertEquals(request.getUrl(), "https://api.bitreserve.org/v0/reserve/transactions");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/reserve/transactions", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getHeaders().get(0).getName(), "Range");
         Assert.assertEquals(request.getHeaders().get(0).getValue(), "items=50-99");
         Assert.assertEquals(transactions.size(), 2);

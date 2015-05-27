@@ -8,9 +8,7 @@ import junit.framework.Assert;
 import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
-import org.bitreserve.bitreserve_android_sdk.exception.BitreserveClientException;
 import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
-import org.bitreserve.bitreserve_android_sdk.model.AuthenticationRequest;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
@@ -21,7 +19,6 @@ import org.junit.runner.RunWith;
 
 import android.net.Uri;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.mock.MockContext;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayOutputStream;
@@ -81,7 +78,7 @@ public class BitreserveClientTest {
     @Test
     public void completeAuthorizationShouldReturnTheAuthenticationResponse() throws Exception {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
-        String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
+        String responseString = "{ \"access_token\": \"foo\", \"token_type\": \"bar\", \"expires_in\": 1234, \"scope\": \"foobar\"}";
         MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
@@ -101,12 +98,13 @@ public class BitreserveClientTest {
 
         request.getBody().writeTo(bodyOutput);
 
-        Assert.assertEquals(authenticationResponse.getAccessToken(), "foo");
-        Assert.assertEquals(authenticationResponse.getDescription(), "bar");
-        Assert.assertEquals(bodyOutput.toString(), "code=foo&grant_type=foobiz");
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/oauth2/token", BuildConfig.API_SERVER_URL));
-        Assert.assertNull(authenticationResponse.getExpiresIn());
+        Assert.assertEquals(authenticationResponse.getAccessToken(), "foo");
+        Assert.assertEquals(authenticationResponse.getExpiresIn(), Integer.valueOf(1234));
+        Assert.assertEquals(authenticationResponse.getScope(), "foobar");
+        Assert.assertEquals(authenticationResponse.getTokenType(), "bar");
+        Assert.assertEquals(bodyOutput.toString(), "code=foo&grant_type=foobiz");
         Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Basic Zm9vOmJhcg==")));
     }
 

@@ -1,7 +1,5 @@
 package org.bitreserve.bitreserve_android_sdk.test.util;
 
-import android.text.TextUtils;
-
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 

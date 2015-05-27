@@ -21,11 +21,9 @@ public class BitreserveRestAdapter {
     private RestAdapter adapter;
 
     /**
-     * Generates a bitreserve rest adapter.
+     * Constructor.
      *
      * @param token The token (if available) of the user.
-     *
-     * @return the {@link RestAdapter}.
      */
 
     public BitreserveRestAdapter(final String token) {
@@ -81,7 +79,7 @@ public class BitreserveRestAdapter {
                 }
 
                 if (token != null && !TextUtils.isEmpty(token)) {
-                    request.addHeader("Authorization", Header.encodeCredentialsForBasicAuthorization(token, "X-OAuth-Basic"));
+                    request.addHeader("Authorization", String.format("Bearer %s", token));
                 }
             }
         };

@@ -45,7 +45,7 @@ public class BitreserveRestAdapterTest {
 
     @Test
     public void bitreserveRestAdapterWithTokenShoulSetTheBitreserveCustomHeadersWithAuthenticationHeader() throws Exception {
-        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>("fuz", null, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, Card>() {
             @Override
@@ -61,7 +61,7 @@ public class BitreserveRestAdapterTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getHeaders().size(), 2);
-        Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Basic Zm9vYmFyOlgtT0F1dGgtQmFzaWM=")));
+        Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Bearer fuz")));
         Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "bitreserve-android-sdk 0.1 (https://github.com/bitreserve/bitreserve-sdk-android)")));
     }
 

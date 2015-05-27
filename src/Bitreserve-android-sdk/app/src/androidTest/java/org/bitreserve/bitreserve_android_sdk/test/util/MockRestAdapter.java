@@ -1,5 +1,7 @@
 package org.bitreserve.bitreserve_android_sdk.test.util;
 
+import android.text.TextUtils;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 
@@ -53,7 +55,7 @@ public class MockRestAdapter<T> {
                                 add(new retrofit.client.Header(key, value));
                             }
                         }
-                    }}, new TypedByteArray("application/json", responseString.getBytes()));
+                    }}, new TypedByteArray("application/json", responseString == null ? new byte[0] : responseString.getBytes()));
                 }
         }).build();
 

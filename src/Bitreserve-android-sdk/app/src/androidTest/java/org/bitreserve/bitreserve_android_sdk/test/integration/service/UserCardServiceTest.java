@@ -11,6 +11,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
 import org.bitreserve.bitreserve_android_sdk.model.card.CardRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionDenominationRequest;
+import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionCommitRequest;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
@@ -66,7 +67,7 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.confirmTransaction("foo", "bar", promise);
+                userCardService.confirmTransaction("foo", "bar", new TransactionCommitRequest("message"), promise);
 
                 return promise;
             }

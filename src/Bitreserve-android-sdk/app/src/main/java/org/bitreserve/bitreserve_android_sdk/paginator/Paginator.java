@@ -45,7 +45,7 @@ public class Paginator<T> {
     /**
      * Gets a promise with the elements.
      *
-     * @return a {@link Promise<List<T>>}
+     * @return a {@link Promise<List>}
      */
 
     public Promise<List<T>> getElements() {
@@ -55,7 +55,7 @@ public class Paginator<T> {
     /**
      * Gets the next page of elements.
      *
-     * @return a {@link Promise<List<T>>}.
+     * @return a {@link Promise<List>}.
      */
 
     public synchronized Promise<List<T>> getNext() {

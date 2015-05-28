@@ -80,7 +80,7 @@ public class Reserve extends BaseModel {
     /**
      * Gets the reserve summary of all the obligations and assets within it.
      *
-     * @return a {@link Promise<List<ReserveStatistics>>} with the reserve summary of all the obligations and assets within it.
+     * @return a promise with a {@link List<ReserveStatistics>} with the reserve summary of all the obligations and assets within it.
      */
 
     public Promise<List<ReserveStatistics>> getStatistics() {

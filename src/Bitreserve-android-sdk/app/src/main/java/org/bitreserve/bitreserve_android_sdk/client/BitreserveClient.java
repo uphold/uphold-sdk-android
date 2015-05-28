@@ -107,7 +107,7 @@ public class BitreserveClient {
     /**
      * Gets all exchanges rates for all currency pairs.
      *
-     * @return a {@link Promise<List<Rate>>} with all exchanges rates for all currency pairs.
+     * @return a promise with a {@link List<Rate>} with all exchanges rates for all currency pairs.
      */
 
     public Promise<List<Rate>> getTicker() {
@@ -124,7 +124,7 @@ public class BitreserveClient {
      *
      * @param currency The filter currency.
      *
-     * @return a {@link Promise<List<Rate>>} with all exchanges rates relative to a given currency.
+     * @return a promise with a {@link List<Rate>} with all exchanges rates relative to a given currency.
      */
 
     public Promise<List<Rate>> getTickersByCurrency(String currency) {

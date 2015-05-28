@@ -118,7 +118,7 @@ public class User extends BaseModel {
     /**
      * Gets the user balances.
      *
-     * @return a {@link Promise<List<Currency>} with the user balance.
+     * @return a promise with a {@link List<Currency>} with the user balance.
      */
 
     public Promise<List<Currency>> getBalances() {
@@ -174,7 +174,7 @@ public class User extends BaseModel {
     /**
      * Gets user cards.
      *
-     * @return a promise {@link Promise<List<Card>>} with the cards user list.
+     * @return a promise with a {@link List<Card>} with the cards user list.
      */
 
     public Promise<List<Card>> getCards() {
@@ -222,7 +222,7 @@ public class User extends BaseModel {
      *
      * @param currency The currency to filter the cards.
      *
-     * @return a {@link Promise<List<Card>>} with the list of cards.
+     * @return a promise with a {@link List<Card>} with the user cards for the currency.
      */
 
     public Promise<List<Card>> getCardsByCurrency(final String currency) {
@@ -251,7 +251,7 @@ public class User extends BaseModel {
     /**
      * Gets the user contacts.
      *
-     * @return a promise {@link Promise<List<Contact>>} with the list of user contacts.
+     * @return a promise with {@link List<Contact>} with the list of user contacts.
      */
 
     public Promise<List<Contact>> getContacts() {
@@ -326,7 +326,7 @@ public class User extends BaseModel {
     /**
      * Gets the user phones.
      *
-     * @return a promise {@link Promise<List<Phone>>} with the list of user phones.
+     * @return a promise with a {@link List<Phone>} with the list of user phones.
      */
 
     public Promise<List<Phone>> getPhones() {

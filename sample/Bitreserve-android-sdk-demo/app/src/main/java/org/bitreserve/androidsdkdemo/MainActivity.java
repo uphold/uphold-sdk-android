@@ -14,6 +14,7 @@ import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -40,7 +41,12 @@ public class MainActivity extends ActionBarActivity {
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, state);
+                ArrayList<String> scopes = new ArrayList<String>() {{
+                    add("cards:read");
+                    add("user:read");
+                }};
+
+                bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, state, scopes);
             }
         });
     }

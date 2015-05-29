@@ -7,21 +7,23 @@ package org.bitreserve.bitreserve_android_sdk.model;
 public class AuthenticationResponse {
 
     private final String access_token;
-    private final String description;
-    private final String expires_in;
+    private final Integer expires_in;
+    private final String scope;
+    private final String token_type;
 
     /**
      * Constructor.
      *
      * @param access_token The access token from the user.
-     * @param description The description from the authentication response.
+     * @param token_type The description from the authentication response.
      * @param expires_in The expiration date from the token.
      */
 
-    public AuthenticationResponse(String access_token, String description, String expires_in) {
+    public AuthenticationResponse(String access_token, Integer expires_in, String scope, String token_type) {
         this.access_token = access_token;
-        this.description = description;
         this.expires_in = expires_in;
+        this.scope = scope;
+        this.token_type = token_type;
     }
 
     /**
@@ -35,23 +37,33 @@ public class AuthenticationResponse {
     }
 
     /**
-     * Gets the description.
+     * Gets the expiration.
      *
-     * @return the description
+     * @return the expiration
      */
 
-    public String getDescription() {
-        return description;
+    public Integer getExpiresIn() {
+        return expires_in;
     }
 
     /**
-     * Gets the expiration date.
+     * Gets the scope.
      *
-     * @return the expiration date
+     * @return the scope
      */
 
-    public String getExpiresIn() {
-        return expires_in;
+    public String getScope() {
+        return scope;
+    }
+
+    /**
+     * Gets the token type.
+     *
+     * @return the token type
+     */
+
+    public String getTokenType() {
+        return token_type;
     }
 
 }

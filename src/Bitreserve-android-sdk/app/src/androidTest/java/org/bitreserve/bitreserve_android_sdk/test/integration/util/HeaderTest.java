@@ -75,15 +75,4 @@ public class HeaderTest {
         Assert.assertTrue(20 == Header.getTotalNumberOfResults(listHeaders));
     }
 
-    @Test
-    public void isOTPRequiredShouldReturnTheIsOTPRequiredHeader() {
-        List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
-            add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
-            add(new retrofit.client.Header("X-RateLimit-Limit", "10"));
-        }};
-
-        Assert.assertTrue(Header.isOTPRequired(listHeaders));
-    }
-
 }

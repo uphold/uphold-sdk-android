@@ -117,28 +117,4 @@ public class Header {
         return null;
     }
 
-    /**
-     * Returns a boolean indicating if OTP is required.
-     *
-     * @param headers The response headers.
-     *
-     * @return a boolean indicating if the OTP is required.
-     */
-
-    public static Boolean isOTPRequired(List<retrofit.client.Header> headers) {
-        for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("X-Bitreserve-OTP") != 0) {
-                continue;
-            }
-
-            if (header.getValue().compareTo("required") != 0) {
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
 }

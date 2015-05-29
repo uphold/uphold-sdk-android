@@ -18,6 +18,7 @@ import org.bitreserve.bitreserve_android_sdk.util.Header;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -57,9 +58,9 @@ public class BitreserveClient {
      * @param state The state.
      */
 
-    public void beginAuthorization(Context context, String clientId, String state) {
+    public void beginAuthorization(Context context, String clientId, List<String> scopes, String state) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri clientUri = Uri.parse(String.format("%s/authorize/%s?state=%s", BuildConfig.AUTHORIZATION_SERVER_URL, clientId, state));
+        Uri clientUri = Uri.parse(String.format("%s/authorize/%s?scope=%s&state=%s", BuildConfig.AUTHORIZATION_SERVER_URL, clientId, TextUtils.join(" ", scopes), state));
 
         intent.setData(clientUri);
         context.startActivity(intent);

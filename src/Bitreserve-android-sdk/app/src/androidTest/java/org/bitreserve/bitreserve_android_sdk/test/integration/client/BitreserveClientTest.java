@@ -8,12 +8,16 @@ import junit.framework.Assert;
 import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
+import org.bitreserve.bitreserve_android_sdk.client.session.SessionManager;
+import org.bitreserve.bitreserve_android_sdk.exception.BitreserveSdkNotInitializedException;
 import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
 import org.bitreserve.bitreserve_android_sdk.model.Token;
 import org.bitreserve.bitreserve_android_sdk.model.User;
+import org.bitreserve.bitreserve_android_sdk.test.util.MockSharedPreferencesContext;
 import org.bitreserve.bitreserve_android_sdk.test.util.MockRestAdapter;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,6 +27,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.String;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import retrofit.client.Header;
@@ -37,35 +42,55 @@ import retrofit.client.Request;
 public class BitreserveClientTest {
 
     @Test
-    public void bitreserveClientWithTokenShouldSetTheTokenAndRestAdapter() {
-        BitreserveClient bitreserveClient = new BitreserveClient(null);
+    public void bitreserveClientWithoutTokenShouldSetTheTokenAndRestAdapter() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
 
-        Assert.assertNull(bitreserveClient.getToken().getBearerToken());
+        BitreserveClient bitreserveClient = new BitreserveClient();
+
+        Assert.assertNull(SessionManager.INSTANCE.getBearerToken());
         Assert.assertNotNull(bitreserveClient.getToken().getBitreserveRestAdapter());
     }
 
-    @Test
-    public void bitreserveClientWithTokenShouldReturnTheBearerTokenAndRestAdapter() {
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
+    @Test(expected = BitreserveSdkNotInitializedException.class)
+    public void bitreserveClientWithoutTokenShouldThrowBitreserveSdkNotInitializedException() throws Exception {
+        BitreserveClient bitreserveClient = new BitreserveClient();
+    }
 
-        Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
+    @Test
+    public void bitreserveClientWithTokenShouldReturnTheBearerTokenAndRestAdapter() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
+        BitreserveClient bitreserveClient = new BitreserveClient("foobiz");
+
+        Assert.assertEquals(SessionManager.INSTANCE.getBearerToken(), "foobiz");
         Assert.assertNotNull(bitreserveClient.getToken().getBitreserveRestAdapter());
+    }
+
+    @Test(expected = BitreserveSdkNotInitializedException.class)
+    public void bitreserveClientWithTokenShouldThrowBitreserveSdkNotInitializedException() throws Exception {
+        BitreserveClient bitreserveClient = new BitreserveClient("foobiz");
     }
 
     @Test
     public void completeAuthorizationShouldReturnBitreserveClientExceptionStateMatchError() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
         MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
             @Override
             public Promise<AuthenticationResponse> call(BitreserveRestAdapter adapter) {
-                BitreserveClient client = new BitreserveClient("foobar");
-                Uri uri = Uri.parse("bitreserve://foobar.com?state=foobar");
+                try {
+                    BitreserveClient client = new BitreserveClient("foobar");
+                    Uri uri = Uri.parse("bitreserve://foobar.com?state=foobar");
 
-                client.getToken().setBitreserveRestAdapter(adapter);
+                    client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.completeAuthorization(uri, "foo", "bar", "foobar", "foobuz");
+                    return client.completeAuthorization(uri, "foo", "bar", "foobar", "foobuz");
+                } catch (BitreserveSdkNotInitializedException e) {
+                    return null;
+                }
             }
         });
 
@@ -77,6 +102,8 @@ public class BitreserveClientTest {
 
     @Test
     public void completeAuthorizationShouldReturnTheAuthenticationResponse() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"access_token\": \"foo\", \"token_type\": \"bar\", \"expires_in\": 1234, \"scope\": \"foobar\"}";
         MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -84,12 +111,16 @@ public class BitreserveClientTest {
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, AuthenticationResponse>() {
             @Override
             public Promise<AuthenticationResponse> call(BitreserveRestAdapter adapter) {
-                BitreserveClient client = new BitreserveClient("foobar");
-                Uri uri = Uri.parse("bitreserve://foobar.com?code=foo&state=foobar");
+                try {
+                    BitreserveClient client = new BitreserveClient("foobar");
+                    Uri uri = Uri.parse("bitreserve://foobar.com?code=foo&state=foobar");
 
-                client.getToken().setBitreserveRestAdapter(adapter);
+                    client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.completeAuthorization(uri, "foo", "bar", "foobiz", "foobar");
+                    return client.completeAuthorization(uri, "foo", "bar", "foobiz", "foobar");
+                } catch (BitreserveSdkNotInitializedException e) {
+                    return null;
+                }
             }
         });
 
@@ -109,7 +140,9 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getReserveShouldReturnTheReserveWithRestAdapter() {
+    public void getReserveShouldReturnTheReserveWithRestAdapter() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
         Assert.assertEquals(bitreserveClient.getReserve().getBitreserveRestAdapter(), bitreserveClient.getToken().getBitreserveRestAdapter());
@@ -117,6 +150,8 @@ public class BitreserveClientTest {
 
     @Test
     public void getTickersShouldReturnTheListOfRates() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         String responseString = "[" +
             "{" +
                 "\"ask\": \"foo\"," +
@@ -140,11 +175,15 @@ public class BitreserveClientTest {
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
             public Promise<List<Rate>> call(BitreserveRestAdapter adapter) {
-                BitreserveClient client = new BitreserveClient("foobar");
+                try {
+                    BitreserveClient client = new BitreserveClient("foobar");
 
-                client.getToken().setBitreserveRestAdapter(adapter);
+                    client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.getTicker();
+                    return client.getTicker();
+                } catch (BitreserveSdkNotInitializedException exception) {
+                    return null;
+                }
             }
         });
 
@@ -170,6 +209,8 @@ public class BitreserveClientTest {
 
     @Test
     public void getTickersByCurrencyShouldReturnTheListOfRates() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         String responseString = "[" +
           "{" +
               "\"ask\": \"foo\"," +
@@ -193,11 +234,15 @@ public class BitreserveClientTest {
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, List<Rate>>() {
             @Override
             public Promise<List<Rate>> call(BitreserveRestAdapter adapter) {
-                BitreserveClient client = new BitreserveClient("foobar");
+                try {
+                    BitreserveClient client = new BitreserveClient("foobar");
 
-                client.getToken().setBitreserveRestAdapter(adapter);
+                    client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.getTickersByCurrency("USD");
+                    return client.getTickersByCurrency("USD");
+                } catch (BitreserveSdkNotInitializedException e) {
+                    return null;
+                }
             }
         });
 
@@ -212,22 +257,28 @@ public class BitreserveClientTest {
     }
 
     @Test
-    public void getTokenShouldReturnTheToken() {
+    public void getTokenShouldReturnTheToken() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         BitreserveClient bitreserveClient = new BitreserveClient("foobar");
 
-        Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "foobar");
+        Assert.assertEquals(SessionManager.INSTANCE.getBearerToken(), "foobar");
     }
 
     @Test
-    public void setTokenShouldSetTheToken() {
-        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
-        bitreserveClient.setToken(new Token("new foobar"));
+    public void setTokenShouldSetTheToken() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
 
-        Assert.assertEquals(bitreserveClient.getToken().getBearerToken(), "new foobar");
+        BitreserveClient bitreserveClient = new BitreserveClient("foobar");
+        bitreserveClient.setToken(new Token("foobar"));
+
+        Assert.assertEquals(SessionManager.INSTANCE.getBearerToken(), "foobar");
     }
 
     @Test
     public void getUserShouldReturnTheUser() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         String responseString = "{" +
             "\"username\": \"foobar\"," +
             "\"email\": \"foobar@bfoobar.org\"," +
@@ -263,11 +314,15 @@ public class BitreserveClientTest {
         adapter.request(new RepromiseFunction<BitreserveRestAdapter, User>() {
             @Override
             public Promise<User> call(BitreserveRestAdapter adapter) {
-                BitreserveClient client = new BitreserveClient("foobar");
+                try {
+                    BitreserveClient client = new BitreserveClient("foobar");
 
-                client.getToken().setBitreserveRestAdapter(adapter);
+                    client.getToken().setBitreserveRestAdapter(adapter);
 
-                return client.getUser();
+                    return client.getUser();
+                } catch (BitreserveSdkNotInitializedException e) {
+                    return null;
+                }
             }
         });
 
@@ -291,6 +346,14 @@ public class BitreserveClientTest {
         Assert.assertEquals(user.getUsername(), "foobar");
         Assert.assertFalse(user.getSettings().getHasOtpEnabled());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Field sdkInitializedField = BitreserveClient.class.getDeclaredField("sdkInitialized");
+
+        sdkInitializedField.setAccessible(true);
+        sdkInitializedField.set(null, false);
     }
 
 }

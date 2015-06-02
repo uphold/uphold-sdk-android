@@ -5,6 +5,8 @@ import com.darylteo.rx.promises.java.Promise;
 import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
+import org.bitreserve.bitreserve_android_sdk.client.session.SessionManager;
+import org.bitreserve.bitreserve_android_sdk.exception.BitreserveSdkNotInitializedException;
 import org.bitreserve.bitreserve_android_sdk.exception.StateMatchException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 import org.bitreserve.bitreserve_android_sdk.model.Rate;
@@ -28,26 +30,54 @@ import java.util.List;
 
 public class BitreserveClient {
 
+    private static Context applicationContext;
+    private static Boolean sdkInitialized = false;
+
     private Token token;
+
+    /**
+     * Initialize the client.
+     */
+
+    public static synchronized void initialize(Context context) {
+        if (sdkInitialized) {
+            return;
+        }
+
+        if (context == null) {
+            return;
+        }
+
+        applicationContext = context;
+        sdkInitialized = true;
+    }
 
     /**
      * Constructor.
      */
 
-    public BitreserveClient() {
-        this.token = new Token(null);
-        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getBearerToken()));
+    public BitreserveClient() throws BitreserveSdkNotInitializedException {
+        if (!sdkInitialized) {
+            throw new BitreserveSdkNotInitializedException("The SDK has not been initialized, make sure to call BitreserveClient.initialize(context)");
+        }
+
+        this.token = new Token();
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter());
     }
 
     /**
      * Constructor.
      *
-     * @param token The user token.
+     * @param bearerToken The user bearer token.
      */
 
-    public BitreserveClient(String token) {
-        this.token = new Token(token);
-        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter(this.token.getBearerToken()));
+    public BitreserveClient(String bearerToken) throws BitreserveSdkNotInitializedException {
+        if (!sdkInitialized) {
+            throw new BitreserveSdkNotInitializedException("The SDK has not been initialized, make sure to call BitreserveClient.initialize(context)");
+        }
+
+        this.token = new Token(bearerToken);
+        this.token.setBitreserveRestAdapter(new BitreserveRestAdapter());
     }
 
     /**
@@ -88,6 +118,10 @@ public class BitreserveClient {
         oAuth2Service.requestToken(Header.encodeCredentialsForBasicAuthorization(clientId, clientSecret), uri.getQueryParameter("code"), grantType, promise);
 
         return promise;
+    }
+
+    public static Context getApplicationContext() {
+        return applicationContext;
     }
 
     /**
@@ -164,6 +198,14 @@ public class BitreserveClient {
 
     public Promise<User> getUser() {
         return this.getToken().getUser();
+    }
+
+    /**
+     * Invalidates user current session.
+     */
+
+    public void invalidateSession() {
+        SessionManager.INSTANCE.invalidateSession();
     }
 
 }

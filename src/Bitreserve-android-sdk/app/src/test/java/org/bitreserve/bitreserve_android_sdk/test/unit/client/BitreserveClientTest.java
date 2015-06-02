@@ -2,6 +2,7 @@ package org.bitreserve.bitreserve_android_sdk.test.unit.client;
 
 import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
+import org.bitreserve.bitreserve_android_sdk.test.unit.util.MockSharedPreferencesContext;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,9 @@ import java.util.ArrayList;
 public class BitreserveClientTest {
 
     @Test
-    public void beginAuthorizationShouldCallUriParse() {
+    public void beginAuthorizationShouldCallUriParse() throws Exception {
+        BitreserveClient.initialize(new MockSharedPreferencesContext());
+
         BitreserveClient bitreserveClient = new BitreserveClient();
         ArrayList<String> scopes = new ArrayList<String>() {{
             add("foo");

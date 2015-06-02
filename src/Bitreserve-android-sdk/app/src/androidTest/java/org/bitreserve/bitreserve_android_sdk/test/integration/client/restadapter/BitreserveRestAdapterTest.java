@@ -32,7 +32,7 @@ public class BitreserveRestAdapterTest {
 
     @Test
     public void setAdapterShouldSetTheAdapter() {
-        BitreserveRestAdapter bitreserveRestAdapter = new BitreserveRestAdapter("foobar");
+        BitreserveRestAdapter bitreserveRestAdapter = new BitreserveRestAdapter();
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setRequestInterceptor(bitreserveRestAdapter.getBitreserveRequestInterceptor("foobar"))

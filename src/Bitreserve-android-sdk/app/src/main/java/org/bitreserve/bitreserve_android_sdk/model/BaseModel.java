@@ -15,17 +15,7 @@ public class BaseModel {
      */
 
     public BaseModel() {
-        this.bitreserveRestAdapter = new BitreserveRestAdapter(null);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param token The token.
-     */
-
-    public BaseModel(String token) {
-        this.bitreserveRestAdapter = new BitreserveRestAdapter(token);
+        this.bitreserveRestAdapter = new BitreserveRestAdapter();
     }
 
     /**

@@ -3,6 +3,7 @@ package org.bitreserve.androidsdkdemo;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.darylteo.rx.promises.java.functions.PromiseAction;
 
 import org.bitreserve.bitreserve_android_sdk.client.BitreserveClient;
+import org.bitreserve.bitreserve_android_sdk.exception.BitreserveSdkNotInitializedException;
 import org.bitreserve.bitreserve_android_sdk.model.AuthenticationResponse;
 
 import java.math.BigInteger;
@@ -31,24 +33,30 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
+        BitreserveClient.initialize(this);
+
         buttonConnect = (Button) findViewById(R.id.buttonConnect);
 
-        bitreserveClient = new BitreserveClient();
-        SecureRandom secureRandom = new SecureRandom();
+        try {
+            bitreserveClient = new BitreserveClient();
+            SecureRandom secureRandom = new SecureRandom();
 
-        state = new BigInteger(130, secureRandom).toString(32);
+            state = new BigInteger(130, secureRandom).toString(32);
 
-        buttonConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<String> scopes = new ArrayList<String>() {{
-                    add("cards:read");
-                    add("user:read");
-                }};
+            buttonConnect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<String> scopes = new ArrayList<String>() {{
+                        add("cards:read");
+                        add("user:read");
+                    }};
 
-                bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, state, scopes);
-            }
-        });
+                    bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, scopes, state);
+                }
+            });
+        } catch (BitreserveSdkNotInitializedException e) {
+            Log.d(MainActivity.class.toString(), e.getMessage());
+        }
     }
 
     @Override

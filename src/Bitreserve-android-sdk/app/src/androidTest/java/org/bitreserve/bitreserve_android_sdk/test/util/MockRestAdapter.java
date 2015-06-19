@@ -36,7 +36,7 @@ public class MockRestAdapter<T> {
         this.exceptionReference = new AtomicReference<>();
         this.requestReference = new AtomicReference<>();
         this.resultReference = new AtomicReference<>();
-        this.mockRestAdapter = new BitreserveRestAdapter(token);
+        this.mockRestAdapter = new BitreserveRestAdapter();
         this.restAdapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setRequestInterceptor(this.mockRestAdapter.getBitreserveRequestInterceptor(token))
             .setClient(new Client() {

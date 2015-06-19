@@ -2,6 +2,7 @@ package org.bitreserve.bitreserve_android_sdk.client.restadapter;
 
 import org.bitreserve.bitreserve_android_sdk.BuildConfig;
 import org.bitreserve.bitreserve_android_sdk.client.errorhandling.BitreserveRetrofitErrorHandling;
+import org.bitreserve.bitreserve_android_sdk.client.session.SessionManager;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
 import android.text.TextUtils;
@@ -22,15 +23,13 @@ public class BitreserveRestAdapter {
 
     /**
      * Constructor.
-     *
-     * @param token The token (if available) of the user.
      */
 
-    public BitreserveRestAdapter(final String token) {
+    public BitreserveRestAdapter() {
         this.adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setErrorHandler(new BitreserveRetrofitErrorHandling())
             .setLogLevel(BuildConfig.IS_DEBUG_ENABLE ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
-            .setRequestInterceptor(getBitreserveRequestInterceptor(token))
+            .setRequestInterceptor(getBitreserveRequestInterceptor(SessionManager.INSTANCE.getBearerToken()))
             .build();
     }
 

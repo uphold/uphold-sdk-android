@@ -5,6 +5,7 @@ import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
 import org.bitreserve.bitreserve_android_sdk.client.restadapter.BitreserveRestAdapter;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
+import org.bitreserve.bitreserve_android_sdk.client.session.SessionManager;
 import org.bitreserve.bitreserve_android_sdk.exception.AuthenticationRequiredException;
 import org.bitreserve.bitreserve_android_sdk.service.UserService;
 
@@ -20,32 +21,34 @@ public class Token extends BaseModel {
 
     /**
      * Constructor.
+     */
+
+    public Token() {
+        this.bearerToken = null;
+
+        SessionManager.INSTANCE.invalidateSession();
+    }
+
+    /**
+     * Constructor.
      *
-     * @param bearerToken The token value.
+     * @param bearerToken The bearer token.
      */
 
     public Token(String bearerToken) {
         this.bearerToken = bearerToken;
+
+        SessionManager.INSTANCE.setBearerToken(this);
     }
 
     /**
-     * Gets the token.
+     * Gets the user bearer token.
      *
-     * @return the token.
+     * @return the user bearer token.
      */
 
     public String getBearerToken() {
         return bearerToken;
-    }
-
-    /**
-     * Sets the token.
-     *
-     * @param bearerToken The token.
-     */
-
-    public void setBearerToken(String bearerToken) {
-        this.bearerToken = bearerToken;
     }
 
     /**
@@ -58,7 +61,7 @@ public class Token extends BaseModel {
         RetrofitPromise<User> promise = new RetrofitPromise<>();
         UserService userService = this.getBitreserveRestAdapter().create(UserService.class);
 
-        if (TextUtils.isEmpty(this.getBearerToken())) {
+        if (TextUtils.isEmpty(SessionManager.INSTANCE.getBearerToken())) {
             promise.reject(new AuthenticationRequiredException("Missing bearer authorization"));
 
             return promise;
@@ -68,7 +71,7 @@ public class Token extends BaseModel {
 
         return promise.then(new PromiseFunction<User, User>() {
             public User call(User user) {
-                user.setBitreserveRestAdapter(new BitreserveRestAdapter(Token.this.getBearerToken()));
+                user.setBitreserveRestAdapter(new BitreserveRestAdapter());
 
                 return user;
             }

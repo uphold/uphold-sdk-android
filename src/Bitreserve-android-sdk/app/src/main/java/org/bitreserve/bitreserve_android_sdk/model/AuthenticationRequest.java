@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model;
 
+import java.io.Serializable;
+
 /**
  * Authentication request model.
  */
 
-public class AuthenticationRequest {
+public class AuthenticationRequest implements Serializable {
 
     private final String description;
 

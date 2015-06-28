@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
+import java.io.Serializable;
+
 /**
  * Internationalization user settings model.
  */
 
-public class InternationalizationUserSettings {
+public class InternationalizationUserSettings implements Serializable {
 
     private final InternationalizationUserSetting language;
     private final InternationalizationUserSetting dateTimeFormat;

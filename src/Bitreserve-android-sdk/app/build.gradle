@@ -62,6 +62,7 @@ dependencies {
     }
     androidTestCompile files ('libs/snakeyaml-1.10-android.jar')
     testCompile 'junit:junit:4.12'
+    testCompile 'org.apache.commons:commons-lang3:3.4'
     testCompile 'org.powermock:powermock-api-mockito:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
 }

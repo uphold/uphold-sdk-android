@@ -1,12 +1,13 @@
 package org.bitreserve.bitreserve_android_sdk.model.user;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Contact model.
  */
 
-public class Contact {
+public class Contact implements Serializable {
 
     private final String id;
     private final List<String> addresses;

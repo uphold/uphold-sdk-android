@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
+import java.io.Serializable;
+
 /**
  * Value model.
  */
 
-public class Value {
+public class Value implements Serializable {
 
     private final String assets;
     private final String currency;

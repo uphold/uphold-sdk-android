@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
+
 /**
  * Transaction commit request model.
  */
 
-public class TransactionCommitRequest {
+public class TransactionCommitRequest implements Serializable {
 
     String message;
 

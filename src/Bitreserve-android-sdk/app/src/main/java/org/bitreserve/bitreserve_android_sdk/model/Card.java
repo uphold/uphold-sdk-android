@@ -13,6 +13,7 @@ import org.bitreserve.bitreserve_android_sdk.paginator.PaginatorInterface;
 import org.bitreserve.bitreserve_android_sdk.service.UserCardService;
 import org.bitreserve.bitreserve_android_sdk.util.Header;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Card model.
  */
 
-public class Card extends BaseModel {
+public class Card extends BaseModel implements Serializable {
 
     private final String id;
     private final Map<String, String> address;
@@ -73,13 +74,7 @@ public class Card extends BaseModel {
 
         userCardService.createTransaction(this.getId(), transactionRequest, promise);
 
-        return promise.then(new PromiseFunction<Transaction, Transaction>() {
-            public Transaction call(Transaction transaction) {
-                transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
-
-                return transaction;
-            }
-        });
+        return promise;
     }
 
     /**
@@ -184,16 +179,6 @@ public class Card extends BaseModel {
 
         userCardService.getUserCardTransactions(Header.buildRangeHeader(Paginator.DEFAULT_START, Paginator.DEFAULT_OFFSET - 1), this.getId(), promise);
 
-        Promise<List<Transaction>> transactions = promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
-            public List<Transaction> call(List<Transaction> transactions) {
-                for (Transaction transaction : transactions) {
-                    transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
-                }
-
-                return transactions;
-            }
-        });
-
         PaginatorInterface<Transaction> paginatorInterface = new PaginatorInterface<Transaction>() {
             @Override
             public Promise<Integer> count() {
@@ -216,15 +201,7 @@ public class Card extends BaseModel {
 
                 userCardService.getUserCardTransactions(range, Card.this.getId(), promise);
 
-                return promise.then(new PromiseFunction<List<Transaction>, List<Transaction>>() {
-                    public List<Transaction> call(List<Transaction> transactions) {
-                        for (Transaction transaction : transactions) {
-                            transaction.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
-                        }
-
-                        return transactions;
-                    }
-                });
+                return promise;
             }
 
             @Override
@@ -244,7 +221,7 @@ public class Card extends BaseModel {
             }
         };
 
-        return new Paginator<>(transactions, paginatorInterface);
+        return new Paginator<>(promise, paginatorInterface);
     }
 
     /**
@@ -261,13 +238,7 @@ public class Card extends BaseModel {
 
         userCardService.update(this.getId(), updateRequest, promise);
 
-        return promise.then(new PromiseFunction<Card, Card>() {
-            public Card call(Card card) {
-                card.setBitreserveRestAdapter(Card.this.getBitreserveRestAdapter());
-
-                return card;
-            }
-        });
+        return promise;
     }
 
 }

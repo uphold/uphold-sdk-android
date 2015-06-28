@@ -1,11 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
 
 /**
  * Destination model.
  */
 
-public class Destination {
+public class Destination implements Serializable {
 
     private final String CardId;
     private final String amount;

@@ -1,12 +1,13 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Origin model.
  */
 
-public class Origin {
+public class Origin implements Serializable {
 
     private final String CardId;
     private final String amount;

@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.transaction;
 
+import java.io.Serializable;
+
 /**
  * Source model.
  */
 
-public class Source {
+public class Source implements Serializable {
 
     private final String id;
     private final String amount;

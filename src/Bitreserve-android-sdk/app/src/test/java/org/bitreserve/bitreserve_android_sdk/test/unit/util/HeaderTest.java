@@ -10,7 +10,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import android.util.Base64;
 
 /**
- * Unit tests to the class {@link Header}.
+ * Header unit tests.
  */
 
 @RunWith(PowerMockRunner.class)

@@ -131,11 +131,7 @@ public class BitreserveClient {
      */
 
     public Reserve getReserve() {
-        Reserve reserve = new Reserve();
-
-        reserve.setBitreserveRestAdapter(this.getToken().getBitreserveRestAdapter());
-
-        return reserve;
+        return new Reserve();
     }
 
     /**

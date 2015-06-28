@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
+import java.io.Serializable;
+
 /**
  * Deposit model.
  */
 
-public class Deposit {
+public class Deposit implements Serializable {
 
     private final String type;
     private final DepositMovement out;

@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.reserve;
 
+import java.io.Serializable;
+
 /**
  * Total model.
  */
 
-public class Total {
+public class Total implements Serializable {
 
     private final String assets;
     private final String commissions;

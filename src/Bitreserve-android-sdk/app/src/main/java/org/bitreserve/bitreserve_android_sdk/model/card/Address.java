@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
+import java.io.Serializable;
+
 /**
  * Address model.
  */
 
-public class Address {
+public class Address implements Serializable {
 
     private final String id;
     private final String network;

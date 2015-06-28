@@ -1,10 +1,12 @@
 package org.bitreserve.bitreserve_android_sdk.model.card;
 
+import java.io.Serializable;
+
 /**
  * Card request model.
  */
 
-public class CardRequest {
+public class CardRequest implements Serializable {
 
     private final String label;
     private final String currency;

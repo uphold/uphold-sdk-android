@@ -58,6 +58,13 @@ public class UserTest {
                     "\"network\": \"bitcoin\"" +
                 "}" +
             "]," +
+            "\"normalized\": [" +
+                "{" +
+                    "\"available\": \"0.00\"," +
+                    "\"balance\": \"0.00\"," +
+                    "\"currency\": \"EUR\"" +
+                "}" +
+            "]," +
             "\"settings\": {" +
                 "\"position\": 7," +
                 "\"starred\": true" +
@@ -93,6 +100,10 @@ public class UserTest {
         Assert.assertEquals(cards.getId(), "foobar");
         Assert.assertEquals(cards.getLabel(), "foo");
         Assert.assertEquals(cards.getLastTransactionAt(), "2014-07-07T05:40:46.624Z");
+        Assert.assertEquals(cards.getNormalized().size(), 1);
+        Assert.assertEquals(cards.getNormalized().get(0).getAvailable(), "0.00");
+        Assert.assertEquals(cards.getNormalized().get(0).getBalance(), "0.00");
+        Assert.assertEquals(cards.getNormalized().get(0).getCurrency(), "EUR");
         Assert.assertEquals(cards.getSettings().getPosition(), Integer.valueOf(7));
         Assert.assertTrue(cards.getAddress().containsKey("bitcoin"));
         Assert.assertTrue(cards.getSettings().getStarred());

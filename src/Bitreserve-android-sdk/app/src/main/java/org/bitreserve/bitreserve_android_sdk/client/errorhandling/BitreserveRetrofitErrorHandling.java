@@ -20,6 +20,10 @@ public class BitreserveRetrofitErrorHandling implements ErrorHandler {
 
     @Override
     public Throwable handleError(RetrofitError cause) {
+        if (cause.getResponse() == null) {
+            return new RuntimeException(cause.getMessage(), cause, null);
+        }
+
         int httpStatusCode = cause.getResponse().getStatus();
         List<retrofit.client.Header> responseHeaders = cause.getResponse().getHeaders();
 

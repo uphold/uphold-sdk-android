@@ -218,6 +218,20 @@ public class CardTest {
     }
 
     @Test
+    public void getNormalizedShouldReturnTheNormalizedList() {
+        Card card = Fixtures.loadCard(new HashMap<String, String>() {{
+            put("normalizedAvailable", "1.00");
+            put("normalizedBalance", "2.00");
+            put("normalizedCurrencies", "EUR");
+        }});
+
+        Assert.assertEquals(card.getNormalized().size(), 1);
+        Assert.assertEquals(card.getNormalized().get(0).getAvailable(), "1.00");
+        Assert.assertEquals(card.getNormalized().get(0).getBalance(), "2.00");
+        Assert.assertEquals(card.getNormalized().get(0).getCurrency(), "EUR");
+    }
+
+    @Test
     public void getSettingsShouldReturnSettings() {
         Card card = Fixtures.loadCard(new HashMap<String, String>() {{
             put("settingsPosition", "1");

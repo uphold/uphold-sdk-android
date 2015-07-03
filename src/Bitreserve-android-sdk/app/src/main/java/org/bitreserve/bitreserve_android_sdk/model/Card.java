@@ -6,6 +6,7 @@ import com.darylteo.rx.promises.java.functions.PromiseFunction;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
 import org.bitreserve.bitreserve_android_sdk.model.card.Address;
+import org.bitreserve.bitreserve_android_sdk.model.card.Normalized;
 import org.bitreserve.bitreserve_android_sdk.model.card.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
 import org.bitreserve.bitreserve_android_sdk.paginator.Paginator;
@@ -32,6 +33,7 @@ public class Card extends BaseModel implements Serializable {
     private final String currency;
     private final String label;
     private final String lastTransactionAt;
+    private final List<Normalized> normalized;
     private final Settings settings;
 
     /**
@@ -45,10 +47,11 @@ public class Card extends BaseModel implements Serializable {
      * @param currency The currency of the card.
      * @param label The display name of the card as chosen by the user.
      * @param lastTransactionAt A timestamp of the last time a transaction on this card was conducted.
+     * @param normalized The list with the normalized fields.
      * @param settings The {@link Settings} of the card.
      */
 
-    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, Settings settings) {
+    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, List<Normalized> normalized, Settings settings) {
         this.id = id;
         this.address = address;
         this.addresses = addresses;
@@ -57,6 +60,7 @@ public class Card extends BaseModel implements Serializable {
         this.currency = currency;
         this.label = label;
         this.lastTransactionAt = lastTransactionAt;
+        this.normalized = normalized;
         this.settings = settings;
     }
 
@@ -155,6 +159,16 @@ public class Card extends BaseModel implements Serializable {
 
     public String getLastTransactionAt() {
         return lastTransactionAt;
+    }
+
+    /**
+     * Gets the normalized fields.
+     *
+     * @return the normalized fields
+     */
+
+    public List<Normalized> getNormalized() {
+        return normalized;
     }
 
     /**

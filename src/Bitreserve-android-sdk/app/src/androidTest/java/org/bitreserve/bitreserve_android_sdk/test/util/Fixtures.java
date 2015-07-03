@@ -6,6 +6,7 @@ import org.bitreserve.bitreserve_android_sdk.model.Card;
 import org.bitreserve.bitreserve_android_sdk.model.User;
 import org.bitreserve.bitreserve_android_sdk.model.card.Address;
 import org.bitreserve.bitreserve_android_sdk.model.Transaction;
+import org.bitreserve.bitreserve_android_sdk.model.card.Normalized;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Denomination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Destination;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.Origin;
@@ -35,16 +36,19 @@ public class Fixtures {
     public static Card loadCard(HashMap<String, String> fields) {
         final Faker faker = new Faker();
         final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
-            put("addressKeys", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
-            put("addressValues", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
             put("addressesKeys", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
             put("addressesValues", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("addressKeys", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
+            put("addressValues", String.format("%s,%s,%s", faker.lorem().fixedString(24), faker.lorem().fixedString(24), faker.lorem().fixedString(24)));
             put("available", faker.numerify("123456789"));
             put("balance", faker.numerify("123456789"));
             put("currency", faker.lorem().fixedString(3));
             put("id", faker.lorem().fixedString(20));
             put("label", faker.lorem().fixedString(20));
             put("lastTransactionAt", faker.lorem().fixedString(24));
+            put("normalizedAvailable", String.format("%s,%s,%s", faker.numerify("123456789"), faker.numerify("123456789"), faker.numerify("123456789")));
+            put("normalizedBalance", String.format("%s,%s,%s", faker.numerify("123456789"), faker.numerify("123456789"), faker.numerify("123456789")));
+            put("normalizedCurrencies", String.format("%s,%s,%s", faker.lorem().fixedString(3), faker.lorem().fixedString(3), faker.lorem().fixedString(3)));
             put("settingsPosition", "1");
             put("settingsStarred", "true");
         }};
@@ -69,8 +73,17 @@ public class Fixtures {
                 add(new Address(addressesKeys.get(position), addressesValues.get(position)));
             }
         }};
+        ArrayList<Normalized> normalized = new ArrayList<Normalized>() {{
+            ArrayList<String> normalizedAvailable = new ArrayList<>(Arrays.asList(fakerFields.get("normalizedAvailable").split(",")));
+            ArrayList<String> normalizedBalance = new ArrayList<>(Arrays.asList(fakerFields.get("normalizedBalance").split(",")));
+            ArrayList<String> normalizedCurrencies = new ArrayList<>(Arrays.asList(fakerFields.get("normalizedCurrencies").split(",")));
 
-        return new Card(fakerFields.get("id"), address, addresses, fakerFields.get("available"), fakerFields.get("balance"), fakerFields.get("currency"), fakerFields.get("label"), fakerFields.get("lastTransactionAt"), new org.bitreserve.bitreserve_android_sdk.model.card.Settings(Integer.parseInt(fakerFields.get("settingsPosition")), Boolean.valueOf(fakerFields.get("settingsStarred"))));
+            for (int position = 0; position < normalizedAvailable.size(); position++) {
+                add(new Normalized(normalizedAvailable.get(position), normalizedBalance.get(position), normalizedCurrencies.get(position)));
+            }
+        }};
+
+        return new Card(fakerFields.get("id"), address, addresses, fakerFields.get("available"), fakerFields.get("balance"), fakerFields.get("currency"), fakerFields.get("label"), fakerFields.get("lastTransactionAt"), normalized, new org.bitreserve.bitreserve_android_sdk.model.card.Settings(Integer.parseInt(fakerFields.get("settingsPosition")), Boolean.valueOf(fakerFields.get("settingsStarred"))));
     }
 
     public static ContactRequest loadContactRequest() {

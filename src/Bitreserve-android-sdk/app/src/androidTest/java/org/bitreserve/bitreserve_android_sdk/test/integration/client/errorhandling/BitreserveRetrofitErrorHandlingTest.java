@@ -57,6 +57,7 @@ public class BitreserveRetrofitErrorHandlingTest {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
+            { 0, null, null, null, RuntimeException.class.getName(), "Invalid status code: 0" },
             { 400, new ArrayList<Header>(), "reason", 400, BadRequestException.class.getName(), "400 reason" },
             { 401, new ArrayList<Header>(), "reason", 401, AuthenticationRequiredException.class.getName(), "401 reason" },
             { 404, new ArrayList<Header>(), "reason", 404, NotFoundException.class.getName(), String.format("Object or route not found: %s/v0/me", MOCK_URL) },

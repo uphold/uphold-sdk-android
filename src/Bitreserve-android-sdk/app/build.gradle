@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.bitreserve'
 
 android {
     compileSdkVersion 22
@@ -20,6 +23,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    defaultPublishConfig "productionRelease"
+    publishNonDefault true
 
     lintOptions {
         abortOnError false
@@ -44,6 +50,20 @@ android {
             buildConfigField 'String', 'API_SERVER_URL', '"https://api-sandbox.bitreserve.org"'
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://sandbox.bitreserve.org"'
             buildConfigField 'Boolean', 'IS_DEBUG_ENABLE', 'true'
+        }
+    }
+}
+
+if( android.productFlavors.size() > 0 ) {
+    android.libraryVariants.all { variant ->
+        if( android.publishNonDefault && variant.name == android.defaultPublishConfig ) {
+            def bundleTask = tasks["bundle${name.capitalize()}"]
+            artifacts {
+                archives(bundleTask.archivePath) {
+                    classifier null
+                    builtBy bundleTask
+                }
+            }
         }
     }
 }

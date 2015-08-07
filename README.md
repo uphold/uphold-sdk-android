@@ -14,8 +14,6 @@ The Bitreserve SDK for Android provides an easy way for developers to integrate 
 Using gradle:
 ```
 repositories {
-	jcenter()
-
 	// Add the jitpack maven repository url.
 	maven {
 		url "https://jitpack.io"
@@ -23,8 +21,12 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.bitreserve:bitreserve-sdk-android:1.0'
-	// Change to: compile 'com.github.bitreserve:bitreserve-sdk-android:1.0:sandboxRelease@aar' to use the sandbox environment.
+	compile 'com.github.bitreserve:bitreserve-sdk-android:0.0.1'
+	// Change to:
+	// compile ('com.github.bitreserve:bitreserve-sdk-android:0.0.1:sandboxRelease@aar') {
+	//     transitive = true
+	// }
+	// to use the sandbox environment.
 }
 ```
 
@@ -303,11 +305,11 @@ Check the sample application to explore a application using the Bitreserve Andro
 
 To build the sample application you need the [Android Studio](http://developer.android.com/sdk/installing/studio.html). Steps to build:
 
-1. Clone the repository
-2. Open Android Studio
-3. Click 'Import project...'
-4. Open the `sample/Bitreserve-android-sdk-demo` directory in the cloned repository
-5. Build and run the app from inside Android Studio
+1. Clone the repository.
+2. Open Android Studio.
+3. Click 'Import project...'.
+4. Open the `sample/Bitreserve-android-sdk-demo` directory in the cloned repository.
+5. Build and run the app from inside Android Studio.
 
 The sample application is configured to use the [sandbox environment](https://sandbox.bitreserve.org), make sure you use a sandbox account to perform the login.
 

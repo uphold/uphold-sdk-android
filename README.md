@@ -12,23 +12,21 @@ The Bitreserve SDK for Android provides an easy way for developers to integrate 
 ## Installation
 
 Using gradle:
-```
-repositories {
-	// Add the jitpack maven repository url.
-	maven {
-		url "https://jitpack.io"
-	}
-}
 
-dependencies {
-	compile 'com.github.bitreserve:bitreserve-sdk-android:0.0.1'
-	// Change to:
-	// compile ('com.github.bitreserve:bitreserve-sdk-android:0.0.1:sandboxRelease@aar') {
-	//     transitive = true
-	// }
-	// to use the sandbox environment.
-}
-```
+1. Clone this repository.
+2. Update your project settings (settings.gradle) to include the SDK directory project:
+
+	```gradle
+	include ':Bitreserve-android-sdk'
+
+	project(':Bitreserve-android-sdk').projectDir = new File('../src/Bitreserve-android-sdk/app')
+	```
+
+3. Add the SDK dependency to your project:
+
+	```gradle
+	compile project (path: ':Bitreserve-android-sdk', configuration: 'productionRelease')
+	```
 
 ## Basic usage
 

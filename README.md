@@ -1,6 +1,6 @@
 # Bitreserve SDK for Android
 
-Bitreserve is a next generation money service business that shields you from bitcoin volatility by enabling you to hold bitcoin as the money you use every day.
+Bitreserve is a next generation platform that allows anyone to transfer and exchange value for free, instantly and securely.
 
 The Bitreserve SDK for Android provides an easy way for developers to integrate Android applications with the [Bitreserve API](https://developers.bitreserve.org).
 
@@ -11,10 +11,10 @@ The Bitreserve SDK for Android provides an easy way for developers to integrate 
 
 ## Installation
 
-Using gradle:
+Using _gradle_:
 
 1. Clone this repository.
-2. Update your project settings (settings.gradle) to include the SDK directory project:
+2. Update your project settings (_settings.gradle_) to include the SDK directory project:
 
 	```gradle
 	include ':Bitreserve-android-sdk'
@@ -30,27 +30,28 @@ Using gradle:
 
 ## Basic usage
 
-In order to learn more about the Bitreserve API, please visit the [developer website](https://developer.bitreserve.org/api/v0/#authentication).
+In order to learn more about the Bitreserve API, please visit the [developer website](https://developer.bitreserve.org).
 
-To use the SDK you must first [register an application](https://bitreserve.org/dashboard/profile/applications/developer/new) and obtain a unique `client_id` and `client_secret` combination.
-From the application page in your account you can get the Client ID, Client Secret and configure the redirect URI and the Scopes.
+To use the SDK you must first register an Application and obtain a unique `client_id` and `client_secret` combination. We recommend your first app be [registered in the Sandbox environment](https://sandbox.bitreserve.org/dashboard/profile/applications/developer/new), so you can safely play around during development.
+
+From the application page in your account you can get the Client ID, Client Secret and configure the redirect URI and the desired Scopes.
 
 ### Authenticate User
 
-Before instantiating the Bitreserve client to start the OAuth authentication flow it is necessary to initialize the client.
+Before instantiating the Bitreserve client to start the OAuth authentication flow, you must first initialize it:
 
 ```java
 BitreserveClient.initialize(MainActivity.this);
 ```
 
-Now we can start the authentication process by calling the `beginAuthorization` method.
+Now we can start the authentication process by calling the `beginAuthorization` method:
 
 ```java
 BitreserveClient bitreserveClient = new BitreserveClient();
 bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, scopes, state);
 ```
 
-To receive an intent for the callback URL it is necessary to register an intent filter for one of your Android activities in order for users to be redirected to your app after the authorization process.
+To receive an intent for the callback URL it is necessary to register an intent filter for one of your Android activities in order for users to be redirected to your app after the authorization process:
 
 ```xml
 <intent-filter>
@@ -63,7 +64,7 @@ To receive an intent for the callback URL it is necessary to register an intent 
 </intent-filter>
 ```
 
-In the Android activity with the intent filter override the `onNewIntent` method to receive the redirect code.
+In the Android activity with the intent filter override the `onNewIntent` method to receive the redirect code:
 
 ```java
 @Override
@@ -86,7 +87,7 @@ protected void onNewIntent(final Intent intent) {
 }
 ```
 
-To get the current user information just instantiate the Bitreserve client with the user bearer token.
+To get the current user information, just instantiate the Bitreserve client with the user bearer token:
 
 ```java
 BitreserveClient bitreserveClient = new BitreserveClient(bearerToken);
@@ -139,7 +140,7 @@ CardRequest cardRequest = new CardRequest("label", "USD");
 user.createCard(cardRequest);
 ```
 
-Handling the success and error flow.
+Handling the success and error flow:
 
 ```java
 CardRequest cardRequest = new CardRequest("label", "USD");
@@ -255,7 +256,7 @@ bitreserveClient.getReserve().getStatistics().then(new PromiseAction<List<Reserv
 
 ### Pagination
 
-Some endpoints will return a paginator. Here is some examples on how you can handle it.
+Some endpoints will return a paginator. Here are some examples on how to handle it:
 
 ```java
 // Get public transactions paginator.
@@ -297,7 +298,7 @@ paginator.getNext().then(new PromiseAction<List<Transaction>>() {
 
 ## Bitreserve sdk sample
 
-Check the sample application to explore a application using the Bitreserve Android SDK
+Check the sample application to explore a application using the Bitreserve Android SDK.
 
 #### Building
 

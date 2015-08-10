@@ -1,4 +1,4 @@
 include ':app'
 include ':Bitreserve-android-sdk'
 
-project(':Bitreserve-android-sdk').projectDir = new File('../../src/Bitreserve-android-sdk/app')
+project(':Bitreserve-android-sdk').projectDir = new File('../../src/app')

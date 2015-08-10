@@ -16,6 +16,7 @@ import retrofit.http.Header;
 import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * User card service.
@@ -48,13 +49,14 @@ public interface UserCardService {
     /**
      * Performs a request to create a transaction for a card.
      *
+     * @param commit A boolean to indicate if it is to commit the transaction on the creation process.
      * @param cardId The id of the card.
      * @param transaction The {@link TransactionRequest} information
      * @param callback A callback to receive the request information.
      */
 
     @POST("/v0/me/cards/{cardId}/transactions")
-    void createTransaction(@Path("cardId") String cardId, @Body TransactionRequest transaction, Callback<Transaction> callback);
+    void createTransaction(@Query("commit") Boolean commit, @Path("cardId") String cardId, @Body TransactionRequest transaction, Callback<Transaction> callback);
 
     /**
      * Performs a request to get a specific user card.

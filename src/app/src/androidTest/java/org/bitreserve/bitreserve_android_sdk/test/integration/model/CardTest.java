@@ -98,7 +98,7 @@ public class CardTest {
         Transaction transaction = adapter.getResult();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=false", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(transaction.getType(), "transfer");
         Assert.assertEquals(transaction.getMessage(), "foobar");
@@ -133,6 +133,32 @@ public class CardTest {
         Assert.assertEquals(transaction.getParams().getRate(), "1.00");
         Assert.assertEquals(transaction.getParams().getTtl(), Integer.valueOf(30000));
         Assert.assertEquals(transaction.getParams().getType(), "invite");
+    }
+
+    @Test
+    public void createTransactionShouldReturnTheTransactionCommitted() throws Exception {
+        String responseString = "{ \"id\": \"foobar\" }";
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<BitreserveRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(BitreserveRestAdapter adapter) {
+                Card card = Fixtures.loadCard(new HashMap<String, String>() {{
+                    put("id", "foobar");
+                }});
+
+                card.setBitreserveRestAdapter(adapter);
+
+                return card.createTransaction(new TransactionRequest(null, "foobar"), true);
+            }
+        });
+
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=true", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(transaction.getId(), "foobar");
     }
 
     @Test

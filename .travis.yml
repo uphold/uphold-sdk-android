@@ -31,7 +31,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - cd src/Bitreserve-android-sdk
+  - cd src
   - ./gradlew clean assemble -PdisablePreDex -q
   - ./gradlew connectedAndroidTest --console=plain
   - ./gradlew test --console=plain

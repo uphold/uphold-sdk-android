@@ -76,5 +76,5 @@ public class MockSharedPreferences implements SharedPreferences {
     public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
 
     }
-    
+
 }

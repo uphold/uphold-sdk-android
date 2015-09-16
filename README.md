@@ -202,6 +202,11 @@ card.createTransaction(transactionRequest).then(new PromiseAction<Transaction>()
     }
 });
 ```
+If you want to commit the transaction on the creation process, call the `createTransaction` method with the second parameter set to `true`.
+
+```java
+card.createTransaction(transactionRequest, true);
+```
 
 ### Get all public transactions
 

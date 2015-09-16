@@ -73,10 +73,23 @@ public class Card extends BaseModel implements Serializable {
      */
 
     public Promise<Transaction> createTransaction(TransactionRequest transactionRequest) {
+        return createTransaction(transactionRequest, false);
+    }
+
+    /**
+     * Creates a transaction.
+     *
+     * @param commit A boolean to indicate if it is to commit the transaction on the creation process.
+     * @param transactionRequest The {@link Transaction} with the transaction request information.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> createTransaction(TransactionRequest transactionRequest, Boolean commit) {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getBitreserveRestAdapter().create(UserCardService.class);
 
-        userCardService.createTransaction(this.getId(), transactionRequest, promise);
+        userCardService.createTransaction(commit, this.getId(), transactionRequest, promise);
 
         return promise;
     }

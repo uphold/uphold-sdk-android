@@ -91,7 +91,7 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.createTransaction("foobar", new TransactionRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), promise);
+                userCardService.createTransaction(false, "foobar", new TransactionRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), promise);
 
                 return promise;
             }
@@ -100,7 +100,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getMethod(), "POST");
-        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=false", BuildConfig.API_SERVER_URL));
     }
 
     @Test

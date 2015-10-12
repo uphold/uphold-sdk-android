@@ -28,7 +28,7 @@ public class TransactionTest {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
         Destination destination = new Destination("foobar", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
         List<Source> sources = new ArrayList<>();
-        Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", 1, "foo", "bar");
+        Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Source source = new Source("FUZBUZ", "FIZBIZ");
         Origin origin = new Origin("foo", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
         Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, "fuzbuz", origin, parameters, "fizbiz", "foobuz", "foo");
@@ -49,9 +49,9 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getCommission(), deserializedTransaction.getDestination().getCommission() );
         Assert.assertEquals(transaction.getDestination().getCurrency(), deserializedTransaction.getDestination().getCurrency() );
         Assert.assertEquals(transaction.getDestination().getDescription(), deserializedTransaction.getDestination().getDescription() );
-        Assert.assertEquals(transaction.getDestination().getFee(), deserializedTransaction.getDestination().getFee() );
-        Assert.assertEquals(transaction.getDestination().getRate(), deserializedTransaction.getDestination().getRate() );
-        Assert.assertEquals(transaction.getDestination().getType(), deserializedTransaction.getDestination().getType() );
+        Assert.assertEquals(transaction.getDestination().getFee(), deserializedTransaction.getDestination().getFee());
+        Assert.assertEquals(transaction.getDestination().getRate(), deserializedTransaction.getDestination().getRate());
+        Assert.assertEquals(transaction.getDestination().getType(), deserializedTransaction.getDestination().getType());
         Assert.assertEquals(transaction.getDestination().getUsername(), deserializedTransaction.getDestination().getUsername());
         Assert.assertEquals(transaction.getId(), deserializedTransaction.getId());
         Assert.assertEquals(transaction.getMessage(), deserializedTransaction.getMessage());
@@ -73,6 +73,7 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getParams().getPair(), deserializedTransaction.getParams().getPair());
         Assert.assertEquals(transaction.getParams().getProgress(), deserializedTransaction.getParams().getProgress());
         Assert.assertEquals(transaction.getParams().getRate(), deserializedTransaction.getParams().getRate());
+        Assert.assertEquals(transaction.getParams().getRefunds(), deserializedTransaction.getParams().getRefunds());
         Assert.assertEquals(transaction.getParams().getTtl(), deserializedTransaction.getParams().getTtl());
         Assert.assertEquals(transaction.getParams().getTxid(), deserializedTransaction.getParams().getTxid());
         Assert.assertEquals(transaction.getParams().getType(), deserializedTransaction.getParams().getType());

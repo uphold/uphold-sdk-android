@@ -353,6 +353,7 @@ public class TransactionTest {
             put("parametersPair", "fuz");
             put("parametersProgress", "fiz");
             put("parametersRate", "bar");
+            put("parametersRefunds", "biz");
             put("parametersTtl", "1");
             put("parametersTxid", "foobuz");
             put("parametersType", "buz");
@@ -363,6 +364,7 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getParams().getPair(), "fuz");
         Assert.assertEquals(transaction.getParams().getProgress(), "fiz");
         Assert.assertEquals(transaction.getParams().getRate(), "bar");
+        Assert.assertEquals(transaction.getParams().getRefunds(), "biz");
         Assert.assertEquals(transaction.getParams().getTtl(), Integer.valueOf(1));
         Assert.assertEquals(transaction.getParams().getTxid(), "foobuz");
         Assert.assertEquals(transaction.getParams().getType(), "buz");

@@ -4,7 +4,6 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.bitreserve.bitreserve_android_sdk.model.Card;
-import org.bitreserve.bitreserve_android_sdk.model.card.Address;
 import org.bitreserve.bitreserve_android_sdk.model.card.Normalized;
 import org.bitreserve.bitreserve_android_sdk.model.card.Settings;
 import org.junit.Test;
@@ -25,24 +24,19 @@ public class CardTest {
     @Test
     public void shouldBeSerializable() {
         HashMap<String, String> addressMap = new HashMap<>();
-        List<Address> addressesList = new ArrayList<>();
         List<Normalized> normalizedList = new ArrayList<>();
 
         addressMap.put("FOO", "BAR");
-        addressesList.add(new Address("FOO", "BAR"));
         normalizedList.add(new Normalized("foo", "bar", "foobar"));
 
         Settings settings = new Settings(1, true);
-        Card card = new Card("foobar", addressMap, addressesList, "foo", "bar", "foobar", "foobuz", "fiz", normalizedList, settings);
+        Card card = new Card("foobar", addressMap, "foo", "bar", "foobar", "foobuz", "fiz", normalizedList, settings);
 
         byte[] serializedCard = SerializationUtils.serialize(card);
         Card deserializedCard = SerializationUtils.deserialize(serializedCard);
 
         Assert.assertEquals(card.getAddress().size(), deserializedCard.getAddress().size());
         Assert.assertEquals(card.getAddress().get("FOO"), deserializedCard.getAddress().get("FOO"));
-        Assert.assertEquals(card.getAddresses().size(), deserializedCard.getAddresses().size());
-        Assert.assertEquals(card.getAddresses().get(0).getId(), deserializedCard.getAddresses().get(0).getId());
-        Assert.assertEquals(card.getAddresses().get(0).getNetwork(), deserializedCard.getAddresses().get(0).getNetwork());
         Assert.assertEquals(card.getAvailable(), deserializedCard.getAvailable());
         Assert.assertEquals(card.getBalance(), deserializedCard.getBalance());
         Assert.assertEquals(card.getCurrency(), deserializedCard.getCurrency());

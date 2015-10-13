@@ -49,15 +49,6 @@ public class UserTest {
             "\"balance\": \"0.00\"," +
             "\"available\": \"0.00\"," +
             "\"lastTransactionAt\": \"2014-07-07T05:40:46.624Z\"," +
-            "\"addresses\": [" +
-                "{" +
-                    "\"id\": \"foobuz\"," +
-                    "\"network\": \"bitcoin\"" +
-                "}, {" +
-                    "\"id\": \"foobaz\"," +
-                    "\"network\": \"bitcoin\"" +
-                "}" +
-            "]," +
             "\"normalized\": [" +
                 "{" +
                     "\"available\": \"0.00\"," +
@@ -89,11 +80,6 @@ public class UserTest {
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(cards.getAddress().get("bitcoin"), "foobiz");
-        Assert.assertEquals(cards.getAddresses().size(), 2);
-        Assert.assertEquals(cards.getAddresses().get(0).getId(), "foobuz");
-        Assert.assertEquals(cards.getAddresses().get(0).getNetwork(), "bitcoin");
-        Assert.assertEquals(cards.getAddresses().get(1).getId(), "foobaz");
-        Assert.assertEquals(cards.getAddresses().get(1).getNetwork(), "bitcoin");
         Assert.assertEquals(cards.getAvailable(), "0.00");
         Assert.assertEquals(cards.getBalance(), "0.00");
         Assert.assertEquals(cards.getCurrency(), "BAR");

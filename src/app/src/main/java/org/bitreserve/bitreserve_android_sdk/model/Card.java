@@ -5,7 +5,6 @@ import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import org.bitreserve.bitreserve_android_sdk.client.retrofitpromise.RetrofitPromise;
-import org.bitreserve.bitreserve_android_sdk.model.card.Address;
 import org.bitreserve.bitreserve_android_sdk.model.card.Normalized;
 import org.bitreserve.bitreserve_android_sdk.model.card.Settings;
 import org.bitreserve.bitreserve_android_sdk.model.transaction.TransactionRequest;
@@ -27,7 +26,6 @@ public class Card extends BaseModel implements Serializable {
 
     private final String id;
     private final Map<String, String> address;
-    private final List<Address> addresses;
     private final String available;
     private final String balance;
     private final String currency;
@@ -41,7 +39,6 @@ public class Card extends BaseModel implements Serializable {
      *
      * @param id The id of the card.
      * @param address The address of the card.
-     * @param addresses The list of address for the card
      * @param available The balance available for withdrawal/usage.
      * @param balance The total balance of the card, including all pending transactions.
      * @param currency The currency of the card.
@@ -51,10 +48,9 @@ public class Card extends BaseModel implements Serializable {
      * @param settings The {@link Settings} of the card.
      */
 
-    public Card(String id, Map<String, String> address, List<Address> addresses, String available, String balance, String currency, String label, String lastTransactionAt, List<Normalized> normalized, Settings settings) {
+    public Card(String id, Map<String, String> address, String available, String balance, String currency, String label, String lastTransactionAt, List<Normalized> normalized, Settings settings) {
         this.id = id;
         this.address = address;
-        this.addresses = addresses;
         this.available = available;
         this.balance = balance;
         this.currency = currency;
@@ -112,16 +108,6 @@ public class Card extends BaseModel implements Serializable {
 
     public Map<String, String> getAddress() {
         return address;
-    }
-
-    /**
-     * Gets the list of addresses for the card.
-     *
-     * @return the list of {@link Address} for the card
-     */
-
-    public List<Address> getAddresses() {
-        return addresses;
     }
 
     /**

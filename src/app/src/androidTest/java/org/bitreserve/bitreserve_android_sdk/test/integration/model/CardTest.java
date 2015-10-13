@@ -187,20 +187,6 @@ public class CardTest {
     }
 
     @Test
-    public void getAddressesShouldReturnAddresses() {
-        Card card = Fixtures.loadCard(new HashMap<String, String>() {{
-            put("addressesKeys", "foobar,foobiz");
-            put("addressesValues", "foo,bar");
-        }});
-
-        Assert.assertEquals(card.getAddresses().size(), 2);
-        Assert.assertEquals(card.getAddresses().get(0).getId(), "foobar");
-        Assert.assertEquals(card.getAddresses().get(0).getNetwork(), "foo");
-        Assert.assertEquals(card.getAddresses().get(1).getId(), "foobiz");
-        Assert.assertEquals(card.getAddresses().get(1).getNetwork(), "bar");
-    }
-
-    @Test
     public void getAvailableShouldReturnAvailable() {
         Card card = Fixtures.loadCard(new HashMap<String, String>() {{
             put("available", "bar");

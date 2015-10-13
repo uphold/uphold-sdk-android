@@ -75,6 +75,7 @@ public class CardTest {
               "\"margin\": \"0.00\"," +
               "\"pair\": \"BTCBTC\"," +
               "\"rate\": \"1.00\"," +
+              "\"refunds\": \"fizbiz\"," +
               "\"ttl\": 30000," +
               "\"type\": \"invite\"" +
             "}" +
@@ -131,6 +132,7 @@ public class CardTest {
         Assert.assertEquals(transaction.getParams().getMargin(), "0.00");
         Assert.assertEquals(transaction.getParams().getPair(), "BTCBTC");
         Assert.assertEquals(transaction.getParams().getRate(), "1.00");
+        Assert.assertEquals(transaction.getParams().getRefunds(), "fizbiz");
         Assert.assertEquals(transaction.getParams().getTtl(), Integer.valueOf(30000));
         Assert.assertEquals(transaction.getParams().getType(), "invite");
     }

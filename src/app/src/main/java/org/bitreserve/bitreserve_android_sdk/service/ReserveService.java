@@ -30,6 +30,7 @@ public interface ReserveService {
     /**
      * Performs a request to get a reserve transaction.
      *
+     * @param transactionId The id of the transaction.
      * @param callback A callback to receive the request information.
      */
 

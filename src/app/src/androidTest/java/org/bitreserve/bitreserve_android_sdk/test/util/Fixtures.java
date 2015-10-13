@@ -148,6 +148,7 @@ public class Fixtures {
             put("parametersPair", faker.lorem().fixedString(6));
             put("parametersProgress", faker.numerify("123456789"));
             put("parametersRate", faker.numerify("123456789"));
+            put("transactionRefunds", faker.lorem().fixedString(24));
             put("parametersTtl", faker.numerify("123456789"));
             put("parametersTxid", faker.numerify("123456789"));
             put("parametersType", faker.lorem().fixedString(10));
@@ -174,7 +175,7 @@ public class Fixtures {
             }
         }};
         Origin origin = new Origin(fakerFields.get("originCardId"), fakerFields.get("originAmount"), fakerFields.get("originBase"), fakerFields.get("originCommission"), fakerFields.get("originCurrency"), fakerFields.get("originDescription"), fakerFields.get("originFee"), fakerFields.get("originRate"), sources, fakerFields.get("originType"), fakerFields.get("originUsername"));
-        Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
+        Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
         return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fakerFields.get("transactionMessage"), origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
     }

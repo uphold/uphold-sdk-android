@@ -13,6 +13,7 @@ public class Parameters implements Serializable {
     private final String pair;
     private final String progress;
     private final String rate;
+    private final String refunds;
     private final Integer ttl;
     private final String txid;
     private final String type;
@@ -25,17 +26,19 @@ public class Parameters implements Serializable {
      * @param pair The transaction pair.
      * @param progress The transaction progress.
      * @param rate The transaction rate.
+     * @param refunds The transaction refunds information.
      * @param ttl The transaction ttl.
      * @param txid The transaction txid.
      * @param type The transaction type.
      */
 
-    public Parameters(String currency, String margin, String pair, String progress, String rate, Integer ttl, String txid, String type) {
+    public Parameters(String currency, String margin, String pair, String progress, String rate, String refunds, Integer ttl, String txid, String type) {
         this.currency = currency;
         this.margin = margin;
         this.pair = pair;
         this.progress = progress;
         this.rate = rate;
+        this.refunds = refunds;
         this.ttl = ttl;
         this.txid = txid;
         this.type = type;
@@ -89,6 +92,16 @@ public class Parameters implements Serializable {
 
     public String getRate() {
         return rate;
+    }
+
+    /**
+     * Gets the refunds of a transaction.
+     *
+     * @return the refunds of a transaction.
+     */
+
+    public String getRefunds() {
+        return refunds;
     }
 
     /**

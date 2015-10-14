@@ -22,7 +22,9 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.uphold:uphold-sdk-android:0.0.2'
+	compile ('com.github.uphold:uphold-sdk-android:0.0.2@aar') {
+	    transitive = true
+	}
 	// Change to:
 	// compile ('com.github.uphold:uphold-sdk-android:0.0.2:sandboxRelease@aar') {
 	//     transitive = true

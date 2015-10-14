@@ -1,0 +1,4 @@
+include ':app'
+include ':Uphold-android-sdk'
+
+project(':Uphold-android-sdk').projectDir = new File('../../src/app')

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Uphold Android SDK Demo</string>
+    <string name="com.uphold.login_activity.text.welcome">Uphold Android SDK Demo</string>
+    <string name="com.uphold.login_activity.button.login">Login</string>
+    <string name="com.uphold.user_activity.toast.getting_information">getting user information</string>
+    <string name="com.uphold.user_activity.welcome_message">Hello %1$s</string>
+    <string name="com.uphold.user_activity.cards_message">%1$s you have %2$s cards.</string>
+</resources>

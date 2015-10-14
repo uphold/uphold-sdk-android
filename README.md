@@ -1,8 +1,8 @@
-# Bitreserve SDK for Android
+# Uphold SDK for Android
 
-Bitreserve is a next generation platform that allows anyone to transfer and exchange value for free, instantly and securely.
+Uphold is a next generation platform that allows anyone to transfer and exchange value for free, instantly and securely.
 
-The Bitreserve SDK for Android provides an easy way for developers to integrate Android applications with the [Bitreserve API](https://developers.bitreserve.org).
+The Uphold SDK for Android provides an easy way for developers to integrate Android applications with the [Uphold API](https://uphold.com/en/developer).
 
 ## Requirements
 
@@ -22,9 +22,9 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.bitreserve:bitreserve-sdk-android:0.0.1'
+	compile 'com.github.uphold:uphold-sdk-android:0.0.2'
 	// Change to:
-	// compile ('com.github.bitreserve:bitreserve-sdk-android:0.0.1:sandboxRelease@aar') {
+	// compile ('com.github.uphold:uphold-sdk-android:0.0.2:sandboxRelease@aar') {
 	//     transitive = true
 	// }
 	// to use the sandbox environment.
@@ -33,25 +33,25 @@ dependencies {
 
 ## Basic usage
 
-In order to learn more about the Bitreserve API, please visit the [developer website](https://developer.bitreserve.org).
+In order to learn more about the Uphold API, please visit the [developer website](https://uphold.com/en/developer).
 
-To use the SDK you must first register an Application and obtain a unique `client_id` and `client_secret` combination. We recommend your first app be [registered in the Sandbox environment](https://sandbox.bitreserve.org/dashboard/profile/applications/developer/new), so you can safely play around during development.
+To use the SDK you must first register an Application and obtain a unique `client_id` and `client_secret` combination. We recommend your first app be [registered in the Sandbox environment](https://sandbox.uphold.com/dashboard/profile/applications/developer/new), so you can safely play around during development.
 
 From the application page in your account you can get the Client ID, Client Secret and configure the redirect URI and the desired Scopes.
 
 ### Authenticate User
 
-Before instantiating the Bitreserve client to start the OAuth authentication flow, you must first initialize it:
+Before instantiating the Uphold client to start the OAuth authentication flow, you must first initialize it:
 
 ```java
-BitreserveClient.initialize(MainActivity.this);
+UpholdClient.initialize(MainActivity.this);
 ```
 
 Now we can start the authentication process by calling the `beginAuthorization` method:
 
 ```java
-BitreserveClient bitreserveClient = new BitreserveClient();
-bitreserveClient.beginAuthorization(MainActivity.this, CLIENT_ID, scopes, state);
+UpholdClient upholdClient = new UpholdClient();
+upholdClient.beginAuthorization(MainActivity.this, CLIENT_ID, scopes, state);
 ```
 
 To receive an intent for the callback URL it is necessary to register an intent filter for one of your Android activities in order for users to be redirected to your app after the authorization process:
@@ -62,8 +62,8 @@ To receive an intent for the callback URL it is necessary to register an intent 
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
     <data
-        android:pathPrefix="/connect/bitreserve"
-        android:scheme="bitreserve-demo" />
+        android:pathPrefix="/connect/uphold"
+        android:scheme="uphold-demo" />
 </intent-filter>
 ```
 
@@ -76,7 +76,7 @@ protected void onNewIntent(final Intent intent) {
 	    return;
 	}
 
-	bitreserveClient.completeAuthorization(intent.getData(), CLIENT_ID, CLIENT_SECRET, "authorization_code", state).then(new PromiseAction<AuthenticationResponse>() {
+	upholdClient.completeAuthorization(intent.getData(), CLIENT_ID, CLIENT_SECRET, "authorization_code", state).then(new PromiseAction<AuthenticationResponse>() {
         @Override
         public void call(AuthenticationResponse authenticationResponse) {
             // Get the user bearer token from the authenticationResponse.
@@ -90,11 +90,11 @@ protected void onNewIntent(final Intent intent) {
 }
 ```
 
-To get the current user information, just instantiate the Bitreserve client with the user bearer token:
+To get the current user information, just instantiate the Uphold client with the user bearer token:
 
 ```java
-BitreserveClient bitreserveClient = new BitreserveClient(bearerToken);
-bitreserveClient.getUser().then(new PromiseAction<User>() {
+UpholdClient upholdClient = new UpholdClient(bearerToken);
+upholdClient.getUser().then(new PromiseAction<User>() {
     @Override
     public void call(User user) {
         // The user information is available at the user object.
@@ -105,8 +105,8 @@ bitreserveClient.getUser().then(new PromiseAction<User>() {
 ### Get user cards with chaining
 
 ```java
-BitreserveClient bitreserveClient = new BitreserveClient(bearerToken);
-bitreserveClient.getUser().then(new RepromiseFunction<User, List<Card>>() {
+UpholdClient upholdClient = new UpholdClient(bearerToken);
+upholdClient.getUser().then(new RepromiseFunction<User, List<Card>>() {
     @Override
     public Promise<List<Card>> call(User user) {
         // Do something with the user.
@@ -165,10 +165,10 @@ user.createCard(cardRequest).then(new PromiseAction<Card>() {
 ```java
 // Instantiate the client. In this case, we don't need an
 // AUTHORIZATION_TOKEN because the Ticker endpoint is public.
-BitreserveClient bitreserveClient = new BitreserveClient();
+UpholdClient upholdClient = new UpholdClient();
 
 // Get tickers.
-bitreserveClient.getTicker().then(new PromiseAction<List<Rate>>() {
+upholdClient.getTicker().then(new PromiseAction<List<Rate>>() {
     @Override
     public void call(List<Rate> rates) {
         // Do something with the rates list.
@@ -180,7 +180,7 @@ Or you could get a ticker for a specific currency:
 
 ```java
 // Get tickers for BTC.
-bitreserveClient.getTickersByCurrency("BTC").then(new PromiseAction<List<Rate>>() {
+upholdClient.getTickersByCurrency("BTC").then(new PromiseAction<List<Rate>>() {
     @Override
     public void call(List<Rate> rates) {
         // Do something with the rates list.
@@ -213,9 +213,9 @@ card.createTransaction(transactionRequest, true);
 ```java
 // Instantiate the client. In this case, we don't need an
 // AUTHORIZATION_TOKEN because the Ticker endpoint is public.
-BitreserveClient bitreserveClient = new BitreserveClient();
+UpholdClient upholdClient = new UpholdClient();
 
-Paginator<Transaction> paginator = bitreserveClient.getReserve().getTransactions();
+Paginator<Transaction> paginator = upholdClient.getReserve().getTransactions();
 
 // Get the list of transactions.
 paginator.getElements().then(new PromiseAction<List<Transaction>>() {
@@ -238,7 +238,7 @@ Or you could get a specific public transaction:
 
 ```java
 // Get one public transaction.
-bitreserveClient.getReserve().getTransactionById("a97bb994-6e24-4a89-b653-e0a6d0bcf634").then(new PromiseAction<Transaction>() {
+upholdClient.getReserve().getTransactionById("a97bb994-6e24-4a89-b653-e0a6d0bcf634").then(new PromiseAction<Transaction>() {
     @Override
     public void call(Transaction transaction) {
         // Do something with the transaction.
@@ -251,10 +251,10 @@ bitreserveClient.getReserve().getTransactionById("a97bb994-6e24-4a89-b653-e0a6d0
 ```java
 // Instantiate the client. In this case, we don't need an
 // AUTHORIZATION_TOKEN because the Ticker endpoint is public.
-BitreserveClient bitreserveClient = new BitreserveClient();
+UpholdClient upholdClient = new UpholdClient();
 
 // Get the reserve summary of all the obligations and assets within it.
-bitreserveClient.getReserve().getStatistics().then(new PromiseAction<List<ReserveStatistics>>() {
+upholdClient.getReserve().getStatistics().then(new PromiseAction<List<ReserveStatistics>>() {
     @Override
     public void call(List<ReserveStatistics> reserveStatisticses) {
         // Do something with the reserve statistics.
@@ -268,7 +268,7 @@ Some endpoints will return a paginator. Here are some examples on how to handle 
 
 ```java
 // Get public transactions paginator.
-Paginator<Transaction> paginator = bitreserveClient.getReserve().getTransactions();
+Paginator<Transaction> paginator = upholdClient.getReserve().getTransactions();
 
 // Get the first page of transactions.
 paginator.getElements().then(new PromiseAction<List<Transaction>>() {
@@ -304,9 +304,9 @@ paginator.getNext().then(new PromiseAction<List<Transaction>>() {
 
 ```
 
-## Bitreserve SDK sample
+## Uphold SDK sample
 
-Check the sample application to explore a application using the Bitreserve Android SDK.
+Check the sample application to explore a application using the Uphold Android SDK.
 
 #### Building
 
@@ -315,22 +315,22 @@ To build the sample application you need the [Android Studio](http://developer.a
 1. Clone the repository.
 2. Open Android Studio.
 3. Click 'Import project...'.
-4. Open the `sample/Bitreserve-android-sdk-demo` directory in the cloned repository.
+4. Open the `sample/Uphold-android-sdk-demo` directory in the cloned repository.
 5. Build and run the app from inside Android Studio.
 
-The sample application is configured to use the [sandbox environment](https://sandbox.bitreserve.org), make sure you use a sandbox account to perform the login.
+The sample application is configured to use the [sandbox environment](https://sandbox.uphold.com), make sure you use a sandbox account to perform the login.
 
 ## Contributing & Development
 
 #### Contributing
 
-Have you found a bug or want to suggest something? Please search the [issues](https://github.com/bitreserve/bitreserve-sdk-android/issues) first and, if it is new, go ahead and [submit it](https://github.com/bitreserve/bitreserve-sdk-android/issues/new).
+Have you found a bug or want to suggest something? Please search the [issues](https://github.com/uphold/uphold-sdk-android/issues) first and, if it is new, go ahead and [submit it](https://github.com/uphold/uphold-sdk-android/issues/new).
 
 #### Develop
 
-It will be awesome if you can help us evolve `bitreserve-sdk-android`. Want to help?
+It will be awesome if you can help us evolve `uphold-sdk-android`. Want to help?
 
-1. [Fork it](https://github.com/bitreserve/bitreserve-sdk-android).
+1. [Fork it](https://github.com/uphold/uphold-sdk-android).
 2. Hack away.
 3. Run the tests.
-5. Create a [Pull Request](https://github.com/bitreserve/bitreserve-sdk-android/compare).
+5. Create a [Pull Request](https://github.com/uphold/uphold-sdk-android/compare).

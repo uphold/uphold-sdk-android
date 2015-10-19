@@ -9,7 +9,9 @@ import java.util.List;
 
 public class Origin implements Serializable {
 
+    private final String AccountId;
     private final String CardId;
+    private final String accountType;
     private final String amount;
     private final String base;
     private final String commission;
@@ -24,7 +26,9 @@ public class Origin implements Serializable {
     /**
      * Constructor.
      *
+     * @param AccountId The id of the account from the origin of the transaction.
      * @param cardId The card id of the card from the origin of the transaction.
+     * @param accountType The type of the account from the origin of the transaction.
      * @param amount The amount from the origin of the transaction.
      * @param base The base from the origin of the transaction.
      * @param commission The commission from the origin of the transaction.
@@ -37,8 +41,10 @@ public class Origin implements Serializable {
      * @param username The username from the origin of the transaction.
      */
 
-    public Origin(String cardId, String amount, String base, String commission, String currency, String description, String fee, String rate, List<Source> sources, String type, String username) {
+    public Origin(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, String rate, List<Source> sources, String type, String username) {
+        this.AccountId = AccountId;
         this.CardId = cardId;
+        this.accountType = accountType;
         this.amount = amount;
         this.base = base;
         this.commission = commission;
@@ -52,6 +58,16 @@ public class Origin implements Serializable {
     }
 
     /**
+     * Gets the id of the account from the origin of the transaction.
+     *
+     * @return the id of the account from the origin of the transaction.
+     */
+
+    public String getAccountId() {
+        return AccountId;
+    }
+
+    /**
      * Gets the card id of the card from the origin of the transaction.
      *
      * @return the id of the card from the origin of the transaction.
@@ -59,6 +75,16 @@ public class Origin implements Serializable {
 
     public String getCardId() {
         return CardId;
+    }
+
+    /**
+     * Gets the type of the account from the origin of the transaction
+     *
+     * @return the type of the account.
+     */
+
+    public String getAccountType() {
+        return accountType;
     }
 
     /**

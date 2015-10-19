@@ -110,6 +110,8 @@ public class Fixtures {
             put("denominationCurrency", faker.lorem().fixedString(3));
             put("denominationPair", faker.lorem().fixedString(6));
             put("denominationRate", faker.numerify("123456789"));
+            put("destinationAccountId", faker.numerify("123456789"));
+            put("destinationAccountType", faker.lorem().fixedString(7));
             put("destinationAmount", faker.numerify("123456789"));
             put("destinationBase", faker.numerify("123456789"));
             put("destinationCardId", faker.lorem().fixedString(24));
@@ -120,6 +122,8 @@ public class Fixtures {
             put("destinationRate", faker.lorem().fixedString(3));
             put("destinationType", faker.lorem().fixedString(6));
             put("destinationUsername", faker.lorem().fixedString(10));
+            put("originAccountId", faker.numerify("123456789"));
+            put("originAccountType", faker.lorem().fixedString(7));
             put("originAmount", faker.numerify("123456789"));
             put("originBase", faker.numerify("123456789"));
             put("originCardId", faker.lorem().fixedString(24));
@@ -154,7 +158,7 @@ public class Fixtures {
         }
 
         Denomination denomination = new Denomination(fakerFields.get("denominationAmount"), fakerFields.get("denominationCurrency"), fakerFields.get("denominationPair"), fakerFields.get("denominationRate"));
-        Destination destination = new Destination(fakerFields.get("destinationCardId"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"), fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), fakerFields.get("destinationRate"), fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
+        Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"), fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), fakerFields.get("destinationRate"), fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
         ArrayList<Source> sources = new ArrayList<Source>() {{
             ArrayList<String> ids = new ArrayList<>(Arrays.asList(fakerFields.get("originSourcesId").split(",")));
             ArrayList<String> amount = new ArrayList<>(Arrays.asList(fakerFields.get("originSourcesAmount").split(",")));
@@ -163,7 +167,7 @@ public class Fixtures {
                 add(new Source(ids.get(counter), amount.get(counter)));
             }
         }};
-        Origin origin = new Origin(fakerFields.get("originCardId"), fakerFields.get("originAmount"), fakerFields.get("originBase"), fakerFields.get("originCommission"), fakerFields.get("originCurrency"), fakerFields.get("originDescription"), fakerFields.get("originFee"), fakerFields.get("originRate"), sources, fakerFields.get("originType"), fakerFields.get("originUsername"));
+        Origin origin = new Origin(fakerFields.get("originAccountId"), fakerFields.get("originCardId"), fakerFields.get("originAccountType"), fakerFields.get("originAmount"), fakerFields.get("originBase"), fakerFields.get("originCommission"), fakerFields.get("originCurrency"), fakerFields.get("originDescription"), fakerFields.get("originFee"), fakerFields.get("originRate"), sources, fakerFields.get("originType"), fakerFields.get("originUsername"));
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
         return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fakerFields.get("transactionMessage"), origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));

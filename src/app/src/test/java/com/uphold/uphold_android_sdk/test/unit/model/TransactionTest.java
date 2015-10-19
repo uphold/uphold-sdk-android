@@ -26,11 +26,11 @@ public class TransactionTest {
     @Test
     public void shouldBeSerializable() {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
-        Destination destination = new Destination("foobar", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
+        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
         List<Source> sources = new ArrayList<>();
         Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Source source = new Source("FUZBUZ", "FIZBIZ");
-        Origin origin = new Origin("foo", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
+        Origin origin = new Origin("biz", "foo", "fiz", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
         Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, "fuzbuz", origin, parameters, "fizbiz", "foobuz", "foo");
 
         sources.add(source);
@@ -43,18 +43,22 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDenomination().getCurrency(), deserializedTransaction.getDenomination().getCurrency());
         Assert.assertEquals(transaction.getDenomination().getPair(), deserializedTransaction.getDenomination().getPair());
         Assert.assertEquals(transaction.getDenomination().getRate(), deserializedTransaction.getDenomination().getRate());
-        Assert.assertEquals(transaction.getDestination().getAmount(), deserializedTransaction.getDestination().getAmount() );
+        Assert.assertEquals(transaction.getDestination().getAccountId(), deserializedTransaction.getDestination().getAccountId());
+        Assert.assertEquals(transaction.getDestination().getAccountType(), deserializedTransaction.getDestination().getAccountType());
+        Assert.assertEquals(transaction.getDestination().getAmount(), deserializedTransaction.getDestination().getAmount());
         Assert.assertEquals(transaction.getDestination().getBase(), deserializedTransaction.getDestination().getBase() );
-        Assert.assertEquals(transaction.getDestination().getCardId(), deserializedTransaction.getDestination().getCardId() );
-        Assert.assertEquals(transaction.getDestination().getCommission(), deserializedTransaction.getDestination().getCommission() );
+        Assert.assertEquals(transaction.getDestination().getCardId(), deserializedTransaction.getDestination().getCardId());
+        Assert.assertEquals(transaction.getDestination().getCommission(), deserializedTransaction.getDestination().getCommission());
         Assert.assertEquals(transaction.getDestination().getCurrency(), deserializedTransaction.getDestination().getCurrency() );
-        Assert.assertEquals(transaction.getDestination().getDescription(), deserializedTransaction.getDestination().getDescription() );
+        Assert.assertEquals(transaction.getDestination().getDescription(), deserializedTransaction.getDestination().getDescription());
         Assert.assertEquals(transaction.getDestination().getFee(), deserializedTransaction.getDestination().getFee());
         Assert.assertEquals(transaction.getDestination().getRate(), deserializedTransaction.getDestination().getRate());
         Assert.assertEquals(transaction.getDestination().getType(), deserializedTransaction.getDestination().getType());
         Assert.assertEquals(transaction.getDestination().getUsername(), deserializedTransaction.getDestination().getUsername());
         Assert.assertEquals(transaction.getId(), deserializedTransaction.getId());
         Assert.assertEquals(transaction.getMessage(), deserializedTransaction.getMessage());
+        Assert.assertEquals(transaction.getOrigin().getAccountId(), deserializedTransaction.getOrigin().getAccountId());
+        Assert.assertEquals(transaction.getOrigin().getAccountType(), deserializedTransaction.getOrigin().getAccountType());
         Assert.assertEquals(transaction.getOrigin().getAmount(), deserializedTransaction.getOrigin().getAmount());
         Assert.assertEquals(transaction.getOrigin().getBase(), deserializedTransaction.getOrigin().getBase());
         Assert.assertEquals(transaction.getOrigin().getCardId(), deserializedTransaction.getOrigin().getCardId());

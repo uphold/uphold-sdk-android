@@ -49,7 +49,9 @@ public class CardTest {
               "\"rate\": \"1.00\"" +
             "}," +
             "\"origin\": {" +
+              "\"AccountId\": \"fiz\"," +
               "\"CardId\": \"bar\"," +
+              "\"accountType\": \"biz\"," +
               "\"amount\": \"0.1\"," +
               "\"base\": \"0.1\"," +
               "\"commission\": \"0.00\"," +
@@ -61,6 +63,8 @@ public class CardTest {
               "\"username\": \"foobar\"" +
             "}," +
             "\"destination\": {" +
+              "\"AccountId\": \"fuz\"," +
+              "\"accountType\": \"buz\"," +
               "\"amount\": \"0.1\"," +
               "\"base\": \"0.1\"," +
               "\"commission\": \"0.00\"," +
@@ -110,7 +114,9 @@ public class CardTest {
         Assert.assertEquals(transaction.getDenomination().getCurrency(), "BTC");
         Assert.assertEquals(transaction.getDenomination().getPair(), "BTCBTC");
         Assert.assertEquals(transaction.getDenomination().getRate(), "1.00");
+        Assert.assertEquals(transaction.getOrigin().getAccountId(), "fiz");
         Assert.assertEquals(transaction.getOrigin().getCardId(), "bar");
+        Assert.assertEquals(transaction.getOrigin().getAccountType(), "biz");
         Assert.assertEquals(transaction.getOrigin().getAmount(), "0.1");
         Assert.assertEquals(transaction.getOrigin().getBase(), "0.1");
         Assert.assertEquals(transaction.getOrigin().getCommission(), "0.00");
@@ -120,6 +126,8 @@ public class CardTest {
         Assert.assertEquals(transaction.getOrigin().getRate(), "1.00");
         Assert.assertEquals(transaction.getOrigin().getType(), "card");
         Assert.assertEquals(transaction.getOrigin().getUsername(), "foobar");
+        Assert.assertEquals(transaction.getDestination().getAccountId(), "fuz");
+        Assert.assertEquals(transaction.getDestination().getAccountType(), "buz");
         Assert.assertEquals(transaction.getDestination().getAmount(), "0.1");
         Assert.assertEquals(transaction.getDestination().getBase(), "0.1");
         Assert.assertEquals(transaction.getDestination().getCommission(), "0.00");

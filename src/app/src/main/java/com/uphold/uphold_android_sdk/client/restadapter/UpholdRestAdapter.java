@@ -1,5 +1,6 @@
 package com.uphold.uphold_android_sdk.client.restadapter;
 
+import com.squareup.okhttp.OkHttpClient;
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.errorhandling.UpholdRetrofitErrorHandling;
 import com.uphold.uphold_android_sdk.client.session.SessionManager;
@@ -7,11 +8,14 @@ import com.uphold.uphold_android_sdk.util.Header;
 
 import android.text.TextUtils;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 
 /**
  * Uphold rest adapter.
@@ -26,7 +30,16 @@ public class UpholdRestAdapter {
      */
 
     public UpholdRestAdapter() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        try {
+            okHttpClient.setSslSocketFactory(new TLSV12SSLSocketFactory());
+        } catch (NoSuchAlgorithmException | KeyManagementException exception) {
+            exception.printStackTrace();
+        }
+
         this.adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
+            .setClient(new OkClient(okHttpClient))
             .setErrorHandler(new UpholdRetrofitErrorHandling())
             .setLogLevel(BuildConfig.IS_DEBUG_ENABLE ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
             .setRequestInterceptor(getUpholdRequestInterceptor(SessionManager.INSTANCE.getBearerToken()))

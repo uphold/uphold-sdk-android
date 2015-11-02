@@ -6,8 +6,8 @@ The Uphold SDK for Android provides an easy way for developers to integrate Andr
 
 ## Requirements
 
-	* Android Studio
-	* Minimum Android SDK Version - 10 (2.3.3)
+* Android Studio
+* Minimum Android SDK Version - 16 (4.1)
 
 ## Installation
 
@@ -22,14 +22,10 @@ repositories {
 }
 
 dependencies {
-	compile ('com.github.uphold:uphold-sdk-android:0.0.2@aar') {
+	// Add the classifier `sandboxRelease`, i.e. `'com.github.uphold:uphold-sdk-android:0.0.3:sandboxRelease@aar'`, to use the sandbox environment.
+	compile ('com.github.uphold:uphold-sdk-android:0.0.3@aar') {
 	    transitive = true
 	}
-	// Change to:
-	// compile ('com.github.uphold:uphold-sdk-android:0.0.2:sandboxRelease@aar') {
-	//     transitive = true
-	// }
-	// to use the sandbox environment.
 }
 ```
 

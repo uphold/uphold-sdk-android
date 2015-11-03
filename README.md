@@ -1,5 +1,7 @@
 # Uphold SDK for Android
 
+[![Build Status](https://travis-ci.org/uphold/uphold-sdk-android.svg?branch=master)](https://travis-ci.org/uphold/uphold-sdk-android)
+
 Uphold is a next generation platform that allows anyone to transfer and exchange value for free, instantly and securely.
 
 The Uphold SDK for Android provides an easy way for developers to integrate Android applications with the [Uphold API](https://uphold.com/en/developer).

@@ -35,7 +35,7 @@ public class HeaderTest {
     @Test
     public void getHeadersShouldReturnTheHeaders() {
         HashMap<String, String> headers = new HashMap<String, String>() {{
-            put("User-Agent", String.format("uphold-android-sdk %s (%s)", GlobalConfigurations.UPHOLD_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
+            put("User-Agent", String.format("uphold-android-sdk/%s (%s)", GlobalConfigurations.UPHOLD_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
         }};
 
         Assert.assertEquals(headers, Header.getHeaders());

@@ -22,9 +22,4 @@ public class ProductionFlavorTest {
         Assert.assertEquals("https://uphold.com", BuildConfig.AUTHORIZATION_SERVER_URL);
     }
 
-    @Test
-    public void buildConfigIsDebugEnableShouldReturnFalse() {
-        Assert.assertFalse(BuildConfig.IS_DEBUG_ENABLE);
-    }
-
 }

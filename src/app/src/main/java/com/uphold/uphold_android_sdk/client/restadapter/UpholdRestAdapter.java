@@ -41,7 +41,7 @@ public class UpholdRestAdapter {
         this.adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
             .setClient(new OkClient(okHttpClient))
             .setErrorHandler(new UpholdRetrofitErrorHandling())
-            .setLogLevel(BuildConfig.IS_DEBUG_ENABLE ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
+            .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
             .setRequestInterceptor(getUpholdRequestInterceptor(SessionManager.INSTANCE.getBearerToken()))
             .build();
     }

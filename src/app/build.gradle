@@ -43,13 +43,11 @@ android {
         production {
             buildConfigField 'String', 'API_SERVER_URL', '"https://api.uphold.com"'
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://uphold.com"'
-            buildConfigField 'Boolean', 'IS_DEBUG_ENABLE', 'false'
         }
 
         sandbox {
             buildConfigField 'String', 'API_SERVER_URL', '"https://api-sandbox.uphold.com"'
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://sandbox.uphold.com"'
-            buildConfigField 'Boolean', 'IS_DEBUG_ENABLE', 'true'
         }
     }
 }

@@ -312,6 +312,23 @@ public class TransactionTest {
     }
 
     @Test
+    public void getNormalizedShouldReturnTheNormalized() {
+        Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+            put("normalizedAmount", "foo");
+            put("normalizedCommission", "bar");
+            put("normalizedCurrency", "foobar");
+            put("normalizedFee", "foobiz");
+            put("normalizedRate", "buz");
+        }});
+
+        Assert.assertEquals(transaction.getNormalized().get(0).getAmount(), "foo");
+        Assert.assertEquals(transaction.getNormalized().get(0).getCommission(), "bar");
+        Assert.assertEquals(transaction.getNormalized().get(0).getCurrency(), "foobar");
+        Assert.assertEquals(transaction.getNormalized().get(0).getFee(), "foobiz");
+        Assert.assertEquals(transaction.getNormalized().get(0).getRate(), "buz");
+    }
+
+    @Test
     public void getOriginShouldReturnTheOrigin() {
         Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
             put("originCardId", "foobar");

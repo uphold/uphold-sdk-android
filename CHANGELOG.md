@@ -1,5 +1,10 @@
 ## Changelog
 
+### 0.0.4 / 2015-11-25
+- [#64](https://github.com/uphold/uphold-sdk-android/pull/64) Add the normalized model to the transaction (@SandroMachado)
+- [#63](https://github.com/uphold/uphold-sdk-android/pull/63) Improve rest adapter log level detection (@SandroMachado)
+- [#65](https://github.com/uphold/uphold-sdk-android/pull/65) Add jitpack badge (@SandroMachado)
+
 ### 0.0.3 / 2015-11-03
 - [#60](https://github.com/uphold/uphold-sdk-android/pull/60) Add Travis badge to README file (@SandroMachado)
 - [#59](https://github.com/uphold/uphold-sdk-android/pull/59) Add TLSv1.2 support for older Android versions (@SandroMachado)

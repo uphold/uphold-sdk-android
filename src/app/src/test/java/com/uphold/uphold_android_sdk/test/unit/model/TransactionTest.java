@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang3.SerializationUtils;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
@@ -27,12 +28,15 @@ public class TransactionTest {
     public void shouldBeSerializable() {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
         Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
+        List<Normalized> normalizeds = new ArrayList<>();
         List<Source> sources = new ArrayList<>();
-        Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
-        Source source = new Source("FUZBUZ", "FIZBIZ");
         Origin origin = new Origin("biz", "foo", "fiz", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
-        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, "fuzbuz", origin, parameters, "fizbiz", "foobuz", "foo");
+        Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
+        Normalized normalized = new Normalized("foo", "bar", "fiz", "biz", "fixbiz");
+        Source source = new Source("FUZBUZ", "FIZBIZ");
+        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, "fuzbuz", normalizeds, origin, parameters, "fizbiz", "foobuz", "foo");
 
+        normalizeds.add(normalized);
         sources.add(source);
 
         byte[] serializedTransaction = SerializationUtils.serialize(transaction);
@@ -57,6 +61,12 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getUsername(), deserializedTransaction.getDestination().getUsername());
         Assert.assertEquals(transaction.getId(), deserializedTransaction.getId());
         Assert.assertEquals(transaction.getMessage(), deserializedTransaction.getMessage());
+        Assert.assertEquals(transaction.getNormalized().size(), 1);
+        Assert.assertEquals(transaction.getNormalized().get(0).getAmount(), deserializedTransaction.getNormalized().get(0).getAmount());
+        Assert.assertEquals(transaction.getNormalized().get(0).getCommission(), deserializedTransaction.getNormalized().get(0).getCommission());
+        Assert.assertEquals(transaction.getNormalized().get(0).getCurrency(), deserializedTransaction.getNormalized().get(0).getCurrency());
+        Assert.assertEquals(transaction.getNormalized().get(0).getFee(), deserializedTransaction.getNormalized().get(0).getFee());
+        Assert.assertEquals(transaction.getNormalized().get(0).getRate(), deserializedTransaction.getNormalized().get(0).getRate());
         Assert.assertEquals(transaction.getOrigin().getAccountId(), deserializedTransaction.getOrigin().getAccountId());
         Assert.assertEquals(transaction.getOrigin().getAccountType(), deserializedTransaction.getOrigin().getAccountType());
         Assert.assertEquals(transaction.getOrigin().getAmount(), deserializedTransaction.getOrigin().getAmount());

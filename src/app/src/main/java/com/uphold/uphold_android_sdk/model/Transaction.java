@@ -6,6 +6,7 @@ import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.exception.LogicException;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
+import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
@@ -14,6 +15,7 @@ import com.uphold.uphold_android_sdk.service.UserCardService;
 import android.text.TextUtils;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Transaction model.
@@ -26,6 +28,7 @@ public class Transaction extends BaseModel implements Serializable {
     private final Denomination denomination;
     private final Destination destination;
     private final String message;
+    private final List<Normalized> normalized;
     private final Origin origin;
     private final Parameters params;
     private final String RefundedById;
@@ -40,6 +43,7 @@ public class Transaction extends BaseModel implements Serializable {
      * @param denomination The funds to be transfered.
      * @param destination The recipient of the funds.
      * @param message A message or note provided by the user at the time the transaction was initiated, with the intent of communicating additional information and context about the nature/purpose of the transaction.
+     * @param normalized The transaction details normalized.
      * @param origin The sender of the funds.
      * @param params Other parameters of this transaction.
      * @param refundedById When a transaction is cancelled, specifically a transaction in which money is sent to an email address, this contains the transaction ID of the transaction which refunds the amount back to the user.
@@ -47,12 +51,13 @@ public class Transaction extends BaseModel implements Serializable {
      * @param type The nature of the transaction.
      */
 
-    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, String message, Origin origin, Parameters params, String refundedById, String status, String type) {
+    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, String message, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
         this.id = id;
         this.createdAt = createdAt;
         this.denomination = denomination;
         this.destination = destination;
         this.message = message;
+        this.normalized = normalized;
         this.origin = origin;
         this.params = params;
         this.RefundedById = refundedById;
@@ -184,6 +189,16 @@ public class Transaction extends BaseModel implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    /**
+     * Gets the normalized transaction information.
+     *
+     * @return the normalized information of the transaction.
+     */
+
+    public List<Normalized> getNormalized() {
+        return normalized;
     }
 
     /**

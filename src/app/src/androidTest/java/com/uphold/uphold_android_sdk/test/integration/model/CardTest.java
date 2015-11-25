@@ -82,7 +82,14 @@ public class CardTest {
               "\"refunds\": \"fizbiz\"," +
               "\"ttl\": 30000," +
               "\"type\": \"invite\"" +
-            "}" +
+            "}," +
+            "\"normalized\": [{" +
+              "\"amount\": \"123\"," +
+              "\"commission\": \"0.00\"," +
+              "\"currency\": \"BTC\"," +
+              "\"fee\": \"1.00\"," +
+              "\"rate\": \"2.00\"" +
+            "}]" +
         "}";
         MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
@@ -143,6 +150,12 @@ public class CardTest {
         Assert.assertEquals(transaction.getParams().getRefunds(), "fizbiz");
         Assert.assertEquals(transaction.getParams().getTtl(), Integer.valueOf(30000));
         Assert.assertEquals(transaction.getParams().getType(), "invite");
+        Assert.assertEquals(transaction.getNormalized().size(), 1);
+        Assert.assertEquals(transaction.getNormalized().get(0).getAmount(), "123");
+        Assert.assertEquals(transaction.getNormalized().get(0).getCommission(), "0.00");
+        Assert.assertEquals(transaction.getNormalized().get(0).getCurrency(), "BTC");
+        Assert.assertEquals(transaction.getNormalized().get(0).getFee(), "1.00");
+        Assert.assertEquals(transaction.getNormalized().get(0).getRate(), "2.00");
     }
 
     @Test

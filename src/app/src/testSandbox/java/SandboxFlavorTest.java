@@ -22,9 +22,4 @@ public class SandboxFlavorTest {
         Assert.assertEquals("https://sandbox.uphold.com", BuildConfig.AUTHORIZATION_SERVER_URL);
     }
 
-    @Test
-    public void buildConfigIsDebugEnableShouldReturnTrue() {
-        Assert.assertTrue(BuildConfig.IS_DEBUG_ENABLE);
-    }
-
 }

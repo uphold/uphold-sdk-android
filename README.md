@@ -1,6 +1,4 @@
-# Uphold SDK for Android
-
-[![Build Status](https://travis-ci.org/uphold/uphold-sdk-android.svg?branch=master)](https://travis-ci.org/uphold/uphold-sdk-android)
+# Uphold SDK for Android [![Build Status](https://travis-ci.org/uphold/uphold-sdk-android.svg?branch=master)](https://travis-ci.org/uphold/uphold-sdk-android) [![Release](https://img.shields.io/github/release/uphold/uphold-sdk-android.svg?label=jitpack)](https://jitpack.io/#uphold/uphold-sdk-android)
 
 Uphold is a next generation platform that allows anyone to transfer and exchange value for free, instantly and securely.
 

@@ -1,18 +1,18 @@
 package com.uphold.uphold_android_sdk.model;
 
-import com.darylteo.rx.promises.java.Promise;
+import android.text.TextUtils;
 
+import com.darylteo.rx.promises.java.Promise;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.exception.LogicException;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
+import com.uphold.uphold_android_sdk.model.transaction.Fee;
 import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.service.UserCardService;
-
-import android.text.TextUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +27,7 @@ public class Transaction extends BaseModel implements Serializable {
     private final String createdAt;
     private final Denomination denomination;
     private final Destination destination;
+    private final List<Fee> fees;
     private final String message;
     private final List<Normalized> normalized;
     private final Origin origin;
@@ -42,6 +43,7 @@ public class Transaction extends BaseModel implements Serializable {
      * @param createdAt The date and time the transaction was initiated.
      * @param denomination The funds to be transfered.
      * @param destination The recipient of the funds.
+     * @param fees The transaction fees.
      * @param message A message or note provided by the user at the time the transaction was initiated, with the intent of communicating additional information and context about the nature/purpose of the transaction.
      * @param normalized The transaction details normalized.
      * @param origin The sender of the funds.
@@ -51,11 +53,12 @@ public class Transaction extends BaseModel implements Serializable {
      * @param type The nature of the transaction.
      */
 
-    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, String message, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
+    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, List<Fee> fees, String message, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
         this.id = id;
         this.createdAt = createdAt;
         this.denomination = denomination;
         this.destination = destination;
+        this.fees = fees;
         this.message = message;
         this.normalized = normalized;
         this.origin = origin;
@@ -179,6 +182,16 @@ public class Transaction extends BaseModel implements Serializable {
 
     public Destination getDestination() {
         return destination;
+    }
+
+    /**
+     * Gets the transaction fees.
+     *
+     * @return the transaction fees.
+     */
+
+    public List<Fee> getFees() {
+        return fees;
     }
 
     /**

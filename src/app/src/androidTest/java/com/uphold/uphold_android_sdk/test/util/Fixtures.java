@@ -8,6 +8,7 @@ import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.card.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
+import com.uphold.uphold_android_sdk.model.transaction.Fee;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.Source;
@@ -122,6 +123,11 @@ public class Fixtures {
             put("destinationRate", faker.lorem().fixedString(3));
             put("destinationType", faker.lorem().fixedString(6));
             put("destinationUsername", faker.lorem().fixedString(10));
+            put("feeAmount", faker.numerify("123456789"));
+            put("feeCurrency", faker.lorem().fixedString(3));
+            put("feePercentage", faker.numerify("123456789"));
+            put("feeTarget", faker.lorem().fixedString(10));
+            put("feeType", faker.lorem().fixedString(10));
             put("normalizedAmount", faker.numerify("123456789"));
             put("normalizedCommission", faker.numerify("123456789"));
             put("normalizedCurrency", faker.lorem().fixedString(3));
@@ -164,6 +170,9 @@ public class Fixtures {
 
         Denomination denomination = new Denomination(fakerFields.get("denominationAmount"), fakerFields.get("denominationCurrency"), fakerFields.get("denominationPair"), fakerFields.get("denominationRate"));
         Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"), fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), fakerFields.get("destinationRate"), fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
+        ArrayList<Fee> fees = new ArrayList<Fee>() {{
+            add(new Fee(fakerFields.get("feeAmount"), fakerFields.get("feeCurrency"), fakerFields.get("feePercentage"), fakerFields.get("feeTarget"), fakerFields.get("feeType")));
+        }};
         ArrayList<Source> sources = new ArrayList<Source>() {{
             ArrayList<String> ids = new ArrayList<>(Arrays.asList(fakerFields.get("originSourcesId").split(",")));
             ArrayList<String> amount = new ArrayList<>(Arrays.asList(fakerFields.get("originSourcesAmount").split(",")));
@@ -178,7 +187,7 @@ public class Fixtures {
         Origin origin = new Origin(fakerFields.get("originAccountId"), fakerFields.get("originCardId"), fakerFields.get("originAccountType"), fakerFields.get("originAmount"), fakerFields.get("originBase"), fakerFields.get("originCommission"), fakerFields.get("originCurrency"), fakerFields.get("originDescription"), fakerFields.get("originFee"), fakerFields.get("originRate"), sources, fakerFields.get("originType"), fakerFields.get("originUsername"));
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
-        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fakerFields.get("transactionMessage"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
+        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
     }
 
     public static TransactionRequest loadTransactionRequest(){

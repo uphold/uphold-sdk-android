@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.5 / 2015-12-23
+- [#66](https://github.com/uphold/uphold-sdk-android/pull/66) Add transaction fees model (@SandroMachado)
+
 ### 0.0.4 / 2015-11-25
 - [#64](https://github.com/uphold/uphold-sdk-android/pull/64) Add the normalized model to the transaction (@SandroMachado)
 - [#63](https://github.com/uphold/uphold-sdk-android/pull/63) Improve rest adapter log level detection (@SandroMachado)

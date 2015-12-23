@@ -1,10 +1,10 @@
 package com.uphold.uphold_android_sdk.test.integration.client.restadapter;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.errorhandling.UpholdRetrofitErrorHandling;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
@@ -12,11 +12,11 @@ import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import retrofit.RestAdapter;
 import retrofit.client.Header;
@@ -62,7 +62,7 @@ public class UpholdRestAdapterTest {
 
         Assert.assertEquals(request.getHeaders().size(), 2);
         Assert.assertTrue(request.getHeaders().contains(new Header("Authorization", "Bearer fuz")));
-        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.3 (https://github.com/uphold/uphold-sdk-android)")));
+        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.5 (https://github.com/uphold/uphold-sdk-android)")));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class UpholdRestAdapterTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getHeaders().size(), 1);
-        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.3 (https://github.com/uphold/uphold-sdk-android)")));
+        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.5 (https://github.com/uphold/uphold-sdk-android)")));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class UpholdRestAdapterTest {
         Request request = adapter.getRequest();
 
         Assert.assertEquals(request.getHeaders().size(), 1);
-        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.3 (https://github.com/uphold/uphold-sdk-android)")));
+        Assert.assertTrue(request.getHeaders().contains(new Header("User-Agent", "uphold-android-sdk/0.0.5 (https://github.com/uphold/uphold-sdk-android)")));
     }
 
 }

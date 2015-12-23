@@ -1,15 +1,17 @@
 package com.uphold.uphold_android_sdk.test.unit.model;
 
-import junit.framework.Assert;
-
-import org.apache.commons.lang3.SerializationUtils;
 import com.uphold.uphold_android_sdk.model.Transaction;
-import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
+import com.uphold.uphold_android_sdk.model.transaction.Fee;
+import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.Source;
+
+import junit.framework.Assert;
+
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,14 +30,17 @@ public class TransactionTest {
     public void shouldBeSerializable() {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
         Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
+        Fee fee = new Fee("foo", "bar", "fuz", "buz", "biz");
+        List<Fee> fees = new ArrayList<>();
         List<Normalized> normalizeds = new ArrayList<>();
         List<Source> sources = new ArrayList<>();
         Origin origin = new Origin("biz", "foo", "fiz", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
         Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Normalized normalized = new Normalized("foo", "bar", "fiz", "biz", "fixbiz");
         Source source = new Source("FUZBUZ", "FIZBIZ");
-        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, "fuzbuz", normalizeds, origin, parameters, "fizbiz", "foobuz", "foo");
+        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, fees, "fuzbuz", normalizeds, origin, parameters, "fizbiz", "foobuz", "foo");
 
+        fees.add(fee);
         normalizeds.add(normalized);
         sources.add(source);
 
@@ -59,6 +64,11 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getRate(), deserializedTransaction.getDestination().getRate());
         Assert.assertEquals(transaction.getDestination().getType(), deserializedTransaction.getDestination().getType());
         Assert.assertEquals(transaction.getDestination().getUsername(), deserializedTransaction.getDestination().getUsername());
+        Assert.assertEquals(transaction.getFees().get(0).getAmount(), deserializedTransaction.getFees().get(0).getAmount());
+        Assert.assertEquals(transaction.getFees().get(0).getCurrency(), deserializedTransaction.getFees().get(0).getCurrency());
+        Assert.assertEquals(transaction.getFees().get(0).getPercentage(), deserializedTransaction.getFees().get(0).getPercentage());
+        Assert.assertEquals(transaction.getFees().get(0).getTarget(), deserializedTransaction.getFees().get(0).getTarget());
+        Assert.assertEquals(transaction.getFees().get(0).getType(), deserializedTransaction.getFees().get(0).getType());
         Assert.assertEquals(transaction.getId(), deserializedTransaction.getId());
         Assert.assertEquals(transaction.getMessage(), deserializedTransaction.getMessage());
         Assert.assertEquals(transaction.getNormalized().size(), 1);

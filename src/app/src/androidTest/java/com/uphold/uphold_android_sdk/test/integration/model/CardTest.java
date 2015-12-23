@@ -1,10 +1,10 @@
 package com.uphold.uphold_android_sdk.test.integration.model;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
@@ -13,13 +13,12 @@ import com.uphold.uphold_android_sdk.paginator.Paginator;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
-
-import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,6 +88,13 @@ public class CardTest {
               "\"currency\": \"BTC\"," +
               "\"fee\": \"1.00\"," +
               "\"rate\": \"2.00\"" +
+            "}]," +
+            "\"fees\": [{" +
+                "\"type\": \"deposit\"," +
+                "\"amount\": \"0.30\"," +
+                "\"target\": \"origin\"," +
+                "\"currency\": \"USD\"," +
+                "\"percentage\": \"2.75\"" +
             "}]" +
         "}";
         MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -121,6 +127,11 @@ public class CardTest {
         Assert.assertEquals(transaction.getDenomination().getCurrency(), "BTC");
         Assert.assertEquals(transaction.getDenomination().getPair(), "BTCBTC");
         Assert.assertEquals(transaction.getDenomination().getRate(), "1.00");
+        Assert.assertEquals(transaction.getFees().get(0).getAmount(), "0.30");
+        Assert.assertEquals(transaction.getFees().get(0).getCurrency(), "USD");
+        Assert.assertEquals(transaction.getFees().get(0).getPercentage(), "2.75");
+        Assert.assertEquals(transaction.getFees().get(0).getTarget(), "origin");
+        Assert.assertEquals(transaction.getFees().get(0).getType(), "deposit");
         Assert.assertEquals(transaction.getOrigin().getAccountId(), "fiz");
         Assert.assertEquals(transaction.getOrigin().getCardId(), "bar");
         Assert.assertEquals(transaction.getOrigin().getAccountType(), "biz");

@@ -1,28 +1,28 @@
 package com.uphold.uphold_android_sdk.test.integration.service;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
+import com.uphold.uphold_android_sdk.client.body.EmptyOutput;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
-import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
 import com.uphold.uphold_android_sdk.service.UserCardService;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
-
-import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.cancelTransaction("foo", "bar", promise);
+                userCardService.cancelTransaction("foo", "bar", EmptyOutput.INSTANCE, promise);
 
                 return promise;
             }

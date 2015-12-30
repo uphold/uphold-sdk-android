@@ -3,6 +3,7 @@ package com.uphold.uphold_android_sdk.model;
 import android.text.TextUtils;
 
 import com.darylteo.rx.promises.java.Promise;
+import com.uphold.uphold_android_sdk.client.body.EmptyOutput;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.exception.LogicException;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
@@ -96,7 +97,7 @@ public class Transaction extends BaseModel implements Serializable {
             return promise;
         }
 
-        userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), promise);
+        userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), EmptyOutput.INSTANCE, promise);
 
         return promise;
     }

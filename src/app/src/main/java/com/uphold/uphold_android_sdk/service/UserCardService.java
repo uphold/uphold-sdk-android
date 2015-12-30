@@ -17,6 +17,7 @@ import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.TypedOutput;
 
 /**
  * User card service.
@@ -29,11 +30,12 @@ public interface UserCardService {
      *
      * @param cardId The id of the card.
      * @param transactionId The id of the transaction.
+     * @param emptyBody The empty body.
      * @param callback A callback to receive the request information.
      */
 
     @POST("/v0/me/cards/{cardId}/transactions/{transactionId}/cancel")
-    void cancelTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, Callback<Transaction> callback);
+    void cancelTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, @Body TypedOutput emptyBody, Callback<Transaction> callback);
 
     /**
      * Performs a request to confirm a transaction.

@@ -38,6 +38,7 @@ public class CardTest {
             "\"id\": \"foobar\"," +
             "\"type\": \"transfer\"," +
             "\"message\": \"foobar\"," +
+            "\"network\": \"qux\"," +
             "\"status\": \"pending\"," +
             "\"RefundedById\": \"foobiz\"," +
             "\"createdAt\": \"2014-08-27T00:01:11.616Z\"," +
@@ -120,6 +121,7 @@ public class CardTest {
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(transaction.getType(), "transfer");
         Assert.assertEquals(transaction.getMessage(), "foobar");
+        Assert.assertEquals(transaction.getNetwork(), "qux");
         Assert.assertEquals(transaction.getStatus(), "pending");
         Assert.assertEquals(transaction.getRefundedById(), "foobiz");
         Assert.assertEquals(transaction.getCreatedAt(), "2014-08-27T00:01:11.616Z");

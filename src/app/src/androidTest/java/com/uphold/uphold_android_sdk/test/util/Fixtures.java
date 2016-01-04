@@ -158,6 +158,7 @@ public class Fixtures {
             put("transactionCreatedAt", faker.lorem().fixedString(24));
             put("transactionId", faker.lorem().fixedString(24));
             put("transactionMessage", faker.lorem().fixedString(24));
+            put("transactionNetwork", faker.lorem().fixedString(24));
             put("transactionRefundedById", faker.lorem().fixedString(24));
             put("transactionRefunds", faker.lorem().fixedString(24));
             put("transactionStatus", faker.lorem().fixedString(24));
@@ -187,7 +188,7 @@ public class Fixtures {
         Origin origin = new Origin(fakerFields.get("originAccountId"), fakerFields.get("originCardId"), fakerFields.get("originAccountType"), fakerFields.get("originAmount"), fakerFields.get("originBase"), fakerFields.get("originCommission"), fakerFields.get("originCurrency"), fakerFields.get("originDescription"), fakerFields.get("originFee"), fakerFields.get("originRate"), sources, fakerFields.get("originType"), fakerFields.get("originUsername"));
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
-        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
+        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), fakerFields.get("transactionNetwork"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
     }
 
     public static TransactionRequest loadTransactionRequest(){

@@ -29,6 +29,7 @@ public class Transaction extends BaseModel implements Serializable {
     private final Destination destination;
     private final List<Fee> fees;
     private final String message;
+    private final String network;
     private final List<Normalized> normalized;
     private final Origin origin;
     private final Parameters params;
@@ -45,6 +46,7 @@ public class Transaction extends BaseModel implements Serializable {
      * @param destination The recipient of the funds.
      * @param fees The transaction fees.
      * @param message A message or note provided by the user at the time the transaction was initiated, with the intent of communicating additional information and context about the nature/purpose of the transaction.
+     * @param network The network of the transaction.
      * @param normalized The transaction details normalized.
      * @param origin The sender of the funds.
      * @param params Other parameters of this transaction.
@@ -53,13 +55,14 @@ public class Transaction extends BaseModel implements Serializable {
      * @param type The nature of the transaction.
      */
 
-    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, List<Fee> fees, String message, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
+    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, List<Fee> fees, String message, String network, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
         this.id = id;
         this.createdAt = createdAt;
         this.denomination = denomination;
         this.destination = destination;
         this.fees = fees;
         this.message = message;
+        this.network = network;
         this.normalized = normalized;
         this.origin = origin;
         this.params = params;
@@ -202,6 +205,16 @@ public class Transaction extends BaseModel implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    /**
+     * Gets the network of the transaction.
+     *
+     * @return network of the transaction.
+     */
+
+    public String getNetwork() {
+        return network;
     }
 
     /**

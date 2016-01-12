@@ -1,11 +1,10 @@
 package com.uphold.uphold_android_sdk.test.integration.model;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.exception.LogicException;
 import com.uphold.uphold_android_sdk.model.Transaction;
@@ -13,16 +12,16 @@ import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
-
 import java.io.ByteArrayOutputStream;
-import java.lang.String;
 import java.util.HashMap;
 
+import retrofit.client.Header;
 import retrofit.client.Request;
 
 /**
@@ -198,15 +197,111 @@ public class TransactionTest {
             }
         });
 
+        Header otpHeader = null;
         Request request = adapter.getRequest();
         Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
 
         request.getBody().writeTo(bodyOutput);
 
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertNull(otpHeader);
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\"}");
+    }
+
+    @Test
+    public void commitWithMessageAndOTPShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("transactionStatus", "pending");
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit("otp", new TransactionCommitRequest("foobar"));
+            }
+        });
+
+        Header otpHeader = null;
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(otpHeader.getValue(), "otp");
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\"}");
+    }
+
+    @Test
+    public void commitWithOTPShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("transactionStatus", "pending");
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit("otp");
+            }
+        });
+
+        Header otpHeader = null;
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(otpHeader.getValue(), "otp");
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{}");
     }
 
     @Test
@@ -231,13 +326,23 @@ public class TransactionTest {
             }
         });
 
+        Header otpHeader = null;
         Request request = adapter.getRequest();
         Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
 
         request.getBody().writeTo(bodyOutput);
 
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertNull(otpHeader);
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(bodyOutput.toString(), "{}");
     }

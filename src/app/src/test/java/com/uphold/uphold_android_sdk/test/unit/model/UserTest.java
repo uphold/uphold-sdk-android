@@ -55,7 +55,6 @@ public class UserTest {
         Assert.assertEquals(user.getName(), deserializedUser.getName());
         Assert.assertEquals(user.getSettings().getCurrency(), deserializedUser.getSettings().getCurrency());
         Assert.assertEquals(user.getSettings().getHasNewsSubscription(), deserializedUser.getSettings().getHasNewsSubscription());
-        Assert.assertEquals(user.getSettings().getHasOtpEnabled(), deserializedUser.getSettings().getHasOtpEnabled());
         Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), deserializedUser.getSettings().getIntl().getDateTimeFormat().getLocale());
         Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), deserializedUser.getSettings().getIntl().getLanguage().getLocale());
         Assert.assertEquals(user.getSettings().getIntl().getNumberFormat().getLocale(), deserializedUser.getSettings().getIntl().getNumberFormat().getLocale());

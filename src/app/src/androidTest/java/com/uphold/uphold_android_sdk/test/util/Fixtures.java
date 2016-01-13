@@ -231,7 +231,6 @@ public class Fixtures {
             put("email", faker.internet().emailAddress());
             put("firstName", faker.name().firstName());
             put("hasNewsSubscription", "true");
-            put("hasOtpEnabled", "true");
             put("internationalizationUserSettingDateTimeFormat", faker.lorem().fixedString(5));
             put("internationalizationUserSettingLanguage", faker.lorem().fixedString(5));
             put("internationalizationUserSettingNumberFormat", faker.lorem().fixedString(5));

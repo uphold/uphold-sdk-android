@@ -434,7 +434,6 @@ public class UserTest {
         HashMap<String, String> data = new HashMap<String, String>() {{
             put("currency", "USD");
             put("hasNewsSubscription", "true");
-            put("hasOtpEnabled", "false");
             put("theme", "minimalistic");
             put("internationalizationUserSettingLanguage", "en-US");
             put("internationalizationUserSettingDateTimeFormat", "en-GB");
@@ -448,7 +447,6 @@ public class UserTest {
 
         Assert.assertEquals(user.getSettings().getCurrency(), "USD");
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
-        Assert.assertFalse(user.getSettings().getHasOtpEnabled());
         Assert.assertEquals(user.getSettings().getTheme(), "minimalistic");
         Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), "en-US");
         Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), "en-GB");

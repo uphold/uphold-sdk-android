@@ -69,16 +69,26 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.confirmTransaction("foo", "bar", new TransactionCommitRequest("message"), promise);
+                userCardService.confirmTransaction("foo", "bar", new TransactionCommitRequest("message"), "otp", promise);
 
                 return promise;
             }
         });
 
+        Header otpHeader = null;
         Request request = adapter.getRequest();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
 
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(otpHeader.getValue(), "otp");
     }
 
     @Test

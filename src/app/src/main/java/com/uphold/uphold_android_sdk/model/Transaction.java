@@ -112,11 +112,23 @@ public class Transaction extends BaseModel implements Serializable {
      */
 
     public Promise<Transaction> commit() {
-        return commit(null);
+        return commit(null, null);
     }
 
     /**
-     * Commit a transaction.
+     * Confirm a transaction.
+     *
+     * @param otp the otp code to confirm the transaction.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> commit(String otp) {
+        return commit(otp, null);
+    }
+
+    /**
+     * Confirm a transaction.
      *
      * @param transactionCommitRequest an optional transaction message.
      *
@@ -124,6 +136,19 @@ public class Transaction extends BaseModel implements Serializable {
      */
 
     public Promise<Transaction> commit(TransactionCommitRequest transactionCommitRequest) {
+        return commit(null, transactionCommitRequest);
+    }
+
+    /**
+     * Confirm a transaction.
+     *
+     * @param otp the otp code to confirm the transaction.
+     * @param transactionCommitRequest an optional transaction message.
+     *
+     * @return a {@link Promise<Transaction>} with the transaction.
+     */
+
+    public Promise<Transaction> commit(String otp, TransactionCommitRequest transactionCommitRequest) {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getUpholdRestAdapter().create(UserCardService.class);
 
@@ -143,7 +168,7 @@ public class Transaction extends BaseModel implements Serializable {
             transactionCommitRequest = new TransactionCommitRequest(null);
         }
 
-        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), transactionCommitRequest, promise);
+        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), transactionCommitRequest, otp, promise);
 
         return promise;
     }

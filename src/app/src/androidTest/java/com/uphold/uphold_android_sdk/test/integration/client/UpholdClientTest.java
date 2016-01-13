@@ -1,32 +1,31 @@
 package com.uphold.uphold_android_sdk.test.integration.client;
 
-import com.darylteo.rx.promises.java.Promise;
-import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
-import com.uphold.uphold_android_sdk.BuildConfig;
-import com.uphold.uphold_android_sdk.client.UpholdClient;
-import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
-import com.uphold.uphold_android_sdk.client.session.SessionManager;
-import com.uphold.uphold_android_sdk.exception.UpholdSdkNotInitializedException;
-import com.uphold.uphold_android_sdk.exception.StateMatchException;
-import com.uphold.uphold_android_sdk.model.AuthenticationResponse;
-import com.uphold.uphold_android_sdk.model.Rate;
-import com.uphold.uphold_android_sdk.model.Token;
-import com.uphold.uphold_android_sdk.model.User;
-import com.uphold.uphold_android_sdk.test.util.MockSharedPreferencesContext;
-import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import android.net.Uri;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.darylteo.rx.promises.java.Promise;
+import com.darylteo.rx.promises.java.functions.RepromiseFunction;
+import com.uphold.uphold_android_sdk.BuildConfig;
+import com.uphold.uphold_android_sdk.client.UpholdClient;
+import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
+import com.uphold.uphold_android_sdk.client.session.SessionManager;
+import com.uphold.uphold_android_sdk.exception.StateMatchException;
+import com.uphold.uphold_android_sdk.exception.UpholdSdkNotInitializedException;
+import com.uphold.uphold_android_sdk.model.AuthenticationResponse;
+import com.uphold.uphold_android_sdk.model.Rate;
+import com.uphold.uphold_android_sdk.model.Token;
+import com.uphold.uphold_android_sdk.model.User;
+import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+import com.uphold.uphold_android_sdk.test.util.MockSharedPreferencesContext;
+
+import junit.framework.Assert;
+
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.ByteArrayOutputStream;
-import java.lang.String;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -287,19 +286,37 @@ public class UpholdClientTest {
               "\"currency\": \"USD\"," +
               "\"hasNewsSubscription\": \"true\"," +
               "\"intl\": {" +
-                  "\"language\": {" +
-                      "\"locale\": \"en-US\"" +
-                  "}," +
-                  "\"dateTimeFormat\": {" +
-                      "\"locale\": \"en-US\"" +
-                  "}," +
-                  "\"numberFormat\": {" +
-                      "\"locale\": \"en-US\"" +
-                  "}" +
+                "\"language\": {" +
+                  "\"locale\": \"en-US\"" +
+                "}," +
+                "\"dateTimeFormat\": {" +
+                  "\"locale\": \"en-US\"" +
+                "}," +
+                "\"numberFormat\": {" +
+                  "\"locale\": \"en-US\"" +
+                "}" +
               "}," +
-              "\"hasOtpEnabled\": \"false\"" +
+              "\"hasOtpEnabled\": \"false\"," +
+              "\"otp\": {" +
+                "\"login\": {" +
+                  "\"enabled\": false" +
+                "}," +
+                "\"transactions\": {" +
+                  "\"send\": {" +
+                    "\"enabled\": false" +
+                  "}," +
+                  "\"transfer\": {" +
+                    "\"enabled\": true" +
+                  "}," +
+                  "\"withdraw\": {" +
+                    "\"crypto\": {" +
+                      "\"enabled\": true" +
+                    "}" +
+                  "}" +
+                "}" +
+              "}" +
             "}" +
-        "}";
+          "}";
         MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
@@ -336,6 +353,10 @@ public class UpholdClientTest {
         Assert.assertEquals(user.getStatus(), "ok");
         Assert.assertEquals(user.getUsername(), "foobar");
         Assert.assertFalse(user.getSettings().getHasOtpEnabled());
+        Assert.assertFalse(user.getSettings().getOtp().getLogin().getEnabled());
+        Assert.assertFalse(user.getSettings().getOtp().getTransactions().getSend().getEnabled());
+        Assert.assertTrue(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled());
+        Assert.assertTrue(user.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
     }
 

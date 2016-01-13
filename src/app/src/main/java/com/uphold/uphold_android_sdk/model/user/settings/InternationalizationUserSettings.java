@@ -1,4 +1,6 @@
-package com.uphold.uphold_android_sdk.model.user;
+package com.uphold.uphold_android_sdk.model.user.settings;
+
+import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
 
 import java.io.Serializable;
 

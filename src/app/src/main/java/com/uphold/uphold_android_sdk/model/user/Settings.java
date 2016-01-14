@@ -13,7 +13,6 @@ public class Settings implements Serializable {
 
     private final String currency;
     private final Boolean hasNewsSubscription;
-    private final Boolean hasOtpEnabled;
     private final InternationalizationUserSettings intl;
     private final Otp otp;
     private final String theme;
@@ -23,7 +22,6 @@ public class Settings implements Serializable {
      *
      * @param currency The currency selected at the user settings.
      * @param hasNewsSubscription A boolean indicating if the user has the news subscription enable.
-     * @param hasOtpEnabled A boolean indicating if the user has the otp enable.
      * @param intl The user internationalization settings.
      * @param otp The user otp settings.
      * @param theme The user theme.
@@ -32,7 +30,6 @@ public class Settings implements Serializable {
     public Settings(String currency, Boolean hasNewsSubscription, Boolean hasOtpEnabled, InternationalizationUserSettings intl, Otp otp, String theme) {
         this.currency = currency;
         this.hasNewsSubscription = hasNewsSubscription;
-        this.hasOtpEnabled = hasOtpEnabled;
         this.intl = intl;
         this.otp = otp;
         this.theme = theme;
@@ -56,16 +53,6 @@ public class Settings implements Serializable {
 
     public Boolean getHasNewsSubscription() {
         return hasNewsSubscription;
-    }
-
-    /**
-     * Gets a boolean indicating if the user has the otp enable.
-     *
-     * @return the a boolean indicating if the user has the otp enable
-     */
-
-    public Boolean getHasOtpEnabled() {
-        return hasOtpEnabled;
     }
 
     /**

@@ -296,7 +296,6 @@ public class UpholdClientTest {
                   "\"locale\": \"en-US\"" +
                 "}" +
               "}," +
-              "\"hasOtpEnabled\": \"false\"," +
               "\"otp\": {" +
                 "\"login\": {" +
                   "\"enabled\": false" +
@@ -352,7 +351,6 @@ public class UpholdClientTest {
         Assert.assertEquals(user.getState(), "FOO");
         Assert.assertEquals(user.getStatus(), "ok");
         Assert.assertEquals(user.getUsername(), "foobar");
-        Assert.assertFalse(user.getSettings().getHasOtpEnabled());
         Assert.assertFalse(user.getSettings().getOtp().getLogin().getEnabled());
         Assert.assertFalse(user.getSettings().getOtp().getTransactions().getSend().getEnabled());
         Assert.assertTrue(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled());

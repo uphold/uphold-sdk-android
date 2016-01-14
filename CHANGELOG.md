@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.7](https://github.com/uphold/uphold-sdk-android/tree/0.0.7) (2016-01-14)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.0.6...0.0.7)
+
+**Closed issues:**
+
+- Update the user model to include the new OTP settings model [\#73](https://github.com/uphold/uphold-sdk-android/issues/73)
+- Remove the field `hasOtpEnabled` from the user settings model [\#72](https://github.com/uphold/uphold-sdk-android/issues/72)
+
+**Merged pull requests:**
+
+- Remove `hasOtpEnable` field from user settings model [\#75](https://github.com/uphold/uphold-sdk-android/pull/75) ([SandroMachado](https://github.com/SandroMachado))
+- Add otp settings model [\#74](https://github.com/uphold/uphold-sdk-android/pull/74) ([SandroMachado](https://github.com/SandroMachado))
+- Add 2FA transaction support [\#71](https://github.com/uphold/uphold-sdk-android/pull/71) ([SandroMachado](https://github.com/SandroMachado))
+- Update the JitPack badge [\#70](https://github.com/uphold/uphold-sdk-android/pull/70) ([SandroMachado](https://github.com/SandroMachado))
+- Update gradle [\#69](https://github.com/uphold/uphold-sdk-android/pull/69) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.0.6](https://github.com/uphold/uphold-sdk-android/tree/0.0.6) (2016-01-04)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.0.5...0.0.6)
 

@@ -1,5 +1,8 @@
 package com.uphold.uphold_android_sdk.model.user;
 
+import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
+import com.uphold.uphold_android_sdk.model.user.settings.Otp;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +15,7 @@ public class Settings implements Serializable {
     private final Boolean hasNewsSubscription;
     private final Boolean hasOtpEnabled;
     private final InternationalizationUserSettings intl;
+    private final Otp otp;
     private final String theme;
 
     /**
@@ -19,16 +23,18 @@ public class Settings implements Serializable {
      *
      * @param currency The currency selected at the user settings.
      * @param hasNewsSubscription A boolean indicating if the user has the news subscription enable.
-     * @param hasOtpEnabled A boolean indicating if the user has the OTP enable.
+     * @param hasOtpEnabled A boolean indicating if the user has the otp enable.
      * @param intl The user internationalization settings.
+     * @param otp The user otp settings.
      * @param theme The user theme.
      */
 
-    public Settings(String currency, Boolean hasNewsSubscription, Boolean hasOtpEnabled, InternationalizationUserSettings intl, String theme) {
+    public Settings(String currency, Boolean hasNewsSubscription, Boolean hasOtpEnabled, InternationalizationUserSettings intl, Otp otp, String theme) {
         this.currency = currency;
         this.hasNewsSubscription = hasNewsSubscription;
         this.hasOtpEnabled = hasOtpEnabled;
         this.intl = intl;
+        this.otp = otp;
         this.theme = theme;
     }
 
@@ -70,6 +76,16 @@ public class Settings implements Serializable {
 
     public InternationalizationUserSettings getIntl() {
         return intl;
+    }
+
+    /**
+     * Gets the user otp settings.
+     *
+     * @return the otp user settings.
+     */
+
+    public Otp getOtp() {
+        return otp;
     }
 
     /**

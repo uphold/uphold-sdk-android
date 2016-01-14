@@ -1,10 +1,9 @@
 package com.uphold.uphold_android_sdk.test.util;
 
 import com.github.javafaker.Faker;
-
 import com.uphold.uphold_android_sdk.model.Card;
-import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.model.card.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
@@ -15,9 +14,16 @@ import com.uphold.uphold_android_sdk.model.transaction.Source;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
-import com.uphold.uphold_android_sdk.model.user.InternationalizationUserSetting;
-import com.uphold.uphold_android_sdk.model.user.InternationalizationUserSettings;
+import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
+import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.Login;
+import com.uphold.uphold_android_sdk.model.user.settings.Otp;
 import com.uphold.uphold_android_sdk.model.user.Settings;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.Transactions;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Send;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Transfer;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Withdraw;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.withdraw.Crypto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,6 +237,10 @@ public class Fixtures {
             put("internationalizationUserSettingNumberFormat", faker.lorem().fixedString(5));
             put("lastName", faker.name().lastName());
             put("name", faker.name().name());
+            put("settingsOTPLogin", "true");
+            put("settingsOTPTransactionsSend", "true");
+            put("settingsOTPTransactionsTransfer", "true");
+            put("settingsOTPTransactionsWithdrawCrypto", "true");
             put("state", faker.address().stateAbbr());
             put("status", faker.lorem().fixedString(10));
             put("theme", faker.lorem().fixedString(10));
@@ -250,7 +260,8 @@ public class Fixtures {
         InternationalizationUserSetting internationalizationUserSettingLanguage = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingLanguage"));
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingNumberFormat"));
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
-        Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, fakerFields.get("theme"));
+        Otp otp = new Otp(new Login(Boolean.valueOf(fakerFields.get("settingsOTPLogin"))), new Transactions(new Send(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsSend"))), new Transfer(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsTransfer"))), new Withdraw(new Crypto(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsWithdrawCrypto"))))));
+        Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, otp, fakerFields.get("theme"));
 
         return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"));
     }

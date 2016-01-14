@@ -1,12 +1,20 @@
 package com.uphold.uphold_android_sdk.test.unit.model;
 
+import com.uphold.uphold_android_sdk.model.User;
+import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
+import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.Login;
+import com.uphold.uphold_android_sdk.model.user.settings.Otp;
+import com.uphold.uphold_android_sdk.model.user.Settings;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.Transactions;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Send;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Transfer;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Withdraw;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.withdraw.Crypto;
+
 import junit.framework.Assert;
 
 import org.apache.commons.lang3.SerializationUtils;
-import com.uphold.uphold_android_sdk.model.User;
-import com.uphold.uphold_android_sdk.model.user.InternationalizationUserSetting;
-import com.uphold.uphold_android_sdk.model.user.InternationalizationUserSettings;
-import com.uphold.uphold_android_sdk.model.user.Settings;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -26,7 +34,8 @@ public class UserTest {
         InternationalizationUserSetting internationalizationUserSettingLanguage = new InternationalizationUserSetting("BAR");
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting("FOOBAR");
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
-        Settings settings = new Settings("FIZ", true, false, internationalizationUserSettings, "FUZ");
+        Otp otp = new Otp(new Login(false), new Transactions(new Send(false), new Transfer(false), new Withdraw(new Crypto(true))));
+        Settings settings = new Settings("FIZ", true, false, internationalizationUserSettings, otp, "FUZ");
         ArrayList<String> currencies = new ArrayList<>();
         User user = new User("foobar", currencies, "foobar@foo.com", "foo", "bar", "Foo Bar", settings, "foobiz", "foobar", "fizbiz");
 
@@ -50,6 +59,10 @@ public class UserTest {
         Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), deserializedUser.getSettings().getIntl().getDateTimeFormat().getLocale());
         Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), deserializedUser.getSettings().getIntl().getLanguage().getLocale());
         Assert.assertEquals(user.getSettings().getIntl().getNumberFormat().getLocale(), deserializedUser.getSettings().getIntl().getNumberFormat().getLocale());
+        Assert.assertEquals(user.getSettings().getOtp().getLogin().getEnabled(), deserializedUser.getSettings().getOtp().getLogin().getEnabled());
+        Assert.assertEquals(user.getSettings().getOtp().getTransactions().getSend().getEnabled(), deserializedUser.getSettings().getOtp().getTransactions().getSend().getEnabled());
+        Assert.assertEquals(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled(), deserializedUser.getSettings().getOtp().getTransactions().getTransfer().getEnabled());
+        Assert.assertEquals(user.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled(), deserializedUser.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled());
         Assert.assertEquals(user.getSettings().getTheme(), deserializedUser.getSettings().getTheme());
         Assert.assertEquals(user.getState(), deserializedUser.getState());
         Assert.assertEquals(user.getStatus(), deserializedUser.getStatus());

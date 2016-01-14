@@ -1,10 +1,10 @@
 package com.uphold.uphold_android_sdk.test.integration.model;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
@@ -18,11 +18,11 @@ import com.uphold.uphold_android_sdk.paginator.Paginator;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -439,6 +439,10 @@ public class UserTest {
             put("internationalizationUserSettingLanguage", "en-US");
             put("internationalizationUserSettingDateTimeFormat", "en-GB");
             put("internationalizationUserSettingNumberFormat", "en-AU");
+            put("settingsOTPLogin", "true");
+            put("settingsOTPTransactionsSend", "true");
+            put("settingsOTPTransactionsTransfer", "true");
+            put("settingsOTPTransactionsWithdrawCrypto", "true");
         }};
         User user = Fixtures.loadUser(data);
 
@@ -449,6 +453,10 @@ public class UserTest {
         Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), "en-US");
         Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), "en-GB");
         Assert.assertEquals(user.getSettings().getIntl().getNumberFormat().getLocale(), "en-AU");
+        Assert.assertTrue(user.getSettings().getOtp().getLogin().getEnabled());
+        Assert.assertTrue(user.getSettings().getOtp().getTransactions().getSend().getEnabled());
+        Assert.assertTrue(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled());
+        Assert.assertTrue(user.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled());
     }
 
     @Test

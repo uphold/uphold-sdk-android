@@ -1,14 +1,15 @@
 package com.uphold.uphold_android_sdk.test.integration.util;
 
-import junit.framework.Assert;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.uphold.uphold_android_sdk.config.GlobalConfigurations;
 import com.uphold.uphold_android_sdk.util.Header;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class HeaderTest {
     public void getRateLimitValueShouldReturnTheRateLimitHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Uphold-OTP", "required"));
+            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
@@ -56,7 +57,7 @@ public class HeaderTest {
     public void getSecondsUntilRateLimitResetShouldReturnTheRetryAfterHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Uphold-OTP", "required"));
+            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
@@ -68,7 +69,7 @@ public class HeaderTest {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Content-Range", "0-4/20"));
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Uphold-OTP", "required"));
+            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 

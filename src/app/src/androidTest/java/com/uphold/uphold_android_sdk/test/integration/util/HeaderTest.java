@@ -3,6 +3,7 @@ package com.uphold.uphold_android_sdk.test.integration.util;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.config.GlobalConfigurations;
 import com.uphold.uphold_android_sdk.util.Header;
 
@@ -36,7 +37,7 @@ public class HeaderTest {
     @Test
     public void getHeadersShouldReturnTheHeaders() {
         HashMap<String, String> headers = new HashMap<String, String>() {{
-            put("User-Agent", String.format("uphold-android-sdk/%s (%s)", GlobalConfigurations.UPHOLD_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
+            put("User-Agent", String.format("uphold-android-sdk/%s (%s)", BuildConfig.VERSION_NAME, GlobalConfigurations.SDK_GITHUB_URL));
         }};
 
         Assert.assertEquals(headers, Header.getHeaders());

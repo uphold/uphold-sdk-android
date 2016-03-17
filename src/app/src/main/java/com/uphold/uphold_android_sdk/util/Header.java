@@ -1,9 +1,10 @@
 package com.uphold.uphold_android_sdk.util;
 
-import com.uphold.uphold_android_sdk.config.GlobalConfigurations;
-
 import android.text.TextUtils;
 import android.util.Base64;
+
+import com.uphold.uphold_android_sdk.BuildConfig;
+import com.uphold.uphold_android_sdk.config.GlobalConfigurations;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Header {
 
     public static HashMap<String, String> getHeaders() {
         return new HashMap<String, String>() {{
-            put("User-Agent", String.format("uphold-android-sdk/%s (%s)", GlobalConfigurations.UPHOLD_SDK_VERSION, GlobalConfigurations.SDK_GITHUB_URL));
+            put("User-Agent", String.format("uphold-android-sdk/%s (%s)", BuildConfig.VERSION_NAME, GlobalConfigurations.SDK_GITHUB_URL));
         }};
     }
 

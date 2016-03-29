@@ -13,7 +13,7 @@ import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
-import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
 import com.uphold.uphold_android_sdk.service.UserCardService;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
@@ -92,7 +92,7 @@ public class UserCardServiceTest {
     }
 
     @Test
-    public void createTransactionShouldReturnTheRequest() throws Exception {
+    public void createTransactionTransferShouldReturnTheRequest() throws Exception {
         final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
@@ -101,7 +101,7 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.createTransaction(false, "foobar", new TransactionRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), promise);
+                userCardService.createTransaction(false, "foobar", new TransactionTransferRequest(new TransactionDenominationRequest("foo", "bar"), "bar"), promise);
 
                 return promise;
             }

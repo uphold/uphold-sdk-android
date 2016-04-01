@@ -190,9 +190,33 @@ upholdClient.getTickersByCurrency("BTC").then(new PromiseAction<List<Rate>>() {
 
 ```java
 TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest("1.0", "BTC");
-TransactionRequest transactionRequest = new TransactionRequest(transactionDenominationRequest, "foo@bar.com");
 
-card.createTransaction(transactionRequest).then(new PromiseAction<Transaction>() {
+// A transaction to a destination.
+TransactionTransferRequest transactionTransferRequest = new TransactionTransferRequest(transactionDenominationRequest, "foo@bar.com");
+
+card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transaction>() {
+    @Override
+    public void call(Transaction transaction) {
+        // Commit the transaction.
+        transaction.commit();
+    }
+});
+
+// A deposit from an ACH or SEPA account.
+TransactionDepositRequest transactionDepositRequest = new TransactionDepositRequest(transactionDenominationRequest, "foobar");
+
+card.createTransaction(transactionDepositRequest).then(new PromiseAction<Transaction>() {
+    @Override
+    public void call(Transaction transaction) {
+        // Commit the transaction.
+        transaction.commit();
+    }
+});
+
+// A deposit from a card.
+TransactionCardDepositRequest transactionCardDepositRequest = new TransactionCardDepositRequest(transactionDenominationRequest, "foobar", "12345");
+
+card.createTransaction(transactionCardDepositRequest).then(new PromiseAction<Transaction>() {
     @Override
     public void call(Transaction transaction) {
         // Commit the transaction.

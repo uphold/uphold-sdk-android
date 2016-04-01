@@ -11,14 +11,16 @@ import com.uphold.uphold_android_sdk.model.transaction.Fee;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.Source;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
-import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
-import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
-import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
-import com.uphold.uphold_android_sdk.model.user.settings.otp.Login;
-import com.uphold.uphold_android_sdk.model.user.settings.Otp;
 import com.uphold.uphold_android_sdk.model.user.Settings;
+import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
+import com.uphold.uphold_android_sdk.model.user.settings.Otp;
+import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
+import com.uphold.uphold_android_sdk.model.user.settings.otp.Login;
 import com.uphold.uphold_android_sdk.model.user.settings.otp.Transactions;
 import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Send;
 import com.uphold.uphold_android_sdk.model.user.settings.otp.transactions.Transfer;
@@ -197,11 +199,42 @@ public class Fixtures {
         return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), fakerFields.get("transactionNetwork"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
     }
 
-    public static TransactionRequest loadTransactionRequest(){
-        return loadTransactionRequest(null);
+    public static TransactionCardDepositRequest loadTransactionCardDepositRequest(HashMap<String, String> fields){
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("amount", faker.numerify("123456789"));
+            put("currency", faker.lorem().fixedString(3));
+            put("origin", faker.lorem().fixedString(8));
+            put("securityCode", String.valueOf(faker.numerify("1234")));
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
+
+        return new TransactionCardDepositRequest(transactionDenominationRequest, fakerFields.get("origin"), fakerFields.get("securityCode"));
     }
 
-    public static TransactionRequest loadTransactionRequest(HashMap<String, String> fields){
+    public static TransactionDepositRequest loadTransactionDepositRequest(HashMap<String, String> fields){
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("amount", faker.numerify("123456789"));
+            put("currency", faker.lorem().fixedString(3));
+            put("origin", faker.lorem().fixedString(8));
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
+
+        return new TransactionDepositRequest(transactionDenominationRequest, fakerFields.get("origin"));
+    }
+
+    public static TransactionTransferRequest loadTransactionTransferRequest(HashMap<String, String> fields){
         final Faker faker = new Faker();
         final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
             put("amount", faker.numerify("123456789"));
@@ -215,7 +248,7 @@ public class Fixtures {
 
         TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
 
-        return new TransactionRequest(transactionDenominationRequest, fakerFields.get("destination"));
+        return new TransactionTransferRequest(transactionDenominationRequest, fakerFields.get("destination"));
     }
 
     public static User loadUser() {

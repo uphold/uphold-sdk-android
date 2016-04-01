@@ -11,6 +11,7 @@ import com.uphold.uphold_android_sdk.model.transaction.Fee;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.Source;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
@@ -196,6 +197,24 @@ public class Fixtures {
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"), fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
         return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), fakerFields.get("transactionNetwork"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
+    }
+
+    public static TransactionCardDepositRequest loadTransactionCardDepositRequest(HashMap<String, String> fields){
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("amount", faker.numerify("123456789"));
+            put("currency", faker.lorem().fixedString(3));
+            put("origin", faker.lorem().fixedString(8));
+            put("securityCode", String.valueOf(faker.numerify("1234")));
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
+
+        return new TransactionCardDepositRequest(transactionDenominationRequest, fakerFields.get("origin"), fakerFields.get("securityCode"));
     }
 
     public static TransactionDepositRequest loadTransactionDepositRequest(HashMap<String, String> fields){

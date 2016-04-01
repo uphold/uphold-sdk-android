@@ -8,6 +8,7 @@ import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
 import com.uphold.uphold_android_sdk.paginator.Paginator;
@@ -170,6 +171,32 @@ public class CardTest {
         Assert.assertEquals(transaction.getNormalized().get(0).getCurrency(), "BTC");
         Assert.assertEquals(transaction.getNormalized().get(0).getFee(), "1.00");
         Assert.assertEquals(transaction.getNormalized().get(0).getRate(), "2.00");
+    }
+
+    @Test
+    public void createTransactionCardDepositShouldReturnTheTransactionCommitted() throws Exception {
+        String responseString = "{ \"id\": \"foobar\" }";
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Card card = Fixtures.loadCard(new HashMap<String, String>() {{
+                    put("id", "foobar");
+                }});
+
+                card.setUpholdRestAdapter(adapter);
+
+                return card.createTransaction(new TransactionCardDepositRequest(null, "foobar", "12345"), true);
+            }
+        });
+
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=true", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(transaction.getId(), "foobar");
     }
 
     @Test

@@ -212,6 +212,17 @@ card.createTransaction(transactionDepositRequest).then(new PromiseAction<Transac
         transaction.commit();
     }
 });
+
+// A deposit from a card.
+TransactionCardDepositRequest transactionCardDepositRequest = new TransactionCardDepositRequest(transactionDenominationRequest, "foobar", "12345");
+
+card.createTransaction(transactionCardDepositRequest).then(new PromiseAction<Transaction>() {
+    @Override
+    public void call(Transaction transaction) {
+        // Commit the transaction.
+        transaction.commit();
+    }
+});
 ```
 If you want to commit the transaction on the creation process, call the `createTransaction` method with the second parameter set to `true`.
 

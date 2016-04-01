@@ -11,6 +11,7 @@ import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
+import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
@@ -90,6 +91,28 @@ public class UserCardServiceTest {
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(otpHeader.getValue(), "otp");
+    }
+
+    @Test
+    public void createTransactionCardDepositShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter upholdRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
+
+                userCardService.createTransaction(false, "foobar", new TransactionCardDepositRequest(new TransactionDenominationRequest("foo", "bar"), "bar", "1234"), promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=false", BuildConfig.API_SERVER_URL));
     }
 
     @Test

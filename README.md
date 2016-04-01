@@ -201,6 +201,17 @@ card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transa
         transaction.commit();
     }
 });
+
+// A deposit from an ACH or SEPA account.
+TransactionDepositRequest transactionDepositRequest = new TransactionDepositRequest(transactionDenominationRequest, "foobar");
+
+card.createTransaction(transactionDepositRequest).then(new PromiseAction<Transaction>() {
+    @Override
+    public void call(Transaction transaction) {
+        // Commit the transaction.
+        transaction.commit();
+    }
+});
 ```
 If you want to commit the transaction on the creation process, call the `createTransaction` method with the second parameter set to `true`.
 

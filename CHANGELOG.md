@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.0](https://github.com/uphold/uphold-sdk-android/tree/0.1.0) (2016-04-07)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.0.7...0.1.0)
+
+**Merged pull requests:**
+
+- Add support for create transaction with origin [\#78](https://github.com/uphold/uphold-sdk-android/pull/78) ([d-moreira](https://github.com/d-moreira))
+- Update libraries [\#77](https://github.com/uphold/uphold-sdk-android/pull/77) ([SandroMachado](https://github.com/SandroMachado))
+- Add the version from the build gradle file [\#76](https://github.com/uphold/uphold-sdk-android/pull/76) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.0.7](https://github.com/uphold/uphold-sdk-android/tree/0.0.7) (2016-01-14)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.0.6...0.0.7)
 

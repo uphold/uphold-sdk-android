@@ -38,6 +38,7 @@ public class User extends BaseModel implements Serializable {
     private final String email;
     private final String firstName;
     private final String lastName;
+    private final String memberAt;
     private final String name;
     private final Settings settings;
     private final String state;
@@ -52,6 +53,7 @@ public class User extends BaseModel implements Serializable {
      * @param email The user email
      * @param firstName The user first name
      * @param lastName The user last name
+     * @param memberAt The date when the user has become a verified member
      * @param name The user name
      * @param settings The user {@link Settings}
      * @param state The user state
@@ -59,12 +61,13 @@ public class User extends BaseModel implements Serializable {
      * @param username The user username
      */
 
-    public User(String country, List<String> currencies, String email, String firstName, String lastName, String name, Settings settings, String state, String status, String username) {
+    public User(String country, List<String> currencies, String email, String firstName, String lastName, String memberAt, String name, Settings settings, String state, String status, String username) {
         this.country = country;
         this.currencies = currencies;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.memberAt = memberAt;
         this.name = name;
         this.settings = settings;
         this.state = state;
@@ -291,6 +294,16 @@ public class User extends BaseModel implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    /**
+     * Gets the date when the user has become a verified member
+     *
+     * @return the date when the user has become a verified member.
+     */
+
+    public String getMemberAt() {
+        return memberAt;
     }
 
     /**

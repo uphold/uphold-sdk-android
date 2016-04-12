@@ -137,14 +137,18 @@ user.getCards().then(new PromiseAction<List<Card>>() {
 ### Create new card
 
 ```java
+// You can create a simple card request with just the label and the currency.
 CardRequest cardRequest = new CardRequest("label", "USD");
+user.createCard(cardRequest);
+
+// Or a card request with the label, currency, position and whether it is starred or not.
+CardRequest cardRequest = new CardRequest("label", "USD", new Settings(1, true));
 user.createCard(cardRequest);
 ```
 
 Handling the success and error flow:
 
 ```java
-CardRequest cardRequest = new CardRequest("label", "USD");
 user.createCard(cardRequest).then(new PromiseAction<Card>() {
     @Override
     public void call(Card card) {

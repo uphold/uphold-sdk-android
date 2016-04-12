@@ -11,6 +11,7 @@ import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
+import com.uphold.uphold_android_sdk.model.card.Settings;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRequest;
@@ -170,6 +171,28 @@ public class UserCardServiceTest {
                 RetrofitPromise<Card> promise = new RetrofitPromise<>();
 
                 userCardService.createUserCard(new CardRequest("foo", "bar"), promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards", BuildConfig.API_SERVER_URL));
+    }
+
+    @Test
+    public void createUserCardWithSettingsShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
+            @Override
+            public Promise<Card> call(UpholdRestAdapter upholdRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Card> promise = new RetrofitPromise<>();
+
+                userCardService.createUserCard(new CardRequest("foo", "bar", new Settings(0, true)), promise);
 
                 return promise;
             }

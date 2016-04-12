@@ -12,6 +12,7 @@ import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.model.balance.Currency;
 import com.uphold.uphold_android_sdk.model.balance.UserBalance;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
+import com.uphold.uphold_android_sdk.model.card.Settings;
 import com.uphold.uphold_android_sdk.model.user.Contact;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 import com.uphold.uphold_android_sdk.paginator.Paginator;
@@ -70,7 +71,7 @@ public class UserTest {
 
                 user.setUpholdRestAdapter(adapter);
 
-                return user.createCard(new CardRequest("foo", "BTC"));
+                return user.createCard(new CardRequest("foo", "BTC", new Settings(7, true)));
             }
         });
 

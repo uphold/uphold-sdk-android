@@ -10,6 +10,7 @@ public class CardRequest implements Serializable {
 
     private final String label;
     private final String currency;
+    private final Settings settings;
 
     /**
      * Constructor.
@@ -21,6 +22,21 @@ public class CardRequest implements Serializable {
     public CardRequest(String label, String currency) {
         this.label = label;
         this.currency = currency;
+        this.settings = null;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param label The label of the card.
+     * @param currency The currency of the card.
+     * @param settings The settings of the card.
+     */
+
+    public CardRequest(String label, String currency, Settings settings) {
+        this.label = label;
+        this.currency = currency;
+        this.settings = settings;
     }
 
     /**
@@ -41,6 +57,16 @@ public class CardRequest implements Serializable {
 
     public String getCurrency() {
         return currency;
+    }
+
+    /**
+     * Gets the settings of the card.
+     *
+     * @return the settings of the card
+     */
+
+    public Settings getSettings() {
+        return settings;
     }
 
 }

@@ -268,6 +268,7 @@ public class Fixtures {
             put("internationalizationUserSettingLanguage", faker.lorem().fixedString(5));
             put("internationalizationUserSettingNumberFormat", faker.lorem().fixedString(5));
             put("lastName", faker.name().lastName());
+            put("memberAt", faker.lorem().fixedString(8));
             put("name", faker.name().name());
             put("settingsOTPLogin", "true");
             put("settingsOTPTransactionsSend", "true");
@@ -295,7 +296,7 @@ public class Fixtures {
         Otp otp = new Otp(new Login(Boolean.valueOf(fakerFields.get("settingsOTPLogin"))), new Transactions(new Send(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsSend"))), new Transfer(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsTransfer"))), new Withdraw(new Crypto(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsWithdrawCrypto"))))));
         Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, otp, fakerFields.get("theme"));
 
-        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"));
+        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("memberAt"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"));
     }
 
 }

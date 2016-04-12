@@ -274,6 +274,7 @@ public class UpholdClientTest {
             "\"email\": \"foobar@bfoobar.org\"," +
             "\"firstName\": \"foo\"," +
             "\"lastName\": \"bar\"," +
+            "\"memberAt\": \"Foobar\"," +
             "\"name\": \"Foo Bar\"," +
             "\"country\": \"BAR\"," +
             "\"state\": \"FOO\"," +
@@ -342,6 +343,7 @@ public class UpholdClientTest {
         Assert.assertEquals(user.getEmail(), "foobar@bfoobar.org");
         Assert.assertEquals(user.getFirstName(), "foo");
         Assert.assertEquals(user.getLastName(), "bar");
+        Assert.assertEquals(user.getMemberAt(), "Foobar");
         Assert.assertEquals(user.getName(), "Foo Bar");
         Assert.assertEquals(user.getSettings().getCurrency(), "USD");
         Assert.assertEquals(user.getSettings().getIntl().getDateTimeFormat().getLocale(), "en-US");

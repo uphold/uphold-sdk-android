@@ -37,7 +37,7 @@ public class UserTest {
         Otp otp = new Otp(new Login(false), new Transactions(new Send(false), new Transfer(false), new Withdraw(new Crypto(true))));
         Settings settings = new Settings("FIZ", true, false, internationalizationUserSettings, otp, "FUZ");
         ArrayList<String> currencies = new ArrayList<>();
-        User user = new User("foobar", currencies, "foobar@foo.com", "foo", "bar", "Foo Bar", settings, "foobiz", "foobar", "fizbiz");
+        User user = new User("foobar", currencies, "foobar@foo.com", "foo", "bar", "foobar", "Foo Bar", settings, "foobiz", "foobar", "fizbiz");
 
         currencies.add("EUR");
         currencies.add("USD");
@@ -52,6 +52,7 @@ public class UserTest {
         Assert.assertEquals(user.getEmail(), deserializedUser.getEmail());
         Assert.assertEquals(user.getFirstName(), deserializedUser.getFirstName());
         Assert.assertEquals(user.getLastName(), deserializedUser.getLastName());
+        Assert.assertEquals(user.getMemberAt(), deserializedUser.getMemberAt());
         Assert.assertEquals(user.getName(), deserializedUser.getName());
         Assert.assertEquals(user.getSettings().getCurrency(), deserializedUser.getSettings().getCurrency());
         Assert.assertEquals(user.getSettings().getHasNewsSubscription(), deserializedUser.getSettings().getHasNewsSubscription());

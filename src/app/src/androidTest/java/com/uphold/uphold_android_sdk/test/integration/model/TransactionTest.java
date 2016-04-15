@@ -362,6 +362,49 @@ public class TransactionTest {
     }
 
     @Test
+    public void commitWithMessageAndSecurityCodeShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("transactionStatus", "pending");
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit(new TransactionCommitRequest("foobar", "foo"));
+            }
+        });
+
+        Header otpHeader = null;
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertNull(otpHeader);
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\",\"securityCode\":\"foo\"}");
+    }
+
+    @Test
     public void commitWithOTPShouldReturnTheTransaction() throws Exception {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";

@@ -73,6 +73,20 @@ public class Transaction extends BaseModel implements Serializable {
     }
 
     /**
+     * Gets the card id path to commit the transaction.
+     *
+     * @return the card id path to commit the transaction.
+     */
+
+    private String getCardIdPath() {
+        if ("deposit".equalsIgnoreCase(this.getType())) {
+            return this.getDestination().getCardId();
+        }
+
+        return this.getOrigin().getCardId();
+    }
+
+    /**
      * Cancel a transaction.
      *
      * @return a {@link Promise<Transaction>} with the transaction.
@@ -82,7 +96,21 @@ public class Transaction extends BaseModel implements Serializable {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getUpholdRestAdapter().create(UserCardService.class);
 
-        if (TextUtils.isEmpty(this.getOrigin().getCardId())) {
+        if ("deposit".equalsIgnoreCase(this.getType())) {
+            if (TextUtils.isEmpty(this.getOrigin().getAccountId())) {
+                promise.reject(new LogicException("Origin AccountId is missing from this deposit transaction"));
+
+                return promise;
+            }
+
+            if (TextUtils.isEmpty(this.getDestination().getCardId())) {
+                promise.reject(new LogicException("Destination CardId is missing from this deposit transaction"));
+
+                return promise;
+            }
+        }
+
+        if (TextUtils.isEmpty(this.getOrigin().getCardId()) && TextUtils.isEmpty(this.getDestination().getCardId())) {
             promise.reject(new LogicException("Origin CardId is missing from this transaction"));
 
             return promise;
@@ -100,7 +128,7 @@ public class Transaction extends BaseModel implements Serializable {
             return promise;
         }
 
-        userCardService.cancelTransaction(this.getOrigin().getCardId(), this.getId(), EmptyOutput.INSTANCE, promise);
+        userCardService.cancelTransaction(getCardIdPath(), this.getId(), EmptyOutput.INSTANCE, promise);
 
         return promise;
     }
@@ -152,7 +180,21 @@ public class Transaction extends BaseModel implements Serializable {
         RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
         UserCardService userCardService = this.getUpholdRestAdapter().create(UserCardService.class);
 
-        if (TextUtils.isEmpty(this.getOrigin().getCardId())) {
+        if ("deposit".equalsIgnoreCase(this.getType())) {
+            if (TextUtils.isEmpty(this.getOrigin().getAccountId())) {
+                promise.reject(new LogicException("Origin AccountId is missing from this deposit transaction"));
+
+                return promise;
+            }
+
+            if (TextUtils.isEmpty(this.getDestination().getCardId())) {
+                promise.reject(new LogicException("Destination CardId is missing from this deposit transaction"));
+
+                return promise;
+            }
+        }
+
+        if (TextUtils.isEmpty(this.getOrigin().getCardId()) && TextUtils.isEmpty(this.getDestination().getCardId())) {
             promise.reject(new LogicException("Origin CardId is missing from this transaction"));
 
             return promise;
@@ -168,7 +210,7 @@ public class Transaction extends BaseModel implements Serializable {
             transactionCommitRequest = new TransactionCommitRequest(null);
         }
 
-        userCardService.confirmTransaction(this.getOrigin().getCardId(), this.getId(), transactionCommitRequest, otp, promise);
+        userCardService.confirmTransaction(getCardIdPath(), this.getId(), transactionCommitRequest, otp, promise);
 
         return promise;
     }

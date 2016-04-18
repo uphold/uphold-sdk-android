@@ -72,7 +72,7 @@ public class UserCardServiceTest {
                 UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
                 RetrofitPromise<Transaction> promise = new RetrofitPromise<>();
 
-                userCardService.confirmTransaction("foo", "bar", new TransactionCommitRequest("message"), "otp", promise);
+                userCardService.confirmTransaction("foo", "bar", new TransactionCommitRequest("message", "securityCode"), "otp", promise);
 
                 return promise;
             }

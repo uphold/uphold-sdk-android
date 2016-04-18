@@ -40,6 +40,8 @@ public class TransactionTest {
             @Override
             public Promise<Transaction> call(UpholdRestAdapter adapter) {
                 Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("destinationCardId", null);
+                    put("originAccountId", null);
                     put("originCardId", null);
                 }});
 
@@ -53,6 +55,54 @@ public class TransactionTest {
 
         Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
         Assert.assertEquals(exception.getMessage(), "Origin CardId is missing from this transaction");
+    }
+
+    @Test
+    public void cancelShouldReturnALogicExceptionIfDestinationCardIdIsMissingForDeposits() throws Exception {
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("destinationCardId", null);
+                    put("transactionType", "deposit");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.cancel();
+            }
+        });
+
+        Exception exception = adapter.getException();
+
+        Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
+        Assert.assertEquals(exception.getMessage(), "Destination CardId is missing from this deposit transaction");
+    }
+
+    @Test
+    public void cancelShouldReturnALogicExceptionIfOriginAccountIdIsMissingForDeposits() throws Exception {
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("originAccountId", null);
+                    put("transactionType", "deposit");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.cancel();
+            }
+        });
+
+        Exception exception = adapter.getException();
+
+        Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
+        Assert.assertEquals(exception.getMessage(), "Origin AccountId is missing from this deposit transaction");
     }
 
     @Test
@@ -137,6 +187,8 @@ public class TransactionTest {
             @Override
             public Promise<Transaction> call(UpholdRestAdapter adapter) {
                 Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("destinationCardId", null);
+                    put("originAccountId", null);
                     put("originCardId", null);
                 }});
 
@@ -150,6 +202,54 @@ public class TransactionTest {
 
         Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
         Assert.assertEquals(exception.getMessage(), "Origin CardId is missing from this transaction");
+    }
+
+    @Test
+    public void commitShouldReturnTheLogicExceptionIfDestinationCardIdIsMissingForDeposits() throws Exception {
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("destinationCardId", null);
+                    put("transactionType", "deposit");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit(new TransactionCommitRequest("foobar"));
+            }
+        });
+
+        Exception exception = adapter.getException();
+
+        Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
+        Assert.assertEquals(exception.getMessage(), "Destination CardId is missing from this deposit transaction");
+    }
+
+    @Test
+    public void commitShouldReturnTheLogicExceptionIfOriginAccountIdIsMissingForDeposits() throws Exception {
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("originAccountId", null);
+                    put("transactionType", "deposit");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit(new TransactionCommitRequest("foobar"));
+            }
+        });
+
+        Exception exception = adapter.getException();
+
+        Assert.assertEquals(exception.getClass().getName(), LogicException.class.getName());
+        Assert.assertEquals(exception.getMessage(), "Origin AccountId is missing from this deposit transaction");
     }
 
     @Test
@@ -259,6 +359,49 @@ public class TransactionTest {
         Assert.assertEquals(otpHeader.getValue(), "otp");
         Assert.assertEquals(transaction.getId(), "foobar");
         Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\"}");
+    }
+
+    @Test
+    public void commitWithMessageAndSecurityCodeShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("transactionStatus", "pending");
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                return transaction.commit(new TransactionCommitRequest("foobar", "foo"));
+            }
+        });
+
+        Header otpHeader = null;
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+                otpHeader = header;
+
+                break;
+            }
+        }
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertNull(otpHeader);
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\",\"securityCode\":\"foo\"}");
     }
 
     @Test

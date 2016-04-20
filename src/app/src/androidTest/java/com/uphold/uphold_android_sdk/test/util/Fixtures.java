@@ -1,6 +1,7 @@
 package com.uphold.uphold_android_sdk.test.util;
 
 import com.github.javafaker.Faker;
+import com.uphold.uphold_android_sdk.model.Account;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.User;
@@ -36,6 +37,23 @@ import java.util.HashMap;
  */
 
 public class Fixtures {
+
+    public static Account loadAccount(HashMap<String, String> fields) {
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("currency", faker.lorem().fixedString(3));
+            put("id", faker.lorem().fixedString(20));
+            put("label", faker.lorem().fixedString(10));
+            put("status", faker.lorem().fixedString(8));
+            put("type", faker.lorem().fixedString(8));
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        return new Account(fakerFields.get("currency"), fakerFields.get("id"), fakerFields.get("label"), fakerFields.get("status"), fakerFields.get("type"));
+    }
 
     public static Card loadCard() {
         return loadCard(null);

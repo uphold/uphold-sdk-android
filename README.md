@@ -100,6 +100,18 @@ upholdClient.getUser().then(new PromiseAction<User>() {
 });
 ```
 
+### Get user accounts
+
+```java
+UpholdClient upholdClient = new UpholdClient(bearerToken);
+upholdClient.getUser().getAccounts().then(new PromiseAction<List<Account>>() {
+    @Override
+    public void call(List<Account> accounts) {
+        // Do something with the list of accounts.
+    }
+});
+```
+
 ### Get user cards with chaining
 
 ```java
@@ -129,7 +141,7 @@ upholdClient.getUser().then(new RepromiseFunction<User, List<Card>>() {
 user.getCards().then(new PromiseAction<List<Card>>() {
     @Override
     public void call(List<Card> cards) {
-        // Do something with the list of the cards.
+        // Do something with the list of cards.
     }
 });
 ```

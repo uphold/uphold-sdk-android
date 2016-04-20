@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
+import com.uphold.uphold_android_sdk.model.Account;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.User;
@@ -126,6 +127,60 @@ public class UserTest {
         Assert.assertEquals(contact.getId(), "FOOBAR");
         Assert.assertEquals(contact.getLastName(), "Bar");
         Assert.assertEquals(contact.getName(), "Foo Bar");
+    }
+
+    @Test
+    public void getAccountByIdShouldReturnTheAccountWithId() throws Exception {
+        String responseString = "{ \"currency\": \"FOO\", \"id\": \"FOOBAR\", \"label\": \"BAR\", \"status\": \"FOO BAR\", \"type\": \"Bar\" }";
+        MockRestAdapter<Account> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Account>() {
+            @Override
+            public Promise<Account> call(UpholdRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setUpholdRestAdapter(adapter);
+
+                return user.getAccountById("FOOBAR");
+            }
+        });
+
+        Account account = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/accounts/FOOBAR", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(account.getCurrency(), "FOO");
+        Assert.assertEquals(account.getId(), "FOOBAR");
+        Assert.assertEquals(account.getLabel(), "BAR");
+        Assert.assertEquals(account.getStatus(), "FOO BAR");
+        Assert.assertEquals(account.getType(), "Bar");
+    }
+
+    @Test
+    public void getAccountsShouldReturnTheListOfAccounts() throws Exception {
+        String responseString = "[ { \"id\": \"FOO\" }, { \"id\": \"BAR\" } ]";
+        MockRestAdapter<List<Account>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Account>>() {
+            @Override
+            public Promise<List<Account>> call(UpholdRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setUpholdRestAdapter(adapter);
+
+                return user.getAccounts();
+            }
+        });
+
+        List<Account> accounts = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/accounts", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(accounts.size(), 2);
+        Assert.assertEquals(accounts.get(0).getId(), "FOO");
+        Assert.assertEquals(accounts.get(1).getId(), "BAR");
     }
 
     @Test

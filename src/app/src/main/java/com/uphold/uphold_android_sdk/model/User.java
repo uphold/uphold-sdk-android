@@ -15,6 +15,7 @@ import com.uphold.uphold_android_sdk.model.user.Settings;
 import com.uphold.uphold_android_sdk.model.user.Status;
 import com.uphold.uphold_android_sdk.paginator.Paginator;
 import com.uphold.uphold_android_sdk.paginator.PaginatorInterface;
+import com.uphold.uphold_android_sdk.service.AccountsService;
 import com.uphold.uphold_android_sdk.service.UserCardService;
 import com.uphold.uphold_android_sdk.service.UserService;
 import com.uphold.uphold_android_sdk.util.Header;
@@ -111,6 +112,38 @@ public class User extends BaseModel implements Serializable {
                 return contact;
             }
         });
+    }
+
+    /**
+     * Gets the user's accounts.
+     *
+     * @return a promise {@link Promise<List<Account>>} with the user's accounts list.
+     */
+
+    public Promise<List<Account>> getAccounts() {
+        RetrofitPromise<List<Account>> promise = new RetrofitPromise<>();
+        AccountsService accountsService = this.getUpholdRestAdapter().create(AccountsService.class);
+
+        accountsService.getUserAccounts(promise);
+
+        return promise;
+    }
+
+    /**
+     * Gets the user account with the account id.
+     *
+     * @param accountId The id of the account we want.
+     *
+     * @return a promise {@link Promise<Account>} with the account.
+     */
+
+    public Promise<Account> getAccountById(String accountId) {
+        RetrofitPromise<Account> promise = new RetrofitPromise<>();
+        AccountsService accountsService = this.getUpholdRestAdapter().create(AccountsService.class);
+
+        accountsService.getUserAccountById(accountId, promise);
+
+        return promise;
     }
 
     /**

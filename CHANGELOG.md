@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.0](https://github.com/uphold/uphold-sdk-android/tree/0.2.0) (2016-04-29)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.1.0...0.2.0)
+
+**Closed issues:**
+
+- How to get the current balance using Android SDK [\#62](https://github.com/uphold/uphold-sdk-android/issues/62)
+
+**Merged pull requests:**
+
+- Add accounts support [\#83](https://github.com/uphold/uphold-sdk-android/pull/83) ([d-moreira](https://github.com/d-moreira))
+- Update gradle plugin and dependencies [\#82](https://github.com/uphold/uphold-sdk-android/pull/82) ([d-moreira](https://github.com/d-moreira))
+- Fix logic exception for transaction deposits [\#81](https://github.com/uphold/uphold-sdk-android/pull/81) ([d-moreira](https://github.com/d-moreira))
+- Update card request model [\#80](https://github.com/uphold/uphold-sdk-android/pull/80) ([d-moreira](https://github.com/d-moreira))
+- Update user model [\#79](https://github.com/uphold/uphold-sdk-android/pull/79) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.1.0](https://github.com/uphold/uphold-sdk-android/tree/0.1.0) (2016-04-07)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.0.7...0.1.0)
 

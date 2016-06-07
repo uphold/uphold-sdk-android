@@ -207,7 +207,7 @@ upholdClient.getTickersByCurrency("BTC").then(new PromiseAction<List<Rate>>() {
 ```java
 TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest("1.0", "BTC");
 
-// A transaction to a destination.
+// A transaction to a destination (card id, crypto address, email, phone number or username).
 TransactionTransferRequest transactionTransferRequest = new TransactionTransferRequest(transactionDenominationRequest, "foo@bar.com");
 
 card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transaction>() {
@@ -219,7 +219,7 @@ card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transa
 });
 
 // A deposit from an ACH or SEPA account.
-TransactionDepositRequest transactionDepositRequest = new TransactionDepositRequest(transactionDenominationRequest, "foobar");
+TransactionDepositRequest transactionDepositRequest = new TransactionDepositRequest(transactionDenominationRequest, "accountId");
 
 card.createTransaction(transactionDepositRequest).then(new PromiseAction<Transaction>() {
     @Override
@@ -229,8 +229,8 @@ card.createTransaction(transactionDepositRequest).then(new PromiseAction<Transac
     }
 });
 
-// A deposit from a card.
-TransactionCardDepositRequest transactionCardDepositRequest = new TransactionCardDepositRequest(transactionDenominationRequest, "foobar", "12345");
+// A deposit from a credit card.
+TransactionCardDepositRequest transactionCardDepositRequest = new TransactionCardDepositRequest(transactionDenominationRequest, "creditCardId", "1234");
 
 card.createTransaction(transactionCardDepositRequest).then(new PromiseAction<Transaction>() {
     @Override
@@ -240,6 +240,7 @@ card.createTransaction(transactionCardDepositRequest).then(new PromiseAction<Tra
     }
 });
 ```
+
 If you want to commit the transaction on the creation process, call the `createTransaction` method with the second parameter set to `true`.
 
 ```java

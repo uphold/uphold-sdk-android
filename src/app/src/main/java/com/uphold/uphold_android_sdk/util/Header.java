@@ -67,7 +67,7 @@ public class Header {
 
     public static String getRateLimitValue(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("X-RateLimit-Limit") == 0) {
+            if ("X-RateLimit-Limit".equalsIgnoreCase(header.getName())) {
                 return header.getValue();
             }
         }
@@ -85,7 +85,7 @@ public class Header {
 
     public static String getSecondsUntilRateLimitReset(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("Retry-After") == 0) {
+            if ("Retry-After".equalsIgnoreCase(header.getName())) {
                 return header.getValue();
             }
         }
@@ -103,7 +103,7 @@ public class Header {
 
     public static Integer getTotalNumberOfResults(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if (header.getName().compareTo("Content-Range") == 0) {
+            if ("Content-Range".equalsIgnoreCase(header.getName())) {
                 Pattern pattern = Pattern.compile("(\\d+)-(\\d+)/(\\d+)");
                 Matcher matcher = pattern.matcher(header.getValue());
 

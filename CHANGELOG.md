@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.1](https://github.com/uphold/uphold-sdk-android/tree/0.2.1) (2016-06-15)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.2.0...0.2.1)
+
+**Closed issues:**
+
+- User.getUserTransactions\(\).hasNext throws an exception  [\#85](https://github.com/uphold/uphold-sdk-android/issues/85)
+
+**Merged pull requests:**
+
+- Fix headers comparison [\#86](https://github.com/uphold/uphold-sdk-android/pull/86) ([SandroMachado](https://github.com/SandroMachado))
+- Update README.md [\#84](https://github.com/uphold/uphold-sdk-android/pull/84) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.2.0](https://github.com/uphold/uphold-sdk-android/tree/0.2.0) (2016-04-29)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.1.0...0.2.0)
 

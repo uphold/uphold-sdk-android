@@ -8,6 +8,8 @@ import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.card.Address;
+import com.uphold.uphold_android_sdk.model.card.AddressRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
@@ -33,6 +35,33 @@ import retrofit.client.Request;
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class CardTest {
+
+    @Test
+    public void createAddressShouldReturnTheAddress() throws Exception {
+        String responseString = "{ \"id\": \"foobar\", \"network\": \"foobiz\" }";
+        MockRestAdapter<Address> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Address>() {
+            @Override
+            public Promise<Address> call(UpholdRestAdapter adapter) {
+                Card card = Fixtures.loadCard(new HashMap<String, String>() {{
+                    put("id", "foobar");
+                }});
+
+                card.setUpholdRestAdapter(adapter);
+
+                return card.createAddress(new AddressRequest("foobiz"));
+            }
+        });
+
+        Request request = adapter.getRequest();
+        Address address = adapter.getResult();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/addresses", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(address.getId(), "foobar");
+        Assert.assertEquals(address.getNetwork(), "foobiz");
+    }
 
     @Test
     public void createTransactionShouldReturnTheTransaction() throws Exception {

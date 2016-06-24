@@ -2,6 +2,8 @@ package com.uphold.uphold_android_sdk.service;
 
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.card.Address;
+import com.uphold.uphold_android_sdk.model.card.AddressRequest;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
@@ -47,6 +49,15 @@ public interface UserCardService {
 
     @POST("/v0/me/cards/{cardId}/transactions/{transactionId}/commit")
     void confirmTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, @Body TransactionCommitRequest transactionCommitRequest, @Header("X-Bitreserve-OTP") String otp, Callback<Transaction> callback);
+
+    /**
+     * Create a card address.
+     *
+     * @param callback A callback to receive the request information.
+     */
+
+    @POST("/v0/me/cards/{cardId}/addresses")
+    void createAddress(@Path("cardId") String cardId, @Body AddressRequest cardAddressRequest, Callback<Address> callback);
 
     /**
      * Performs a request to create a transaction for a card.

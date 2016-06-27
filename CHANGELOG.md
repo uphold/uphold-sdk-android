@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0](https://github.com/uphold/uphold-sdk-android/tree/3.0.0) (2016-06-27)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.2.1...3.0.0)
+
+**Merged pull requests:**
+
+- Add create card address [\#87](https://github.com/uphold/uphold-sdk-android/pull/87) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.2.1](https://github.com/uphold/uphold-sdk-android/tree/0.2.1) (2016-06-15)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.2.0...0.2.1)
 

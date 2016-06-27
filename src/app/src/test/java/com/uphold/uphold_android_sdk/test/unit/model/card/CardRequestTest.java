@@ -28,7 +28,7 @@ public class CardRequestTest {
     }
 
     @Test
-    public void cardRequestWithSettingsshouldBeSerializable() {
+    public void cardRequestWithSettingsShouldBeSerializable() {
         CardRequest cardRequest = new CardRequest("foo", "bar", new Settings(0, true));
         byte[] serializedCardRequest = SerializationUtils.serialize(cardRequest);
         CardRequest deserializedCardRequest = SerializationUtils.deserialize(serializedCardRequest);

@@ -10,6 +10,8 @@ import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.card.Address;
+import com.uphold.uphold_android_sdk.model.card.AddressRequest;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
 import com.uphold.uphold_android_sdk.model.card.Settings;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCardDepositRequest;
@@ -92,6 +94,28 @@ public class UserCardServiceTest {
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(otpHeader.getValue(), "otp");
+    }
+
+    @Test
+    public void createAddressShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<Address> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Address>() {
+            @Override
+            public Promise<Address> call(UpholdRestAdapter upholdRestAdapter) {
+                UserCardService userCardService = adapter.getRestAdapter().create(UserCardService.class);
+                RetrofitPromise<Address> promise = new RetrofitPromise<>();
+
+                userCardService.createAddress("foo", new AddressRequest("foobar"), promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/addresses", BuildConfig.API_SERVER_URL));
     }
 
     @Test

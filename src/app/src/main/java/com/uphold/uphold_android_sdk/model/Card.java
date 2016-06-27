@@ -5,6 +5,8 @@ import com.darylteo.rx.promises.java.functions.PromiseFunction;
 
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
+import com.uphold.uphold_android_sdk.model.card.Address;
+import com.uphold.uphold_android_sdk.model.card.AddressRequest;
 import com.uphold.uphold_android_sdk.model.card.Normalized;
 import com.uphold.uphold_android_sdk.model.card.Settings;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionRequest;
@@ -58,6 +60,23 @@ public class Card extends BaseModel implements Serializable {
         this.lastTransactionAt = lastTransactionAt;
         this.normalized = normalized;
         this.settings = settings;
+    }
+
+    /**
+     * Creates a card address.
+     *
+     * @param addressRequest The {@link AddressRequest} with the name of the address to be created.
+     *
+     * @return a {@link Promise<Address>} with the transaction.
+     */
+
+    public Promise<Address> createAddress(AddressRequest addressRequest) {
+        RetrofitPromise<Address> promise = new RetrofitPromise<>();
+        UserCardService userCardService = this.getUpholdRestAdapter().create(UserCardService.class);
+
+        userCardService.createAddress(this.getId(), addressRequest, promise);
+
+        return promise;
     }
 
     /**

@@ -174,6 +174,30 @@ user.createCard(cardRequest).then(new PromiseAction<Card>() {
 });
 ```
 
+### Create new card address
+
+```java
+// In the address request you need to specify the network for the address.
+AddressRequest addressRequest = new AddressRequest("bitcoin");
+card.createAddress(addressRequest);
+```
+
+Handling the success and error flow:
+
+```java
+card.createAddress(addressRequest).then(new PromiseAction<Address>() {
+    @Override
+    public void call(Address address) {
+	    // Do something with the address created.
+    }
+}).fail(new PromiseAction<Exception>() {
+    @Override
+    public void call(Exception e) {
+        // Handle the error.
+    }
+});
+```
+
 ### Get ticker
 
 ```java

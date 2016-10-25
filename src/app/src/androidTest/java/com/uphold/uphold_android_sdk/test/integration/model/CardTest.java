@@ -102,6 +102,13 @@ public class CardTest {
               "\"currency\": \"BTC\"," +
               "\"description\": \"foo@bar.com\"," +
               "\"fee\": \"0.00\"," +
+              "\"merchant\": {" +
+                "\"city\": \"foo\"," +
+                "\"country\": \"bar\"," +
+                "\"name\": \"foobar\"," +
+                "\"state\": \"fizbiz\"," +
+                "\"zipCode\": \"fizbuz\"" +
+              "}," +
               "\"rate\": \"1.00\"," +
               "\"type\": \"email\"" +
             "}," +
@@ -185,6 +192,11 @@ public class CardTest {
         Assert.assertEquals(transaction.getDestination().getCurrency(), "BTC");
         Assert.assertEquals(transaction.getDestination().getDescription(), "foo@bar.com");
         Assert.assertEquals(transaction.getDestination().getFee(), "0.00");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCity(), "foo");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCountry(), "bar");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getName(), "foobar");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getState(), "fizbiz");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getZipCode(), "fizbuz");
         Assert.assertEquals(transaction.getDestination().getRate(), "1.00");
         Assert.assertEquals(transaction.getDestination().getType(), "email");
         Assert.assertEquals(transaction.getParams().getCurrency(), "BTC");

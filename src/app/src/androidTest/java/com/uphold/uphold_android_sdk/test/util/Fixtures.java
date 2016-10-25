@@ -9,6 +9,7 @@ import com.uphold.uphold_android_sdk.model.card.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
 import com.uphold.uphold_android_sdk.model.transaction.Fee;
+import com.uphold.uphold_android_sdk.model.transaction.Merchant;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
 import com.uphold.uphold_android_sdk.model.transaction.Source;
@@ -146,6 +147,11 @@ public class Fixtures {
             put("destinationCurrency", faker.lorem().fixedString(3));
             put("destinationDescription", faker.name().name());
             put("destinationFee", faker.lorem().fixedString(3));
+            put("destinationMerchantCity", faker.address().cityPrefix());
+            put("destinationMerchantCountry", faker.address().country());
+            put("destinationMerchantName", faker.name().fullName());
+            put("destinationMerchantState", faker.address().stateAbbr());
+            put("destinationMerchantZipCode", faker.address().zipCode());
             put("destinationRate", faker.lorem().fixedString(3));
             put("destinationType", faker.lorem().fixedString(6));
             put("destinationUsername", faker.lorem().fixedString(10));
@@ -196,7 +202,8 @@ public class Fixtures {
         }
 
         Denomination denomination = new Denomination(fakerFields.get("denominationAmount"), fakerFields.get("denominationCurrency"), fakerFields.get("denominationPair"), fakerFields.get("denominationRate"));
-        Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"), fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), fakerFields.get("destinationRate"), fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
+        Merchant merchant = new Merchant(fakerFields.get("destinationMerchantCity"), fakerFields.get("destinationMerchantCountry"), fakerFields.get("destinationMerchantName"), fakerFields.get("destinationMerchantState"), fakerFields.get("destinationMerchantZipCode"));
+        Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"), fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), merchant,fakerFields.get("destinationRate"), fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
         ArrayList<Fee> fees = new ArrayList<Fee>() {{
             add(new Fee(fakerFields.get("feeAmount"), fakerFields.get("feeCurrency"), fakerFields.get("feePercentage"), fakerFields.get("feeTarget"), fakerFields.get("feeType")));
         }};

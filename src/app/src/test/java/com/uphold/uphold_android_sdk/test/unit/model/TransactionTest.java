@@ -4,6 +4,7 @@ import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.transaction.Denomination;
 import com.uphold.uphold_android_sdk.model.transaction.Destination;
 import com.uphold.uphold_android_sdk.model.transaction.Fee;
+import com.uphold.uphold_android_sdk.model.transaction.Merchant;
 import com.uphold.uphold_android_sdk.model.transaction.Normalized;
 import com.uphold.uphold_android_sdk.model.transaction.Origin;
 import com.uphold.uphold_android_sdk.model.transaction.Parameters;
@@ -29,7 +30,8 @@ public class TransactionTest {
     @Test
     public void shouldBeSerializable() {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
-        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", "fiz", "biz", "buz");
+        Merchant merchant = new Merchant("foo", "bar", "biz", "buz", "foobar");
+        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", merchant, "fiz", "biz", "buz");
         Fee fee = new Fee("foo", "bar", "fuz", "buz", "biz");
         List<Fee> fees = new ArrayList<>();
         List<Normalized> normalizeds = new ArrayList<>();
@@ -61,6 +63,11 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getCurrency(), deserializedTransaction.getDestination().getCurrency() );
         Assert.assertEquals(transaction.getDestination().getDescription(), deserializedTransaction.getDestination().getDescription());
         Assert.assertEquals(transaction.getDestination().getFee(), deserializedTransaction.getDestination().getFee());
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCity(), deserializedTransaction.getDestination().getMerchant().getCity());
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCountry(), deserializedTransaction.getDestination().getMerchant().getCountry());
+        Assert.assertEquals(transaction.getDestination().getMerchant().getName(), deserializedTransaction.getDestination().getMerchant().getName());
+        Assert.assertEquals(transaction.getDestination().getMerchant().getState(), deserializedTransaction.getDestination().getMerchant().getState());
+        Assert.assertEquals(transaction.getDestination().getMerchant().getZipCode(), deserializedTransaction.getDestination().getMerchant().getZipCode());
         Assert.assertEquals(transaction.getDestination().getRate(), deserializedTransaction.getDestination().getRate());
         Assert.assertEquals(transaction.getDestination().getType(), deserializedTransaction.getDestination().getType());
         Assert.assertEquals(transaction.getDestination().getUsername(), deserializedTransaction.getDestination().getUsername());

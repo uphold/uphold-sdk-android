@@ -533,6 +533,11 @@ public class TransactionTest {
             put("destinationCurrency", "bar");
             put("destinationDescription", "biz");
             put("destinationFee", "foobuz");
+            put("destinationMerchantCity", "bar");
+            put("destinationMerchantCountry", "foo");
+            put("destinationMerchantName", "buz");
+            put("destinationMerchantState", "fiz");
+            put("destinationMerchantZipCode", "biz");
             put("destinationRate", "buz");
             put("destinationType", "fuzbiz");
             put("destinationUsername", "fizbuz");
@@ -545,6 +550,11 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getCurrency(), "bar");
         Assert.assertEquals(transaction.getDestination().getDescription(), "biz");
         Assert.assertEquals(transaction.getDestination().getFee(), "foobuz");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCity(), "bar");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getCountry(), "foo");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getName(), "buz");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getState(), "fiz");
+        Assert.assertEquals(transaction.getDestination().getMerchant().getZipCode(), "biz");
         Assert.assertEquals(transaction.getDestination().getRate(), "buz");
         Assert.assertEquals(transaction.getDestination().getType(), "fuzbiz");
         Assert.assertEquals(transaction.getDestination().getUsername(), "fizbuz");

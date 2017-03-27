@@ -65,7 +65,7 @@ public class UpholdRetrofitErrorHandlingTest {
             { 419, new ArrayList<Header>(), "reason", 419, BadRequestException.class.getName(), "Requested range not satisfiable" },
             { 429, new ArrayList<Header>() {{
                 add(new Header("Retry-After", "10"));
-                add(new Header("X-RateLimit-Limit", "300"));
+                add(new Header("Rate-Limit-Total", "300"));
             }}, "reason", 429, ApiLimitExceedException.class.getName(), "You have exceeded Uphold's API rate limit of 300 requests. Current time window ends in 10 seconds." },
             { 500, new ArrayList<Header>(), "reason", 500, RuntimeException.class.getName(), "500 reason" }});
     }

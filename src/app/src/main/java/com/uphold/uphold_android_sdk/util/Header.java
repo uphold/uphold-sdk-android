@@ -67,7 +67,7 @@ public class Header {
 
     public static String getRateLimitValue(List<retrofit.client.Header> headers) {
         for (retrofit.client.Header header : headers) {
-            if ("X-RateLimit-Limit".equalsIgnoreCase(header.getName())) {
+            if ("Rate-Limit-Total".equalsIgnoreCase(header.getName())) {
                 return header.getValue();
             }
         }

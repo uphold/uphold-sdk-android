@@ -47,7 +47,7 @@ public class HeaderTest {
     public void getRateLimitValueShouldReturnTheRateLimitHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
+            add(new retrofit.client.Header("OTP-Token", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
@@ -58,7 +58,7 @@ public class HeaderTest {
     public void getSecondsUntilRateLimitResetShouldReturnTheRetryAfterHeader() {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
+            add(new retrofit.client.Header("OTP-Token", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 
@@ -70,7 +70,7 @@ public class HeaderTest {
         final List<retrofit.client.Header> listHeaders = new ArrayList<retrofit.client.Header>() {{
             add(new retrofit.client.Header("Content-Range", "0-4/20"));
             add(new retrofit.client.Header("Retry-After", "10"));
-            add(new retrofit.client.Header("X-Bitreserve-OTP", "required"));
+            add(new retrofit.client.Header("OTP-Token", "required"));
             add(new retrofit.client.Header("X-RateLimit-Limit", "300"));
         }};
 

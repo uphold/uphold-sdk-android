@@ -302,7 +302,7 @@ public class TransactionTest {
         Transaction transaction = adapter.getResult();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;
@@ -345,7 +345,7 @@ public class TransactionTest {
         Transaction transaction = adapter.getResult();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;
@@ -388,7 +388,7 @@ public class TransactionTest {
         Transaction transaction = adapter.getResult();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;
@@ -431,7 +431,7 @@ public class TransactionTest {
         Transaction transaction = adapter.getResult();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;
@@ -474,7 +474,7 @@ public class TransactionTest {
         Transaction transaction = adapter.getResult();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;

@@ -48,7 +48,7 @@ public interface UserCardService {
      */
 
     @POST("/v0/me/cards/{cardId}/transactions/{transactionId}/commit")
-    void confirmTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, @Body TransactionCommitRequest transactionCommitRequest, @Header("X-Bitreserve-OTP") String otp, Callback<Transaction> callback);
+    void confirmTransaction(@Path("cardId") String cardId, @Path("transactionId") String transactionId, @Body TransactionCommitRequest transactionCommitRequest, @Header("OTP-Token") String otp, Callback<Transaction> callback);
 
     /**
      * Create a card address.

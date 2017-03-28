@@ -84,7 +84,7 @@ public class UserCardServiceTest {
         Request request = adapter.getRequest();
 
         for (Header header : request.getHeaders()) {
-            if (header.getName().compareToIgnoreCase("X-Bitreserve-OTP") == 0) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
                 otpHeader = header;
 
                 break;

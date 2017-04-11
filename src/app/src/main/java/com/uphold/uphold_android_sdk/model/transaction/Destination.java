@@ -17,6 +17,7 @@ public class Destination implements Serializable {
     private final String currency;
     private final String description;
     private final String fee;
+    private final Merchant merchant;
     private final String rate;
     private final String type;
     private final String username;
@@ -33,12 +34,13 @@ public class Destination implements Serializable {
      * @param currency The currency from the destination of the transaction.
      * @param description The description from the destination of the transaction.
      * @param fee The fee from the destination of the transaction.
+     * @param merchant The merchant from the destination of the transaction.
      * @param rate The rate from the destination of the transaction.
      * @param type The type from the destination of the transaction.
      * @param username The username from the destination of the transaction.
      */
 
-    public Destination(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, String rate, String type, String username) {
+    public Destination(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, Merchant merchant, String rate, String type, String username) {
         this.AccountId = AccountId;
         this.CardId = cardId;
         this.accountType = accountType;
@@ -48,6 +50,7 @@ public class Destination implements Serializable {
         this.currency = currency;
         this.description = description;
         this.fee = fee;
+        this.merchant = merchant;
         this.rate = rate;
         this.type = type;
         this.username = username;
@@ -141,6 +144,16 @@ public class Destination implements Serializable {
 
     public String getFee() {
         return fee;
+    }
+
+    /**
+     * Gets the merchant from the destination of the transaction.
+     *
+     * @return the merchant from the destination of the transaction.
+     */
+
+    public Merchant getMerchant() {
+        return merchant;
     }
 
     /**

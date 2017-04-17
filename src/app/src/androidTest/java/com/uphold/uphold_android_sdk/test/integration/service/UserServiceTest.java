@@ -1,26 +1,27 @@
 package com.uphold.uphold_android_sdk.test.integration.service;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.Balance;
 import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.model.user.Contact;
+import com.uphold.uphold_android_sdk.model.user.Document;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 import com.uphold.uphold_android_sdk.service.UserService;
-import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
+import com.uphold.uphold_android_sdk.test.util.Fixtures;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +57,50 @@ public class UserServiceTest {
 
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/contacts", BuildConfig.API_SERVER_URL));
+    }
+
+    @Test
+    public void createDocumentShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<Document> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Document>() {
+            @Override
+            public Promise<Document> call(UpholdRestAdapter upholdRestAdapter) {
+                UserService userService = adapter.getRestAdapter().create(UserService.class);
+                RetrofitPromise<Document> promise = new RetrofitPromise<>();
+
+                userService.createDocument(Fixtures.loadDocumentRequest(), promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/documents", BuildConfig.API_SERVER_URL));
+    }
+
+    @Test
+    public void getDocumentsShouldReturnTheRequest() throws Exception {
+        final MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>(null, null, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Document>>() {
+            @Override
+            public Promise<List<Document>> call(UpholdRestAdapter upholdRestAdapter) {
+                UserService userService = adapter.getRestAdapter().create(UserService.class);
+                RetrofitPromise<List<Document>> promise = new RetrofitPromise<>();
+
+                userService.getDocuments(promise);
+
+                return promise;
+            }
+        });
+
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/documents", BuildConfig.API_SERVER_URL));
     }
 
     @Test

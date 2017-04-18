@@ -5,6 +5,8 @@ import com.uphold.uphold_android_sdk.model.Transaction;
 import com.uphold.uphold_android_sdk.model.User;
 import com.uphold.uphold_android_sdk.model.user.Contact;
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
+import com.uphold.uphold_android_sdk.model.user.Document;
+import com.uphold.uphold_android_sdk.model.user.DocumentRequest;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 
 import java.util.HashMap;
@@ -32,6 +34,25 @@ public interface UserService {
 
     @POST("/v0/me/contacts")
     void createContact(@Body ContactRequest contact, Callback<Contact> callback);
+
+    /**
+     * Creates a request to create a document.
+     *
+     * @param document The document information.
+     * @param callback A callback to receive the request information.
+     */
+
+    @POST("/v0/me/documents")
+    void createDocument(@Body DocumentRequest document, Callback<Document> callback);
+
+    /**
+     * Performs a request to get the user documents.
+     *
+     * @param callback A callback to receive the request information.
+     */
+
+    @GET("/v0/me/documents")
+    void getDocuments(Callback<List<Document>> callback);
 
     /**
      * Performs a request to get the user information.

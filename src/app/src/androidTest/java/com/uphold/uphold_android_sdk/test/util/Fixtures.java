@@ -18,6 +18,7 @@ import com.uphold.uphold_android_sdk.model.transaction.TransactionDenominationRe
 import com.uphold.uphold_android_sdk.model.transaction.TransactionDepositRequest;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferRequest;
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
+import com.uphold.uphold_android_sdk.model.user.DocumentRequest;
 import com.uphold.uphold_android_sdk.model.user.Settings;
 import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
 import com.uphold.uphold_android_sdk.model.user.settings.Otp;
@@ -125,6 +126,24 @@ public class Fixtures {
         ArrayList<String> emails = new ArrayList<>(Arrays.asList(fakerFields.get("emails").split(",")));
 
         return new ContactRequest(addresses, fakerFields.get("company"), emails, fakerFields.get("firstName"), fakerFields.get("lastName"));
+    }
+
+    public static DocumentRequest loadDocumentRequest() {
+        return loadDocumentRequest(null);
+    }
+
+    public static DocumentRequest loadDocumentRequest(HashMap<String, String> fields) {
+        final Faker faker = new Faker();
+        final HashMap<String, String> fakerFields = new HashMap<String, String>() {{
+            put("type", faker.lorem().fixedString(5));
+            put("value", faker.lorem().fixedString(5));
+        }};
+
+        if (fields != null) {
+            fakerFields.putAll(fields);
+        }
+
+        return new DocumentRequest(fakerFields.get("type"), fakerFields.get("value"));
     }
 
     public static Transaction loadTransaction() {

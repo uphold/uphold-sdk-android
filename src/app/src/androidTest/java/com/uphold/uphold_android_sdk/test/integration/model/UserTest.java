@@ -15,6 +15,7 @@ import com.uphold.uphold_android_sdk.model.balance.UserBalance;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
 import com.uphold.uphold_android_sdk.model.card.Settings;
 import com.uphold.uphold_android_sdk.model.user.Contact;
+import com.uphold.uphold_android_sdk.model.user.Document;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 import com.uphold.uphold_android_sdk.paginator.Paginator;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
@@ -127,6 +128,31 @@ public class UserTest {
         Assert.assertEquals(contact.getId(), "FOOBAR");
         Assert.assertEquals(contact.getLastName(), "Bar");
         Assert.assertEquals(contact.getName(), "Foo Bar");
+    }
+
+    @Test
+    public void createDocumentShouldReturnTheDocument() throws Exception {
+        String responseString = "{\"type\": \"foo\", \"value\": \"bar\"}";
+        MockRestAdapter<Document> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Document>() {
+            @Override
+            public Promise<Document> call(UpholdRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setUpholdRestAdapter(adapter);
+
+                return user.createDocument(Fixtures.loadDocumentRequest());
+            }
+        });
+
+        Document document = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/documents", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(document.getType(), "foo");
+        Assert.assertEquals(document.getValue(), "bar");
     }
 
     @Test
@@ -408,6 +434,32 @@ public class UserTest {
         Assert.assertEquals(user.getCurrencies().get(0), "BTC");
         Assert.assertEquals(user.getCurrencies().get(1), "USD");
         Assert.assertEquals(user.getCurrencies().get(2), "EUR");
+    }
+
+    @Test
+    public void getDocumentsShouldReturnTheListOfDocuments() throws Exception {
+        String responseString = "[{\"type\": \"foo\", \"value\": \"bar\"}]";
+        MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Document>>() {
+            @Override
+            public Promise<List<Document>> call(UpholdRestAdapter adapter) {
+                User user = Fixtures.loadUser();
+
+                user.setUpholdRestAdapter(adapter);
+
+                return user.getDocuments();
+            }
+        });
+
+        List<Document> documents = adapter.getResult();
+        Request request = adapter.getRequest();
+
+        Assert.assertEquals(request.getMethod(), "GET");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/documents", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(documents.size(), 1);
+        Assert.assertEquals(documents.get(0).getType(), "foo");
+        Assert.assertEquals(documents.get(0).getValue(), "bar");
     }
 
     @Test

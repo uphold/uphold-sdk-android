@@ -2,7 +2,6 @@ package com.uphold.uphold_android_sdk.model;
 
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.PromiseFunction;
-
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPaginatorPromise;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.balance.Currency;
@@ -10,6 +9,8 @@ import com.uphold.uphold_android_sdk.model.balance.UserBalance;
 import com.uphold.uphold_android_sdk.model.card.CardRequest;
 import com.uphold.uphold_android_sdk.model.user.Contact;
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
+import com.uphold.uphold_android_sdk.model.user.Document;
+import com.uphold.uphold_android_sdk.model.user.DocumentRequest;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 import com.uphold.uphold_android_sdk.model.user.Settings;
 import com.uphold.uphold_android_sdk.model.user.Status;
@@ -112,6 +113,23 @@ public class User extends BaseModel implements Serializable {
                 return contact;
             }
         });
+    }
+
+    /**
+     * Creates a document for the user.
+     *
+     * @param documentRequest The {@link DocumentRequest} with the information to create the document.
+     *
+     * @return a {@link Promise< Document >} with the document created.
+     */
+
+    public Promise<Document> createDocument(DocumentRequest documentRequest) {
+        RetrofitPromise<Document> promise = new RetrofitPromise<>();
+        UserService userService = this.getUpholdRestAdapter().create(UserService.class);
+
+        userService.createDocument(documentRequest, promise);
+
+        return promise;
     }
 
     /**
@@ -297,6 +315,21 @@ public class User extends BaseModel implements Serializable {
 
     public List<String> getCurrencies() {
         return currencies;
+    }
+
+    /**
+     * Gets the user documents.
+     *
+     * @return a promise {@link Promise<List<Document>>} with the list of user documents.
+     */
+
+    public Promise<List<Document>> getDocuments() {
+        RetrofitPromise<List<Document>> promise = new RetrofitPromise<>();
+        UserService userService = this.getUpholdRestAdapter().create(UserService.class);
+
+        userService.getDocuments(promise);
+
+        return promise;
     }
 
     /**

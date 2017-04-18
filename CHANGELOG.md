@@ -1,7 +1,16 @@
 # Changelog
 
-## [3.0.0](https://github.com/uphold/uphold-sdk-android/tree/3.0.0) (2016-06-27)
-[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.2.1...3.0.0)
+## [0.4.0](https://github.com/uphold/uphold-sdk-android/tree/0.4.0) (2017-04-18)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.3.0...0.4.0)
+
+**Merged pull requests:**
+
+- Add support for the documents endpoint [\#90](https://github.com/uphold/uphold-sdk-android/pull/90) ([d-moreira](https://github.com/d-moreira))
+- Add merchant model to transaction destination [\#89](https://github.com/uphold/uphold-sdk-android/pull/89) ([SandroMachado](https://github.com/SandroMachado))
+- Update headers [\#88](https://github.com/uphold/uphold-sdk-android/pull/88) ([SandroMachado](https://github.com/SandroMachado))
+
+## [0.3.0](https://github.com/uphold/uphold-sdk-android/tree/0.3.0) (2016-06-27)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.2.1...0.3.0)
 
 **Merged pull requests:**
 

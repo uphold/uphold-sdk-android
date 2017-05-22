@@ -505,9 +505,7 @@ public class UserTest {
                 "\"id\": \"foobar\"," +
                 "\"verified\": \"true\"," +
                 "\"primary\": \"true\"," +
-                "\"e164Masked\": \"+XXXXXXXXX04\"," +
-                "\"nationalMasked\": \"(XXX) XXX-XX04\"," +
-                "\"internationalMasked\": \"+X XXX-XXX-XX04\"" +
+                "\"e164Masked\": \"+XXXXXXXXX04\"" +
             "}" +
         "]";
         MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>("foobar", responseString, null);
@@ -531,8 +529,6 @@ public class UserTest {
         Assert.assertEquals(phones.size(), 1);
         Assert.assertEquals(phones.get(0).getE164Masked(), "+XXXXXXXXX04");
         Assert.assertEquals(phones.get(0).getId(), "foobar");
-        Assert.assertEquals(phones.get(0).getInternationalMasked(), "+X XXX-XXX-XX04");
-        Assert.assertEquals(phones.get(0).getNationalMasked(), "(XXX) XXX-XX04");
         Assert.assertTrue(phones.get(0).getPrimary());
         Assert.assertTrue(phones.get(0).getVerified());
     }

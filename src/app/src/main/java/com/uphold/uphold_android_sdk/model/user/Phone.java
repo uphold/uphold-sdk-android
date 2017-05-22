@@ -10,8 +10,6 @@ public class Phone implements Serializable {
 
     private final String id;
     private final String e164Masked;
-    private final String internationalMasked;
-    private final String nationalMasked;
     private final Boolean primary;
     private final Boolean verified;
 
@@ -20,17 +18,13 @@ public class Phone implements Serializable {
      *
      * @param id The contact id.
      * @param e164Masked The E.164 phone mask.
-     * @param internationalMasked The international phone mask.
-     * @param nationalMasked The national phone mask.
      * @param primary A boolean indicating if the phone is the primary user phone.
      * @param verified A boolean indicating if the phone is verified.
      */
 
-    public Phone(String id, String e164Masked, String internationalMasked, String nationalMasked, Boolean primary, Boolean verified) {
+    public Phone(String id, String e164Masked, Boolean primary, Boolean verified) {
         this.id = id;
         this.e164Masked = e164Masked;
-        this.internationalMasked = internationalMasked;
-        this.nationalMasked = nationalMasked;
         this.primary = primary;
         this.verified = verified;
     }
@@ -53,26 +47,6 @@ public class Phone implements Serializable {
 
     public String getE164Masked() {
         return e164Masked;
-    }
-
-    /**
-     * Gets the phone international mask.
-     *
-     * @return the phone international mask
-     */
-
-    public String getInternationalMasked() {
-        return internationalMasked;
-    }
-
-    /**
-     * Gets the phone national mask.
-     *
-     * @return the phone national mask
-     */
-
-    public String getNationalMasked() {
-        return nationalMasked;
     }
 
     /**

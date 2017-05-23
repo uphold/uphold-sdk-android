@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/uphold/uphold-sdk-android/tree/0.5.0) (2017-05-23)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.4.0...0.5.0)
+
+**Merged pull requests:**
+
+- Remove phone's `nationalMasked` and `internationalMasked` [\#91](https://github.com/uphold/uphold-sdk-android/pull/91) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.4.0](https://github.com/uphold/uphold-sdk-android/tree/0.4.0) (2017-04-18)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.3.0...0.4.0)
 

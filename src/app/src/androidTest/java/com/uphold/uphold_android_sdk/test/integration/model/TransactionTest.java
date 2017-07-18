@@ -596,6 +596,11 @@ public class TransactionTest {
             put("originCurrency", "bar");
             put("originDescription", "biz");
             put("originFee", "foobuz");
+            put("originMerchantCity", "bar");
+            put("originMerchantCountry", "foo");
+            put("originMerchantName", "buz");
+            put("originMerchantState", "fiz");
+            put("originMerchantZipCode", "biz");
             put("originRate", "buz");
             put("originSourcesAmount", "fuzbiz,fizbuz");
             put("originSourcesId", "foo,bar");
@@ -610,6 +615,11 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getOrigin().getCurrency(), "bar");
         Assert.assertEquals(transaction.getOrigin().getDescription(), "biz");
         Assert.assertEquals(transaction.getOrigin().getFee(), "foobuz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCity(), "bar");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCountry(), "foo");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getName(), "buz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getState(), "fiz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getZipCode(), "biz");
         Assert.assertEquals(transaction.getOrigin().getRate(), "buz");
         Assert.assertEquals(transaction.getOrigin().getSources().size(), 2);
         Assert.assertEquals(transaction.getOrigin().getSources().get(0).getAmount(), "fuzbiz");

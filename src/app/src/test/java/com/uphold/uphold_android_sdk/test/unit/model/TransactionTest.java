@@ -30,13 +30,14 @@ public class TransactionTest {
     @Test
     public void shouldBeSerializable() {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
-        Merchant merchant = new Merchant("foo", "bar", "biz", "buz", "foobar");
-        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", merchant, "fiz", "biz", "buz");
+        Merchant destinationMerchant = new Merchant("foo", "bar", "biz", "buz", "foobar");
+        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", destinationMerchant, "fiz", "biz", "buz");
         Fee fee = new Fee("foo", "bar", "fuz", "buz", "biz");
         List<Fee> fees = new ArrayList<>();
         List<Normalized> normalizeds = new ArrayList<>();
         List<Source> sources = new ArrayList<>();
-        Origin origin = new Origin("biz", "foo", "fiz", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", "fuz", sources, "buz", "FOOBAR");
+        Merchant originMerchant = new Merchant("fuz", "biz", "boz", "baz", "foobiz");
+        Origin origin = new Origin("biz", "foo", "fiz", "bar", "foobar", "foobiz", "fiz", "biz", "fuzbuz", originMerchant, "fuz", sources, "buz", "FOOBAR");
         Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Normalized normalized = new Normalized("foo", "bar", "fiz", "biz", "fixbiz");
         Source source = new Source("FUZBUZ", "FIZBIZ");
@@ -94,6 +95,11 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getOrigin().getCurrency(), deserializedTransaction.getOrigin().getCurrency());
         Assert.assertEquals(transaction.getOrigin().getDescription(), deserializedTransaction.getOrigin().getDescription());
         Assert.assertEquals(transaction.getOrigin().getFee(), deserializedTransaction.getOrigin().getFee());
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCity(), deserializedTransaction.getOrigin().getMerchant().getCity());
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCountry(), deserializedTransaction.getOrigin().getMerchant().getCountry());
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getName(), deserializedTransaction.getOrigin().getMerchant().getName());
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getState(), deserializedTransaction.getOrigin().getMerchant().getState());
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getZipCode(), deserializedTransaction.getOrigin().getMerchant().getZipCode());
         Assert.assertEquals(transaction.getOrigin().getRate(), deserializedTransaction.getOrigin().getRate());
         Assert.assertEquals(transaction.getOrigin().getSources().size(), deserializedTransaction.getOrigin().getSources().size());
         Assert.assertEquals(transaction.getOrigin().getSources().get(0).getAmount(), deserializedTransaction.getOrigin().getSources().get(0).getAmount());

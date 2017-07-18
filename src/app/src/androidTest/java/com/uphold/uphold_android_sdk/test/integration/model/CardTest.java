@@ -89,6 +89,13 @@ public class CardTest {
               "\"currency\": \"BTC\"," +
               "\"description\": \"Foo Bar\"," +
               "\"fee\": \"0.00\"," +
+              "\"merchant\": {" +
+                "\"city\": \"foo\"," +
+                "\"country\": \"biz\"," +
+                "\"name\": \"foobiz\"," +
+                "\"state\": \"fuzbiz\"," +
+                "\"zipCode\": \"fizbaz\"" +
+              "}," +
               "\"rate\": \"1.00\"," +
               "\"type\": \"card\"," +
               "\"username\": \"foobar\"" +
@@ -181,6 +188,11 @@ public class CardTest {
         Assert.assertEquals(transaction.getOrigin().getCurrency(), "BTC");
         Assert.assertEquals(transaction.getOrigin().getDescription(), "Foo Bar");
         Assert.assertEquals(transaction.getOrigin().getFee(), "0.00");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCity(), "foo");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getCountry(), "biz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getName(), "foobiz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getState(), "fuzbiz");
+        Assert.assertEquals(transaction.getOrigin().getMerchant().getZipCode(), "fizbaz");
         Assert.assertEquals(transaction.getOrigin().getRate(), "1.00");
         Assert.assertEquals(transaction.getOrigin().getType(), "card");
         Assert.assertEquals(transaction.getOrigin().getUsername(), "foobar");

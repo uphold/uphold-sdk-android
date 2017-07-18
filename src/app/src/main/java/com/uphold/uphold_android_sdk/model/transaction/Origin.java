@@ -18,6 +18,7 @@ public class Origin implements Serializable {
     private final String currency;
     private final String description;
     private final String fee;
+    private final Merchant merchant;
     private final String rate;
     private final List<Source> sources;
     private final String type;
@@ -35,13 +36,14 @@ public class Origin implements Serializable {
      * @param currency The currency from the origin of the transaction.
      * @param description The description from the origin of the transaction.
      * @param fee The fee from the origin of the transaction.
+     * @param merchant The merchant from the origin of the transaction.
      * @param rate The rate from the origin of the transaction.
      * @param sources The sources from the origin of the transaction.
      * @param type The type from the origin of the transaction.
      * @param username The username from the origin of the transaction.
      */
 
-    public Origin(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, String rate, List<Source> sources, String type, String username) {
+    public Origin(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, Merchant merchant, String rate, List<Source> sources, String type, String username) {
         this.AccountId = AccountId;
         this.CardId = cardId;
         this.accountType = accountType;
@@ -51,6 +53,7 @@ public class Origin implements Serializable {
         this.currency = currency;
         this.description = description;
         this.fee = fee;
+        this.merchant = merchant;
         this.rate = rate;
         this.sources = sources;
         this.type = type;
@@ -145,6 +148,16 @@ public class Origin implements Serializable {
 
     public String getFee() {
         return fee;
+    }
+
+    /**
+     * Gets the merchant from the origin of the transaction.
+     *
+     * @return the merchant from the origin of the transaction.
+     */
+
+    public Merchant getMerchant() {
+        return merchant;
     }
 
     /**

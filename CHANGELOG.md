@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/uphold/uphold-sdk-android/tree/0.6.0) (2017-07-19)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.5.0...0.6.0)
+
+**Merged pull requests:**
+
+- Add `Merchant` model to transaction origin [\#92](https://github.com/uphold/uphold-sdk-android/pull/92) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.5.0](https://github.com/uphold/uphold-sdk-android/tree/0.5.0) (2017-05-23)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.4.0...0.5.0)
 

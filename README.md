@@ -15,17 +15,17 @@ Using _gradle_:
 
 ```
 repositories {
-	// Add the jitpack maven repository url.
-	maven {
-		url "https://jitpack.io"
-	}
+    // Add the jitpack maven repository url.
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
-	// Add the classifier `sandboxRelease`, i.e. `'com.github.uphold:uphold-sdk-android:0.6.0:sandboxRelease@aar'`, to use the sandbox environment.
-	compile ('com.github.uphold:uphold-sdk-android:0.6.0@aar') {
-	    transitive = true
-	}
+    // Add the classifier `sandboxRelease`, i.e. `'com.github.uphold:uphold-sdk-android:0.6.0:sandboxRelease@aar'`, to use the sandbox environment.
+    compile ('com.github.uphold:uphold-sdk-android:0.6.0@aar') {
+        transitive = true
+    }
 }
 ```
 
@@ -35,7 +35,7 @@ In order to learn more about the Uphold API, please visit the [developer website
 
 To use the SDK you must first register an Application and obtain a unique `client_id` and `client_secret` combination. We recommend your first app be [registered in the Sandbox environment](https://sandbox.uphold.com/dashboard/profile/applications/developer/new), so you can safely play around during development.
 
-From the application page in your account you can get the Client ID, Client Secret and configure the redirect URI and the desired Scopes.
+From the application page in your account, you can get the Client ID, Client Secret and configure the redirect URI and the desired Scopes.
 
 ### Authenticate User
 
@@ -65,16 +65,16 @@ To receive an intent for the callback URL it is necessary to register an intent 
 </intent-filter>
 ```
 
-In the Android activity with the intent filter override the `onNewIntent` method to receive the redirect code:
+In the Android activity with the intent filter overrides the `onNewIntent` method to receive the redirect code:
 
 ```java
 @Override
 protected void onNewIntent(final Intent intent) {
-	if (intent == null || intent.getAction() == null || !intent.getAction().equals("android.intent.action.VIEW")) {
-	    return;
-	}
+    if (intent == null || intent.getAction() == null || !intent.getAction().equals("android.intent.action.VIEW")) {
+        return;
+    }
 
-	upholdClient.completeAuthorization(intent.getData(), CLIENT_ID, CLIENT_SECRET, "authorization_code", state).then(new PromiseAction<AuthenticationResponse>() {
+    upholdClient.completeAuthorization(intent.getData(), CLIENT_ID, CLIENT_SECRET, "authorization_code", state).then(new PromiseAction<AuthenticationResponse>() {
         @Override
         public void call(AuthenticationResponse authenticationResponse) {
             // Get the user bearer token from the authenticationResponse.
@@ -153,7 +153,7 @@ user.getCards().then(new PromiseAction<List<Card>>() {
 CardRequest cardRequest = new CardRequest("label", "USD");
 user.createCard(cardRequest);
 
-// Or a card request with the label, currency, position and whether it is starred or not.
+// Or a card request with the label, currency, position and whether it is started or not.
 CardRequest cardRequest = new CardRequest("label", "USD", new Settings(1, true));
 user.createCard(cardRequest);
 ```
@@ -164,7 +164,7 @@ Handling the success and error flow:
 user.createCard(cardRequest).then(new PromiseAction<Card>() {
     @Override
     public void call(Card card) {
-	    // Do something with the card created.
+        // Do something with the card created.
     }
 }).fail(new PromiseAction<Exception>() {
     @Override
@@ -177,7 +177,7 @@ user.createCard(cardRequest).then(new PromiseAction<Card>() {
 ### Create new card address
 
 ```java
-// In the address request you need to specify the network for the address.
+// In the address request, you need to specify the network for the address.
 AddressRequest addressRequest = new AddressRequest("bitcoin");
 card.createAddress(addressRequest);
 ```
@@ -188,7 +188,7 @@ Handling the success and error flow:
 card.createAddress(addressRequest).then(new PromiseAction<Address>() {
     @Override
     public void call(Address address) {
-	    // Do something with the address created.
+        // Do something with the address created.
     }
 }).fail(new PromiseAction<Exception>() {
     @Override
@@ -265,7 +265,7 @@ card.createTransaction(transactionCardDepositRequest).then(new PromiseAction<Tra
 });
 ```
 
-If you want to commit the transaction on the creation process, call the `createTransaction` method with the second parameter set to `true`.
+If you want to commit the transaction in the creation process, call the `createTransaction` method with the second parameter set to `true`.
 
 ```java
 card.createTransaction(transactionRequest, true);
@@ -337,7 +337,7 @@ Paginator<Transaction> paginator = upholdClient.getReserve().getTransactions();
 paginator.getElements().then(new PromiseAction<List<Transaction>>() {
     @Override
     public void call(List<Transaction> transactions) {
-	    // Do something with the list of transactions.
+        // Do something with the list of transactions.
     }
 });
 
@@ -345,7 +345,7 @@ paginator.getElements().then(new PromiseAction<List<Transaction>>() {
 paginator.hasNext().then(new PromiseAction<Boolean>() {
     @Override
     public void call(Boolean hasNext) {
-		// Do something with the hasNext.
+        // Do something with the hasNext.
     }
 });
 
@@ -369,7 +369,7 @@ paginator.getNext().then(new PromiseAction<List<Transaction>>() {
 
 ## Uphold SDK sample
 
-Check the sample application to explore a application using the Uphold Android SDK.
+Check the sample application to explore an application using the Uphold Android SDK.
 
 #### Building
 

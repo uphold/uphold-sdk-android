@@ -1,11 +1,12 @@
 package com.uphold.uphold_android_sdk.test.unit.model;
 
-import junit.framework.Assert;
-
-import org.apache.commons.lang3.SerializationUtils;
 import com.uphold.uphold_android_sdk.model.Card;
 import com.uphold.uphold_android_sdk.model.card.Normalized;
 import com.uphold.uphold_android_sdk.model.card.Settings;
+
+import junit.framework.Assert;
+
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -48,6 +49,7 @@ public class CardTest {
         Assert.assertEquals(card.getNormalized().get(0).getBalance(), deserializedCard.getNormalized().get(0).getBalance());
         Assert.assertEquals(card.getNormalized().get(0).getCurrency(), deserializedCard.getNormalized().get(0).getCurrency());
         Assert.assertEquals(card.getSettings().getPosition(), deserializedCard.getSettings().getPosition());
+        Assert.assertEquals(card.getSettings().getProtected(), deserializedCard.getSettings().getProtected());
         Assert.assertEquals(card.getSettings().getStarred(), deserializedCard.getSettings().getStarred());
     }
 

@@ -23,7 +23,7 @@ public class Settings implements Serializable {
      */
 
     public Settings(Integer position, Boolean starred) {
-        this.isProtected = false;
+        this.isProtected = null;
         this.position = position;
         this.starred = starred;
     }

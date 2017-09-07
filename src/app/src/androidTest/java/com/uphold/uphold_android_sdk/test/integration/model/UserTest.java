@@ -61,6 +61,7 @@ public class UserTest {
             "]," +
             "\"settings\": {" +
                 "\"position\": 7," +
+                "\"protected\": false," +
                 "\"starred\": true" +
             "}" +
         "}";
@@ -94,6 +95,7 @@ public class UserTest {
         Assert.assertEquals(cards.getNormalized().get(0).getBalance(), "0.00");
         Assert.assertEquals(cards.getNormalized().get(0).getCurrency(), "EUR");
         Assert.assertEquals(cards.getSettings().getPosition(), Integer.valueOf(7));
+        Assert.assertFalse(cards.getSettings().getProtected());
         Assert.assertTrue(cards.getAddress().containsKey("bitcoin"));
         Assert.assertTrue(cards.getSettings().getStarred());
     }

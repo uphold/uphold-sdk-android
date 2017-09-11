@@ -1,5 +1,7 @@
 package com.uphold.uphold_android_sdk.model.card;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,8 @@ import java.io.Serializable;
 
 public class Settings implements Serializable {
 
+    @SerializedName("protected")
+    private final Boolean isProtected;
     private final Integer position;
     private final Boolean starred;
 
@@ -19,6 +23,7 @@ public class Settings implements Serializable {
      */
 
     public Settings(Integer position, Boolean starred) {
+        this.isProtected = null;
         this.position = position;
         this.starred = starred;
     }
@@ -31,6 +36,16 @@ public class Settings implements Serializable {
 
     public Integer getPosition() {
         return position;
+    }
+
+    /**
+     * Gets a boolean indicating if the card is protected.
+     *
+     * @return a boolean indicating if the card is protected
+     */
+
+    public Boolean getProtected() {
+        return isProtected;
     }
 
     /**

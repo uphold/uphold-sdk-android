@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0](https://github.com/uphold/uphold-sdk-android/tree/0.7.0) (2017-09-11)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.6.0...0.7.0)
+
+**Merged pull requests:**
+
+- Update `travis.yml` [\#96](https://github.com/uphold/uphold-sdk-android/pull/96) ([d-moreira](https://github.com/d-moreira))
+- Add protected setting to the card [\#95](https://github.com/uphold/uphold-sdk-android/pull/95) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.6.0](https://github.com/uphold/uphold-sdk-android/tree/0.6.0) (2017-07-19)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.5.0...0.6.0)
 

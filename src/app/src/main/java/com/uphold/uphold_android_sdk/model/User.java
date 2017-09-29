@@ -14,6 +14,7 @@ import com.uphold.uphold_android_sdk.model.user.DocumentRequest;
 import com.uphold.uphold_android_sdk.model.user.Phone;
 import com.uphold.uphold_android_sdk.model.user.Settings;
 import com.uphold.uphold_android_sdk.model.user.Status;
+import com.uphold.uphold_android_sdk.model.user.Verifications;
 import com.uphold.uphold_android_sdk.paginator.Paginator;
 import com.uphold.uphold_android_sdk.paginator.PaginatorInterface;
 import com.uphold.uphold_android_sdk.service.AccountsService;
@@ -46,6 +47,7 @@ public class User extends BaseModel implements Serializable {
     private final String state;
     private final String status;
     private final String username;
+    private final Verifications verifications;
 
     /**
      * Constructor.
@@ -61,9 +63,10 @@ public class User extends BaseModel implements Serializable {
      * @param state The user state
      * @param status The user {@link Status}
      * @param username The user username
+     * @param verifications The user user verifications
      */
 
-    public User(String country, List<String> currencies, String email, String firstName, String lastName, String memberAt, String name, Settings settings, String state, String status, String username) {
+    public User(String country, List<String> currencies, String email, String firstName, String lastName, String memberAt, String name, Settings settings, String state, String status, String username, Verifications verifications) {
         this.country = country;
         this.currencies = currencies;
         this.email = email;
@@ -75,6 +78,7 @@ public class User extends BaseModel implements Serializable {
         this.state = state;
         this.status = status;
         this.username = username;
+        this.verifications = verifications;
     }
 
     /**
@@ -512,6 +516,16 @@ public class User extends BaseModel implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    /**
+     * Gets the user verifications.
+     *
+     * @return the user verifications
+     */
+
+    public Verifications getVerifications() {
+        return verifications;
     }
 
     /**

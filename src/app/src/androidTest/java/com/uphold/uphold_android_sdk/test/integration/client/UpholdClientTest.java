@@ -279,44 +279,65 @@ public class UpholdClientTest {
             "\"country\": \"BAR\"," +
             "\"state\": \"FOO\"," +
             "\"currencies\": [" +
-              "\"BTC\"," +
+                "\"BTC\"," +
             "]," +
             "\"status\": \"ok\"," +
             "\"settings\": {" +
-              "\"theme\": \"minimalistic\"," +
-              "\"currency\": \"USD\"," +
-              "\"hasNewsSubscription\": \"true\"," +
-              "\"intl\": {" +
-                "\"language\": {" +
-                  "\"locale\": \"en-US\"" +
-                "}," +
-                "\"dateTimeFormat\": {" +
-                  "\"locale\": \"en-US\"" +
-                "}," +
-                "\"numberFormat\": {" +
-                  "\"locale\": \"en-US\"" +
-                "}" +
-              "}," +
-              "\"otp\": {" +
-                "\"login\": {" +
-                  "\"enabled\": false" +
-                "}," +
-                "\"transactions\": {" +
-                  "\"send\": {" +
-                    "\"enabled\": false" +
-                  "}," +
-                  "\"transfer\": {" +
-                    "\"enabled\": true" +
-                  "}," +
-                  "\"withdraw\": {" +
-                    "\"crypto\": {" +
-                      "\"enabled\": true" +
+                "\"theme\": \"minimalistic\"," +
+                "\"currency\": \"USD\"," +
+                "\"hasNewsSubscription\": \"true\"," +
+                "\"intl\": {" +
+                    "\"language\": {" +
+                        "\"locale\": \"en-US\"" +
+                    "}," +
+                    "\"dateTimeFormat\": {" +
+                        "\"locale\": \"en-US\"" +
+                    "}," +
+                    "\"numberFormat\": {" +
+                        "\"locale\": \"en-US\"" +
                     "}" +
-                  "}" +
+                "}," +
+                "\"otp\": {" +
+                    "\"login\": {" +
+                        "\"enabled\": false" +
+                    "}," +
+                    "\"transactions\": {" +
+                        "\"send\": {" +
+                            "\"enabled\": false" +
+                        "}," +
+                        "\"transfer\": {" +
+                            "\"enabled\": true" +
+                        "}," +
+                        "\"withdraw\": {" +
+                            "\"crypto\": {" +
+                                "\"enabled\": true" +
+                            "}" +
+                        "}" +
+                    "}" +
                 "}" +
-              "}" +
+            "}," +
+            "\"verifications\": {" +
+                "\"email\": {" +
+                    "\"status\": \"unconfirmed\"" +
+                "}," +
+                "\"phone\": {" +
+                    "\"status\": \"required\"" +
+                "}," +
+                "\"address\": {" +
+                    "\"status\": \"required\"" +
+                "}," +
+                "\"identity\": {" +
+                    "\"status\": \"required\"" +
+                "}," +
+                "\"location\": {" +
+                    "\"reason\": \"state\"," +
+                    "\"status\": \"required\"" +
+                "}," +
+                "\"birthdate\": {" +
+                    "\"status\": \"required\"" +
+                "}" +
             "}" +
-          "}";
+            "}";
         MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
@@ -358,6 +379,13 @@ public class UpholdClientTest {
         Assert.assertTrue(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled());
         Assert.assertTrue(user.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
+        Assert.assertEquals(user.getVerifications().getAddress().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getBirthdate().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getEmail().getStatus(), "unconfirmed");
+        Assert.assertEquals(user.getVerifications().getIdentity().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getLocation().getReason(), "state");
+        Assert.assertEquals(user.getVerifications().getLocation().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getPhone().getStatus(), "required");
     }
 
     @After

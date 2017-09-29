@@ -20,6 +20,8 @@ import com.uphold.uphold_android_sdk.model.transaction.TransactionTransferReques
 import com.uphold.uphold_android_sdk.model.user.ContactRequest;
 import com.uphold.uphold_android_sdk.model.user.DocumentRequest;
 import com.uphold.uphold_android_sdk.model.user.Settings;
+import com.uphold.uphold_android_sdk.model.user.VerificationParameter;
+import com.uphold.uphold_android_sdk.model.user.Verifications;
 import com.uphold.uphold_android_sdk.model.user.settings.InternationalizationUserSettings;
 import com.uphold.uphold_android_sdk.model.user.settings.Otp;
 import com.uphold.uphold_android_sdk.model.user.settings.internationalizationusersettings.InternationalizationUserSetting;
@@ -328,6 +330,22 @@ public class Fixtures {
             put("status", faker.lorem().fixedString(10));
             put("theme", faker.lorem().fixedString(10));
             put("username", faker.lorem().fixedString(10));
+            put("verificationsReasonAddress", faker.lorem().fixedString(10));
+            put("verificationsReasonBirthdate", faker.lorem().fixedString(10));
+            put("verificationsReasonDocuments", faker.lorem().fixedString(10));
+            put("verificationsReasonEmail", faker.lorem().fixedString(10));
+            put("verificationsReasonIdentity", faker.lorem().fixedString(10));
+            put("verificationsReasonLocation", faker.lorem().fixedString(10));
+            put("verificationsReasonPhone", faker.lorem().fixedString(10));
+            put("verificationsReasonTerms", faker.lorem().fixedString(10));
+            put("verificationsStatusAddress", faker.lorem().fixedString(10));
+            put("verificationsStatusBirthdate", faker.lorem().fixedString(10));
+            put("verificationsStatusDocuments", faker.lorem().fixedString(10));
+            put("verificationsStatusEmail", faker.lorem().fixedString(10));
+            put("verificationsStatusIdentity", faker.lorem().fixedString(10));
+            put("verificationsStatusLocation", faker.lorem().fixedString(10));
+            put("verificationsStatusPhone", faker.lorem().fixedString(10));
+            put("verificationsStatusTerms", faker.lorem().fixedString(10));
         }};
 
         if (fields != null) {
@@ -345,8 +363,17 @@ public class Fixtures {
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
         Otp otp = new Otp(new Login(Boolean.valueOf(fakerFields.get("settingsOTPLogin"))), new Transactions(new Send(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsSend"))), new Transfer(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsTransfer"))), new Withdraw(new Crypto(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsWithdrawCrypto"))))));
         Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, otp, fakerFields.get("theme"));
+        VerificationParameter verificationsAddress = new VerificationParameter(fakerFields.get("verificationsReasonAddress"), fakerFields.get("verificationsStatusAddress"));
+        VerificationParameter verificationsBirthdate = new VerificationParameter(fakerFields.get("verificationsReasonBirthdate"), fakerFields.get("verificationsStatusBirthdate"));
+        VerificationParameter verificationsDocuments = new VerificationParameter(fakerFields.get("verificationsReasonDocuments"), fakerFields.get("verificationsStatusDocuments"));
+        VerificationParameter verificationsEmail = new VerificationParameter(fakerFields.get("verificationsReasonEmail"), fakerFields.get("verificationsStatusEmail"));
+        VerificationParameter verificationsIdentity = new VerificationParameter(fakerFields.get("verificationsReasonIdentity"), fakerFields.get("verificationsStatusIdentity"));
+        VerificationParameter verificationsLocation = new VerificationParameter(fakerFields.get("verificationsReasonLocation"), fakerFields.get("verificationsStatusLocation"));
+        VerificationParameter verificationsPhone = new VerificationParameter(fakerFields.get("verificationsReasonPhone"), fakerFields.get("verificationsStatusPhone"));
+        VerificationParameter verificationsTerms = new VerificationParameter(fakerFields.get("verificationsReasonTerms"), fakerFields.get("verificationsStatusTerms"));
+        Verifications verifications = new Verifications(verificationsAddress, verificationsBirthdate, verificationsDocuments, verificationsEmail, verificationsIdentity, verificationsLocation, verificationsPhone, verificationsTerms);
 
-        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("memberAt"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"));
+        return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("memberAt"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"), verifications);
     }
 
 }

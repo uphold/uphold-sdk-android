@@ -778,6 +778,46 @@ public class UserTest {
     }
 
     @Test
+    public void getVerificationsShouldReturnTheVerifications() {
+        HashMap<String, String> data = new HashMap<String, String>() {{
+            put("verificationsReasonAddress", "reasonAddress");
+            put("verificationsReasonBirthdate", "reasonBirthdate");
+            put("verificationsReasonDocuments", "reasonDocuments");
+            put("verificationsReasonEmail", "reasonEmail");
+            put("verificationsReasonIdentity", "reasonIdentity");
+            put("verificationsReasonLocation", "reasonLocation");
+            put("verificationsReasonPhone", "reasonPhone");
+            put("verificationsReasonTerms", "reasonTerms");
+            put("verificationsStatusAddress", "statusAddress");
+            put("verificationsStatusBirthdate", "statusBirthdate");
+            put("verificationsStatusDocuments", "statusDocuments");
+            put("verificationsStatusEmail", "statusEmail");
+            put("verificationsStatusIdentity", "statusIdentity");
+            put("verificationsStatusLocation", "statusLocation");
+            put("verificationsStatusPhone", "statusPhone");
+            put("verificationsStatusTerms", "statusTerms");
+        }};
+        User user = Fixtures.loadUser(data);
+
+        Assert.assertEquals(user.getVerifications().getAddress().getReason(), "reasonAddress");
+        Assert.assertEquals(user.getVerifications().getAddress().getStatus(), "statusAddress");
+        Assert.assertEquals(user.getVerifications().getBirthdate().getReason(), "reasonBirthdate");
+        Assert.assertEquals(user.getVerifications().getBirthdate().getStatus(), "statusBirthdate");
+        Assert.assertEquals(user.getVerifications().getDocuments().getReason(), "reasonDocuments");
+        Assert.assertEquals(user.getVerifications().getDocuments().getStatus(), "statusDocuments");
+        Assert.assertEquals(user.getVerifications().getEmail().getReason(), "reasonEmail");
+        Assert.assertEquals(user.getVerifications().getEmail().getStatus(), "statusEmail");
+        Assert.assertEquals(user.getVerifications().getIdentity().getReason(), "reasonIdentity");
+        Assert.assertEquals(user.getVerifications().getIdentity().getStatus(), "statusIdentity");
+        Assert.assertEquals(user.getVerifications().getLocation().getReason(), "reasonLocation");
+        Assert.assertEquals(user.getVerifications().getLocation().getStatus(), "statusLocation");
+        Assert.assertEquals(user.getVerifications().getPhone().getReason(), "reasonPhone");
+        Assert.assertEquals(user.getVerifications().getPhone().getStatus(), "statusPhone");
+        Assert.assertEquals(user.getVerifications().getTerms().getReason(), "reasonTerms");
+        Assert.assertEquals(user.getVerifications().getTerms().getStatus(), "statusTerms");
+    }
+
+    @Test
     public void updateShouldReturnTheUser() throws Exception {
         String responseString = "{ \"username\": \"FOOBAR\" }";
         MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);

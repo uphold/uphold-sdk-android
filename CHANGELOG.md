@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/uphold/uphold-sdk-android/tree/0.8.0) (2017-10-04)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.7.0...0.8.0)
+
+**Merged pull requests:**
+
+- Add Verifications to user model [\#97](https://github.com/uphold/uphold-sdk-android/pull/97) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.7.0](https://github.com/uphold/uphold-sdk-android/tree/0.7.0) (2017-09-11)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.6.0...0.7.0)
 

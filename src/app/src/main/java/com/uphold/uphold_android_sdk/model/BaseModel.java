@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class BaseModel implements Serializable {
 
-    private transient UpholdRestAdapter upholdRestAdapter;
+    protected transient UpholdRestAdapter upholdRestAdapter;
 
     /**
      * Constructor.

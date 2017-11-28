@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/uphold/uphold-sdk-android/tree/0.9.0) (2017-11-28)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.8.0...0.9.0)
+
+**Merged pull requests:**
+
+- Update BaseModel rest adapter to be protected [\#98](https://github.com/uphold/uphold-sdk-android/pull/98) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.8.0](https://github.com/uphold/uphold-sdk-android/tree/0.8.0) (2017-10-04)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.7.0...0.8.0)
 

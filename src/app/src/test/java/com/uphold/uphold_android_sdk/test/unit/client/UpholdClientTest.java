@@ -1,18 +1,20 @@
 package com.uphold.uphold_android_sdk.test.unit.client;
 
+import android.net.Uri;
+import android.test.mock.MockContext;
+import android.text.TextUtils;
+
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.UpholdClient;
 import com.uphold.uphold_android_sdk.test.unit.util.MockSharedPreferencesContext;
 import com.uphold.uphold_android_sdk.util.Header;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import android.net.Uri;
-import android.test.mock.MockContext;
-import android.text.TextUtils;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Uri.class, TextUtils.class})
+@PowerMockIgnore("javax.net.ssl.*")
 public class UpholdClientTest {
 
     @Test

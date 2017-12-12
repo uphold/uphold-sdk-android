@@ -39,7 +39,7 @@ public class CardTest {
     @Test
     public void createAddressShouldReturnTheAddress() throws Exception {
         String responseString = "{ \"id\": \"foobar\", \"network\": \"foobiz\" }";
-        MockRestAdapter<Address> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Address> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Address>() {
             @Override
@@ -143,7 +143,7 @@ public class CardTest {
                 "\"percentage\": \"2.75\"" +
             "}]" +
         "}";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -229,7 +229,7 @@ public class CardTest {
     @Test
     public void createTransactionCardDepositShouldReturnTheTransactionCommitted() throws Exception {
         String responseString = "{ \"id\": \"foobar\" }";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -255,7 +255,7 @@ public class CardTest {
     @Test
     public void createTransactionDepositShouldReturnTheTransactionCommitted() throws Exception {
         String responseString = "{ \"id\": \"foobar\" }";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -281,7 +281,7 @@ public class CardTest {
     @Test
     public void createTransactionTransferShouldReturnTheTransactionCommitted() throws Exception {
         String responseString = "{ \"id\": \"foobar\" }";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -400,7 +400,7 @@ public class CardTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorCount() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-2/60");
         }});
 
@@ -437,7 +437,7 @@ public class CardTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorHasNext() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-49/51");
         }});
 
@@ -474,7 +474,7 @@ public class CardTest {
     @Test
     public void getTransactionsShouldReturnTheListOfTransactions() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -511,7 +511,7 @@ public class CardTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -544,7 +544,7 @@ public class CardTest {
     @Test
     public void updateShouldReturnPromiseWithCard() throws Exception {
         String responseString = "{ \"id\": \"FOOBAR\" }";
-        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override

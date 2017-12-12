@@ -75,7 +75,7 @@ public class UpholdClientTest {
         UpholdClient.initialize(new MockSharedPreferencesContext());
 
         String responseString = "{ \"access_token\": \"foo\", \"description\": \"bar\", \"expires\": null }";
-        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, AuthenticationResponse>() {
             @Override
@@ -105,7 +105,7 @@ public class UpholdClientTest {
 
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"access_token\": \"foo\", \"token_type\": \"bar\", \"expires_in\": 1234, \"scope\": \"foobar\"}";
-        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, AuthenticationResponse>() {
             @Override
@@ -160,7 +160,7 @@ public class UpholdClientTest {
                 "\"pair\": \"foo\"" +
             "}" +
         "]";
-        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Rate>>() {
             @Override
@@ -219,7 +219,7 @@ public class UpholdClientTest {
               "\"pair\": \"foo\"" +
           "}" +
         "]";
-        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Rate>>() {
             @Override
@@ -338,7 +338,7 @@ public class UpholdClientTest {
                 "}" +
             "}" +
             "}";
-        MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<User> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
             @Override

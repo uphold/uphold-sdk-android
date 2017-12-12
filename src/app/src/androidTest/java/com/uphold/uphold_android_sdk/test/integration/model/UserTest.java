@@ -65,7 +65,7 @@ public class UserTest {
                 "\"starred\": true" +
             "}" +
         "}";
-        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override
@@ -103,7 +103,7 @@ public class UserTest {
     @Test
     public void createContactShouldReturnTheContact() throws Exception {
         String responseString = "{\"id\": \"FOOBAR\", \"firstName\": \"Foo\", \"lastName\": \"Bar\", \"company\": \"FOO\", \"emails\": [\"foo@bar.org\"], \"addresses\": [\"foobiz\"], \"name\": \"Foo Bar\"}";
-        MockRestAdapter<Contact> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Contact> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Contact>() {
             @Override
@@ -135,7 +135,7 @@ public class UserTest {
     @Test
     public void createDocumentShouldReturnTheDocument() throws Exception {
         String responseString = "{\"type\": \"foo\", \"value\": \"bar\"}";
-        MockRestAdapter<Document> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Document> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Document>() {
             @Override
@@ -160,7 +160,7 @@ public class UserTest {
     @Test
     public void getAccountByIdShouldReturnTheAccountWithId() throws Exception {
         String responseString = "{ \"currency\": \"FOO\", \"id\": \"FOOBAR\", \"label\": \"BAR\", \"status\": \"FOO BAR\", \"type\": \"Bar\" }";
-        MockRestAdapter<Account> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Account> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Account>() {
             @Override
@@ -188,7 +188,7 @@ public class UserTest {
     @Test
     public void getAccountsShouldReturnTheListOfAccounts() throws Exception {
         String responseString = "[ { \"id\": \"FOO\" }, { \"id\": \"BAR\" } ]";
-        MockRestAdapter<List<Account>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Account>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Account>>() {
             @Override
@@ -214,7 +214,7 @@ public class UserTest {
     @Test
     public void getBalancesShouldReturnTheListOfBalances() throws Exception {
         String responseString = "{ \"balances\": { \"total\": \"1083.77\", \"currencies\": { \"CNY\": { \"amount\": \"6.98\" }, \"EUR\": { \"amount\": \"75.01\" } } } }";
-        MockRestAdapter<List<Currency>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Currency>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Currency>>() {
             @Override
@@ -258,7 +258,7 @@ public class UserTest {
                 "}" +
             "}" +
         "}";
-        MockRestAdapter<Currency> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Currency> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Currency>() {
             @Override
@@ -285,7 +285,7 @@ public class UserTest {
     @Test
     public void getCardsShouldReturnTheListOfCards() throws Exception {
         String responseString = "[ { \"id\": \"FOO\" }, { \"id\": \"BAR\" } ]";
-        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Card>>() {
             @Override
@@ -311,7 +311,7 @@ public class UserTest {
     @Test
     public void getCardByIdShouldReturnTheCardWithId() throws Exception {
         String responseString = "{ \"id\": \"FOOBAR\" }";
-        MockRestAdapter<Card> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Card> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override
@@ -335,7 +335,7 @@ public class UserTest {
     @Test
     public void getCardsByCurrencyShouldReturnTheListOfCardsWithCurrency() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\", \"currency\": \"USD\" }, { \"id\": \"FOOBIZ\", \"currency\": \"BTC\" } ]";
-        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Card>>() {
             @Override
@@ -382,7 +382,7 @@ public class UserTest {
                 "\"name\": \"Fuz Buz\"" +
             "}" +
         "]";
-        MockRestAdapter<List<Contact>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Contact>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Contact>>() {
             @Override
@@ -441,7 +441,7 @@ public class UserTest {
     @Test
     public void getDocumentsShouldReturnTheListOfDocuments() throws Exception {
         String responseString = "[{\"type\": \"foo\", \"value\": \"bar\"}]";
-        MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Document>>() {
             @Override
@@ -510,7 +510,7 @@ public class UserTest {
                 "\"e164Masked\": \"+XXXXXXXXX04\"" +
             "}" +
         "]";
-        MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Phone>>() {
             @Override
@@ -603,7 +603,7 @@ public class UserTest {
                 "}" +
             "}" +
         "}";
-        MockRestAdapter<UserBalance> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<UserBalance> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, UserBalance>() {
             @Override
@@ -635,7 +635,7 @@ public class UserTest {
     @Test
     public void getUserTransactionsShouldReturnThePaginatorCount() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-2/60");
         }});
 
@@ -670,7 +670,7 @@ public class UserTest {
     @Test
     public void getUserTransactionsShouldReturnThePaginatorHasNext() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-49/51");
         }});
 
@@ -705,7 +705,7 @@ public class UserTest {
     @Test
     public void getUserTransactionsShouldReturnTheListOfTransactions() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -740,7 +740,7 @@ public class UserTest {
     @Test
     public void getUserTransactionsShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -820,7 +820,7 @@ public class UserTest {
     @Test
     public void updateShouldReturnTheUser() throws Exception {
         String responseString = "{ \"username\": \"FOOBAR\" }";
-        MockRestAdapter<User> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<User> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
             @Override

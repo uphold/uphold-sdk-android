@@ -35,7 +35,7 @@ public class ReserveServiceTest {
 
     @Test
     public void getLedgerShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Deposit>>() {
             @Override
@@ -58,7 +58,7 @@ public class ReserveServiceTest {
 
     @Test
     public void getReserveTransactionByIdShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -80,7 +80,7 @@ public class ReserveServiceTest {
 
     @Test
     public void getReserveTransactionsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -103,7 +103,7 @@ public class ReserveServiceTest {
 
     @Test
     public void getReserveStatisticsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<ReserveStatistics>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<ReserveStatistics>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<ReserveStatistics>>() {
             @Override

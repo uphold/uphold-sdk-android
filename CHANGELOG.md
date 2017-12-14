@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/uphold/uphold-sdk-android/tree/0.10.0) (2017-12-14)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.9.0...0.10.0)
+
+**Merged pull requests:**
+
+- Fix update bearer token issue [\#100](https://github.com/uphold/uphold-sdk-android/pull/100) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.9.0](https://github.com/uphold/uphold-sdk-android/tree/0.9.0) (2017-11-28)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.8.0...0.9.0)
 

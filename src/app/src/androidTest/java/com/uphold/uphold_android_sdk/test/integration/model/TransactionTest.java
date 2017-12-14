@@ -34,7 +34,7 @@ public class TransactionTest {
 
     @Test
     public void cancelShouldReturnALogicExceptionIfCardIdIsMissing() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -59,7 +59,7 @@ public class TransactionTest {
 
     @Test
     public void cancelShouldReturnALogicExceptionIfDestinationCardIdIsMissingForDeposits() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -83,7 +83,7 @@ public class TransactionTest {
 
     @Test
     public void cancelShouldReturnALogicExceptionIfOriginAccountIdIsMissingForDeposits() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -107,7 +107,7 @@ public class TransactionTest {
 
     @Test
     public void cancelShouldReturnTheLogicExceptionUncommitedTransaction() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -130,7 +130,7 @@ public class TransactionTest {
 
     @Test
     public void cancelShouldReturnTheLogicExceptionWhenTransactionStatusIsNotWaiting() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -154,7 +154,7 @@ public class TransactionTest {
     @Test
     public void cancelShouldReturnTheTransaction() throws Exception{
         String responseString = "{ \"id\": \"foobar\" }";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -181,7 +181,7 @@ public class TransactionTest {
 
     @Test
     public void commitShouldReturnTheLogicExceptionCardIdIsMissing() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -206,7 +206,7 @@ public class TransactionTest {
 
     @Test
     public void commitShouldReturnTheLogicExceptionIfDestinationCardIdIsMissingForDeposits() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -230,7 +230,7 @@ public class TransactionTest {
 
     @Test
     public void commitShouldReturnTheLogicExceptionIfOriginAccountIdIsMissingForDeposits() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -254,7 +254,7 @@ public class TransactionTest {
 
     @Test
     public void commitShouldReturnTheLogicExceptionTransactionCouldNotBeCommited() throws Exception {
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", null, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -280,7 +280,7 @@ public class TransactionTest {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -323,7 +323,7 @@ public class TransactionTest {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -366,7 +366,7 @@ public class TransactionTest {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -409,7 +409,7 @@ public class TransactionTest {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -452,7 +452,7 @@ public class TransactionTest {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override

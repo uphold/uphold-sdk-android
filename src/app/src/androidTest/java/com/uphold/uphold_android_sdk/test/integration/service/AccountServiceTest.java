@@ -31,7 +31,7 @@ public class AccountServiceTest {
 
     @Test
     public void getUserAccountByIdShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Account> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Account> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Account>() {
             @Override
@@ -53,7 +53,7 @@ public class AccountServiceTest {
 
     @Test
     public void getUserAccountsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Account>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Account>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Account>>() {
             @Override

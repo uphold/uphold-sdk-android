@@ -1,21 +1,21 @@
 package com.uphold.uphold_android_sdk.test.integration.service;
 
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.SmallTest;
+
 import com.darylteo.rx.promises.java.Promise;
 import com.darylteo.rx.promises.java.functions.RepromiseFunction;
-
-import junit.framework.Assert;
-
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.client.retrofitpromise.RetrofitPromise;
 import com.uphold.uphold_android_sdk.model.AuthenticationResponse;
 import com.uphold.uphold_android_sdk.service.OAuth2Service;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.MockRestAdapter;
+
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayOutputStream;
 
@@ -33,7 +33,7 @@ public class OAuth2ServiceTest {
     @Test
     public void requestToken() throws Exception {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
-        final MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<AuthenticationResponse> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, AuthenticationResponse>() {
             @Override

@@ -36,7 +36,7 @@ public class ReserveTest {
     @Test
     public void getLedgerShouldReturnThePaginatorCount() throws Exception {
         String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
-        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-2/60");
         }});
 
@@ -71,7 +71,7 @@ public class ReserveTest {
     @Test
     public void getLedgerShouldReturnThePaginatorHasNext() throws Exception {
         String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
-        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-49/51");
         }});
 
@@ -129,7 +129,7 @@ public class ReserveTest {
             "\"TransactionId\": \"foobar\"," +
             "\"createdAt\": \"2015-04-20T14:57:12.398Z\"" +
         "}]";
-        MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Deposit>>() {
             @Override
@@ -176,7 +176,7 @@ public class ReserveTest {
     @Test
     public void getLedgerShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"type\": \"asset\" }, { \"type\": \"liability\" } ]";
-        MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Deposit>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Deposit>>() {
             @Override
@@ -235,7 +235,7 @@ public class ReserveTest {
                 "\"liabilities\": \"buz\"" +
             "}" +
         "}]";
-        MockRestAdapter<List<ReserveStatistics>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<ReserveStatistics>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<ReserveStatistics>>() {
             @Override
@@ -279,7 +279,7 @@ public class ReserveTest {
     @Test
     public void getTransactionsByIdShouldReturnTheTransaction() throws Exception {
         String responseString = "{ \"id\": \"FOOBAR\" }";
-        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -303,7 +303,7 @@ public class ReserveTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorCount() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Integer> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Integer> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-2/60");
         }});
 
@@ -338,7 +338,7 @@ public class ReserveTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorHasNext() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>("foobar", responseString, new HashMap<String, String>() {{
+        MockRestAdapter<Boolean> adapter = new MockRestAdapter<>(responseString, new HashMap<String, String>() {{
             put("Content-Range", "0-49/51");
         }});
 
@@ -373,7 +373,7 @@ public class ReserveTest {
     @Test
     public void getTransactionsShouldReturnTheListOfTransactions() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -408,7 +408,7 @@ public class ReserveTest {
     @Test
     public void getTransactionsShouldReturnThePaginatorNextPage() throws Exception {
         String responseString = "[ { \"id\": \"FOOBAR\" }, { \"id\": \"FOOBIZ\" } ]";
-        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>("foobar", responseString, null);
+        MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override

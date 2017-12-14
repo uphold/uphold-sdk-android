@@ -1,12 +1,12 @@
 package com.uphold.uphold_android_sdk.client.restadapter;
 
+import android.text.TextUtils;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.errorhandling.UpholdRetrofitErrorHandling;
 import com.uphold.uphold_android_sdk.client.session.SessionManager;
 import com.uphold.uphold_android_sdk.util.Header;
-
-import android.text.TextUtils;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -42,7 +42,7 @@ public class UpholdRestAdapter {
             .setClient(new OkClient(okHttpClient))
             .setErrorHandler(new UpholdRetrofitErrorHandling())
             .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
-            .setRequestInterceptor(getUpholdRequestInterceptor(SessionManager.INSTANCE.getBearerToken()))
+            .setRequestInterceptor(getUpholdRequestInterceptor())
             .build();
     }
 
@@ -72,16 +72,14 @@ public class UpholdRestAdapter {
     /**
      * Gets the {@link RequestInterceptor}.
      *
-     * @param token The token (if available) of the user.
-     *
      * @return the {@link RequestInterceptor}.
      */
 
-    public RequestInterceptor getUpholdRequestInterceptor(final String token) {
+    public RequestInterceptor getUpholdRequestInterceptor() {
         return new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
-                HashMap<String, String> map = Header.getHeaders();
+                final HashMap<String, String> map = Header.getHeaders();
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     String key = entry.getKey();
@@ -90,7 +88,9 @@ public class UpholdRestAdapter {
                     request.addHeader(key, value);
                 }
 
-                if (token != null && !TextUtils.isEmpty(token)) {
+                final String token = SessionManager.INSTANCE.getBearerToken();
+
+                if (!TextUtils.isEmpty(token)) {
                     request.addHeader("Authorization", String.format("Bearer %s", token));
                 }
             }

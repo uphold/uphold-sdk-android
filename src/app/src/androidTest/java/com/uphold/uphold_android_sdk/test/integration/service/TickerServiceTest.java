@@ -31,7 +31,7 @@ public class TickerServiceTest {
 
     @Test
     public void getAllTickersShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Rate>>() {
             @Override
@@ -53,7 +53,7 @@ public class TickerServiceTest {
 
     @Test
     public void getAllTickersByCurrencyShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Rate>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Rate>>() {
             @Override

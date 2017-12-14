@@ -32,13 +32,13 @@ public class MockRestAdapter<T> {
     private UpholdRestAdapter mockRestAdapter;
     private RestAdapter restAdapter;
 
-    public MockRestAdapter(String token, final String responseString, final HashMap<String, String> headers) {
+    public MockRestAdapter(final String responseString, final HashMap<String, String> headers) {
         this.exceptionReference = new AtomicReference<>();
         this.requestReference = new AtomicReference<>();
         this.resultReference = new AtomicReference<>();
         this.mockRestAdapter = new UpholdRestAdapter();
         this.restAdapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
-            .setRequestInterceptor(this.mockRestAdapter.getUpholdRequestInterceptor(token))
+            .setRequestInterceptor(this.mockRestAdapter.getUpholdRequestInterceptor())
             .setClient(new Client() {
                 @Override
                 public Response execute(Request request) throws IOException {

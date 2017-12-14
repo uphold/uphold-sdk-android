@@ -44,7 +44,7 @@ public class UserCardServiceTest {
 
     @Test
     public void cancelTransactionShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -66,7 +66,7 @@ public class UserCardServiceTest {
 
     @Test
     public void confirmTransactionShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -98,7 +98,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createAddressShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Address> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Address> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Address>() {
             @Override
@@ -120,7 +120,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createTransactionCardDepositShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -142,7 +142,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createTransactionDepositShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -164,7 +164,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createTransactionTransferShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
             @Override
@@ -186,7 +186,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createUserCardShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override
@@ -208,7 +208,7 @@ public class UserCardServiceTest {
 
     @Test
     public void createUserCardWithSettingsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override
@@ -230,7 +230,7 @@ public class UserCardServiceTest {
 
     @Test
     public void getUserCardByIdShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override
@@ -252,7 +252,7 @@ public class UserCardServiceTest {
 
     @Test
     public void getUserCardsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Card>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Card>>() {
             @Override
@@ -274,7 +274,7 @@ public class UserCardServiceTest {
 
     @Test
     public void getUserCardTransactionsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -297,7 +297,7 @@ public class UserCardServiceTest {
 
     @Test
     public void updateShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Card> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Card>() {
             @Override

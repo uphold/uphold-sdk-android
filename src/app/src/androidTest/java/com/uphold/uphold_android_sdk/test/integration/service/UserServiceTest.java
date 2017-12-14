@@ -39,7 +39,7 @@ public class UserServiceTest {
 
     @Test
     public void createContactShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Contact> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Contact> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Contact>() {
             @Override
@@ -61,7 +61,7 @@ public class UserServiceTest {
 
     @Test
     public void createDocumentShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Document> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Document> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Document>() {
             @Override
@@ -83,7 +83,7 @@ public class UserServiceTest {
 
     @Test
     public void getDocumentsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Document>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Document>>() {
             @Override
@@ -105,7 +105,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<User> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<User> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
             @Override
@@ -127,7 +127,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserBalancesShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<Balance> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<Balance> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Balance>() {
             @Override
@@ -149,7 +149,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserContactsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Contact>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Contact>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Contact>>() {
             @Override
@@ -171,7 +171,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserPhonesShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Phone>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Phone>>() {
             @Override
@@ -193,7 +193,7 @@ public class UserServiceTest {
 
     @Test
     public void getUserTransactionsShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<List<Transaction>> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, List<Transaction>>() {
             @Override
@@ -216,7 +216,7 @@ public class UserServiceTest {
 
     @Test
     public void updateUserShouldReturnTheRequest() throws Exception {
-        final MockRestAdapter<User> adapter = new MockRestAdapter<>(null, null, null);
+        final MockRestAdapter<User> adapter = new MockRestAdapter<>(null, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, User>() {
             @Override

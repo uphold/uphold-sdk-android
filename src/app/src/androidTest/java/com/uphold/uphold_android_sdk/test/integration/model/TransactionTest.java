@@ -538,6 +538,9 @@ public class TransactionTest {
             put("destinationMerchantName", "buz");
             put("destinationMerchantState", "fiz");
             put("destinationMerchantZipCode", "biz");
+            put("destinationNodeBrand", "foz");
+            put("destinationNodeId", "fez");
+            put("destinationNodeType", "faz");
             put("destinationRate", "buz");
             put("destinationType", "fuzbiz");
             put("destinationUsername", "fizbuz");
@@ -555,6 +558,9 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDestination().getMerchant().getName(), "buz");
         Assert.assertEquals(transaction.getDestination().getMerchant().getState(), "fiz");
         Assert.assertEquals(transaction.getDestination().getMerchant().getZipCode(), "biz");
+        Assert.assertEquals(transaction.getDestination().getNode().getBrand(), "foz");
+        Assert.assertEquals(transaction.getDestination().getNode().getId(), "fez");
+        Assert.assertEquals(transaction.getDestination().getNode().getType(), "faz");
         Assert.assertEquals(transaction.getDestination().getRate(), "buz");
         Assert.assertEquals(transaction.getDestination().getType(), "fuzbiz");
         Assert.assertEquals(transaction.getDestination().getUsername(), "fizbuz");
@@ -601,6 +607,9 @@ public class TransactionTest {
             put("originMerchantName", "buz");
             put("originMerchantState", "fiz");
             put("originMerchantZipCode", "biz");
+            put("originNodeBrand", "foz");
+            put("originNodeId", "fez");
+            put("originNodeType", "faz");
             put("originRate", "buz");
             put("originSourcesAmount", "fuzbiz,fizbuz");
             put("originSourcesId", "foo,bar");
@@ -620,6 +629,9 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getOrigin().getMerchant().getName(), "buz");
         Assert.assertEquals(transaction.getOrigin().getMerchant().getState(), "fiz");
         Assert.assertEquals(transaction.getOrigin().getMerchant().getZipCode(), "biz");
+        Assert.assertEquals(transaction.getOrigin().getNode().getBrand(), "foz");
+        Assert.assertEquals(transaction.getOrigin().getNode().getId(), "fez");
+        Assert.assertEquals(transaction.getOrigin().getNode().getType(), "faz");
         Assert.assertEquals(transaction.getOrigin().getRate(), "buz");
         Assert.assertEquals(transaction.getOrigin().getSources().size(), 2);
         Assert.assertEquals(transaction.getOrigin().getSources().get(0).getAmount(), "fuzbiz");

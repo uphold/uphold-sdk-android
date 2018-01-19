@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/uphold/uphold-sdk-android/tree/0.11.0) (2018-01-19)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.10.0...0.11.0)
+
+**Merged pull requests:**
+
+- Add Node model to Origin/Destination of a transaction [\#101](https://github.com/uphold/uphold-sdk-android/pull/101) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.10.0](https://github.com/uphold/uphold-sdk-android/tree/0.10.0) (2017-12-14)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.9.0...0.10.0)
 

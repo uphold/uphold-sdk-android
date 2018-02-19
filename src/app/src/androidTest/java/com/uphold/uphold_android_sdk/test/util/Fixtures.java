@@ -162,6 +162,7 @@ public class Fixtures {
             put("denominationRate", faker.numerify("123456789"));
             put("destinationAccountId", faker.numerify("123456789"));
             put("destinationAccountType", faker.lorem().fixedString(7));
+            put("destinationAddress", faker.lorem().fixedString(20));
             put("destinationAmount", faker.numerify("123456789"));
             put("destinationBase", faker.numerify("123456789"));
             put("destinationCardId", faker.lorem().fixedString(24));
@@ -238,7 +239,7 @@ public class Fixtures {
         Merchant destinationMerchant = new Merchant(fakerFields.get("destinationMerchantCity"), fakerFields.get("destinationMerchantCountry"), fakerFields.get("destinationMerchantName"), fakerFields.get("destinationMerchantState"),
             fakerFields.get("destinationMerchantZipCode"));
         Node destinationNode = new Node(fakerFields.get("destinationNodeBrand"), fakerFields.get("destinationNodeId"), fakerFields.get("destinationNodeType"));
-        Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"),
+        Destination destination = new Destination(fakerFields.get("destinationAccountId"), fakerFields.get("destinationCardId"), fakerFields.get("destinationAccountType"), fakerFields.get("destinationAddress"), fakerFields.get("destinationAmount"), fakerFields.get("destinationBase"),
             fakerFields.get("destinationCommission"), fakerFields.get("destinationCurrency"), fakerFields.get("destinationDescription"), fakerFields.get("destinationFee"), destinationMerchant, destinationNode, fakerFields.get("destinationRate"),
             fakerFields.get("destinationType"), fakerFields.get("destinationUsername"));
         ArrayList<Fee> fees = new ArrayList<Fee>() {{

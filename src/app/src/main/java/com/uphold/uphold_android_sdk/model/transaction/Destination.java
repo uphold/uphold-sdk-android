@@ -11,6 +11,7 @@ public class Destination implements Serializable {
     private final String AccountId;
     private final String CardId;
     private final String accountType;
+    private final String address;
     private final String amount;
     private final String base;
     private final String commission;
@@ -29,6 +30,7 @@ public class Destination implements Serializable {
      * @param AccountId The id of the account from the destination of the transaction.
      * @param cardId The card id of the card from the destination of the transaction.
      * @param accountType The type of the account from the destination of the transaction.
+     * @param address The address from the destination of the transaction.
      * @param amount The amount from the destination of the transaction.
      * @param base The base from the destination of the transaction.
      * @param commission The commission from the destination of the transaction.
@@ -42,10 +44,11 @@ public class Destination implements Serializable {
      * @param username The username from the destination of the transaction.
      */
 
-    public Destination(String AccountId, String cardId, String accountType, String amount, String base, String commission, String currency, String description, String fee, Merchant merchant, Node node, String rate, String type, String username) {
+    public Destination(String AccountId, String cardId, String accountType, String address, String amount, String base, String commission, String currency, String description, String fee, Merchant merchant, Node node, String rate, String type, String username) {
         this.AccountId = AccountId;
         this.CardId = cardId;
         this.accountType = accountType;
+        this.address = address;
         this.amount = amount;
         this.base = base;
         this.commission = commission;
@@ -87,6 +90,16 @@ public class Destination implements Serializable {
 
     public String getAccountType() {
         return accountType;
+    }
+
+    /**
+     * Gets the address from the destination of the transaction.
+     *
+     * @return the address from the destination of the transaction.
+     */
+
+    public String getAddress() {
+        return address;
     }
 
     /**

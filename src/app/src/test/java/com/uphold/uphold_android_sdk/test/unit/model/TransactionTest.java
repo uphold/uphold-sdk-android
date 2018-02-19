@@ -33,7 +33,7 @@ public class TransactionTest {
         Denomination denomination = new Denomination("foo", "bar", "fuz", "buz");
         Merchant destinationMerchant = new Merchant("foo", "bar", "biz", "buz", "foobar");
         Node destinationNode = new Node("foo", "bar", "boz");
-        Destination destination = new Destination("fizbiz", "foobar", "biz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", destinationMerchant, destinationNode, "fiz", "biz", "buz");
+        Destination destination = new Destination("fizbiz", "foobar", "biz", "fizbuz", "foobiz", "foobuz", "fizbuz", "fizbiz", "foo", "bar", destinationMerchant, destinationNode, "fiz", "biz", "buz");
         Fee fee = new Fee("foo", "bar", "fuz", "buz", "biz");
         List<Fee> fees = new ArrayList<>();
         List<Normalized> normalizeds = new ArrayList<>();
@@ -60,6 +60,7 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getDenomination().getRate(), deserializedTransaction.getDenomination().getRate());
         Assert.assertEquals(transaction.getDestination().getAccountId(), deserializedTransaction.getDestination().getAccountId());
         Assert.assertEquals(transaction.getDestination().getAccountType(), deserializedTransaction.getDestination().getAccountType());
+        Assert.assertEquals(transaction.getDestination().getAddress(), deserializedTransaction.getDestination().getAddress());
         Assert.assertEquals(transaction.getDestination().getAmount(), deserializedTransaction.getDestination().getAmount());
         Assert.assertEquals(transaction.getDestination().getBase(), deserializedTransaction.getDestination().getBase() );
         Assert.assertEquals(transaction.getDestination().getCardId(), deserializedTransaction.getDestination().getCardId());

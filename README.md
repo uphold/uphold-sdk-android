@@ -22,8 +22,8 @@ repositories {
 }
 
 dependencies {
-	// Add the classifier `sandboxRelease`, i.e. `'com.github.uphold:uphold-sdk-android:0.11.0:sandboxRelease@aar'`, to use the sandbox environment.
-	compile ('com.github.uphold:uphold-sdk-android:0.11.0@aar') {
+	// Add the classifier `sandboxRelease`, i.e. `'com.github.uphold:uphold-sdk-android:0.12.0:sandboxRelease@aar'`, to use the sandbox environment.
+	compile ('com.github.uphold:uphold-sdk-android:0.12.0@aar') {
 	    transitive = true
 	}
 }

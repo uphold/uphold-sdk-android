@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.0](https://github.com/uphold/uphold-sdk-android/tree/0.12.0) (2018-02-20)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.11.0...0.12.0)
+
+**Merged pull requests:**
+
+- Bump gradle [\#104](https://github.com/uphold/uphold-sdk-android/pull/104) ([SandroMachado](https://github.com/SandroMachado))
+- Add support for transaction destination address [\#103](https://github.com/uphold/uphold-sdk-android/pull/103) ([d-moreira](https://github.com/d-moreira))
+- Add support for transaction commit request beneficiary [\#102](https://github.com/uphold/uphold-sdk-android/pull/102) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.11.0](https://github.com/uphold/uphold-sdk-android/tree/0.11.0) (2018-01-19)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.10.0...0.11.0)
 

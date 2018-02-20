@@ -64,4 +64,14 @@ public class TransactionCommitRequestTest {
         Assert.assertEquals(transactionCommitRequest.getBeneficiary().getRelationship(), deserializedTransactionCommitRequestTest.getBeneficiary().getRelationship());
     }
 
+    @Test
+    public void shouldBeSerializableTransactionCommitRequestWithMessageAndSecurityCode() {
+        TransactionCommitRequest transactionCommitRequest = new TransactionCommitRequest("foo", "bar");
+        byte[] serializedTransactionCommitRequestTest = SerializationUtils.serialize(transactionCommitRequest);
+        TransactionCommitRequest deserializedTransactionCommitRequestTest = SerializationUtils.deserialize(serializedTransactionCommitRequestTest);
+
+        Assert.assertEquals(transactionCommitRequest.getMessage(), deserializedTransactionCommitRequestTest.getMessage());
+        Assert.assertEquals(transactionCommitRequest.getSecurityCode(), deserializedTransactionCommitRequestTest.getSecurityCode());
+    }
+
 }

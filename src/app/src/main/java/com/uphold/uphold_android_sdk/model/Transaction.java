@@ -207,7 +207,7 @@ public class Transaction extends BaseModel implements Serializable {
         }
 
         if (transactionCommitRequest == null) {
-            transactionCommitRequest = new TransactionCommitRequest(null, null);
+            transactionCommitRequest = new TransactionCommitRequest((String) null);
         }
 
         userCardService.confirmTransaction(getCardIdPath(), this.getId(), transactionCommitRequest, otp, promise);

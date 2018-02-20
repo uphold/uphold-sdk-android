@@ -4,8 +4,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.uphold'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     publishNonDefault true
     testBuildType "debug"
 
@@ -18,14 +18,13 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 17
         versionName "0.11.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     defaultPublishConfig "productionRelease"
-    publishNonDefault true
 
     lintOptions {
         abortOnError false
@@ -39,22 +38,26 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    flavorDimensions "default"
+
     productFlavors {
         production {
+            dimension 'default'
             buildConfigField 'String', 'API_SERVER_URL', '"https://api.uphold.com"'
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://uphold.com"'
         }
 
         sandbox {
+            dimension 'default'
             buildConfigField 'String', 'API_SERVER_URL', '"https://api-sandbox.uphold.com"'
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://sandbox.uphold.com"'
         }
     }
 }
 
-if( android.productFlavors.size() > 0 ) {
+if(android.productFlavors.size() > 0) {
     android.libraryVariants.all { variant ->
-        if( android.publishNonDefault && variant.name == android.defaultPublishConfig ) {
+        if(variant.name == android.defaultPublishConfig) {
             def bundleTask = tasks["bundle${name.capitalize()}"]
             artifacts {
                 archives(bundleTask.archivePath) {
@@ -67,20 +70,23 @@ if( android.productFlavors.size() > 0 ) {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.darylteo:rxjava-promises-java:1.2.1'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
-    androidTestCompile ('com.github.javafaker:javafaker:0.5')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.darylteo:rxjava-promises-java:1.2.1'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+
+    androidTestImplementation 'com.android.support.test:testing-support-lib:0.1'
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    androidTestImplementation ('com.github.javafaker:javafaker:0.5')
     {
-        exclude group: 'org.yaml' //The version supported by android is at libs folder
+        exclude group: 'org.yaml' // The version supported by android is at the libs folder.
     }
-    androidTestCompile files ('libs/snakeyaml-1.10-android.jar')
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.apache.commons:commons-lang3:3.4'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+    androidTestImplementation files ('libs/snakeyaml-1.10-android.jar')
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.apache.commons:commons-lang3:3.4'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.4'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.4'
 }

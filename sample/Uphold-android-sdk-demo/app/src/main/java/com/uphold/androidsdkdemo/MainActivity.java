@@ -1,8 +1,8 @@
 package com.uphold.androidsdkdemo;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +17,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String CLIENT_ID = "e67a4ca1f3654e9cc0c530a717d1ada1e89a61fe";
     private static final String CLIENT_SECRET = "24e4135531b4518ae9424fc8f215f272967d5cfd";

@@ -1,7 +1,7 @@
 package com.uphold.androidsdkdemo;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +16,7 @@ import com.uphold.uphold_android_sdk.model.User;
 
 import java.util.List;
 
-public class UserActivity extends ActionBarActivity {
+public class UserActivity extends AppCompatActivity {
 
     public static final String BUNDLE_EXTRA_BEARER_TOKEN = "BUNDLE_EXTRA_BEARER_TOKEN";
 

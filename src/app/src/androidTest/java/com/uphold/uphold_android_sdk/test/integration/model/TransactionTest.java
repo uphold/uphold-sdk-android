@@ -8,6 +8,8 @@ import com.darylteo.rx.promises.java.functions.RepromiseFunction;
 import com.uphold.uphold_android_sdk.client.restadapter.UpholdRestAdapter;
 import com.uphold.uphold_android_sdk.exception.LogicException;
 import com.uphold.uphold_android_sdk.model.Transaction;
+import com.uphold.uphold_android_sdk.model.transaction.Beneficiary;
+import com.uphold.uphold_android_sdk.model.transaction.BeneficiaryAddress;
 import com.uphold.uphold_android_sdk.model.transaction.TransactionCommitRequest;
 import com.uphold.uphold_android_sdk.test.BuildConfig;
 import com.uphold.uphold_android_sdk.test.util.Fixtures;
@@ -362,7 +364,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void commitWithMessageAndSecurityCodeShouldReturnTheTransaction() throws Exception {
+    public void commitWithBeneficiaryShouldReturnTheTransaction() throws Exception {
         ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
         String responseString = "{ \"id\": \"foobar\" }";
 
@@ -379,7 +381,10 @@ public class TransactionTest {
 
                 transaction.setUpholdRestAdapter(adapter);
 
-                return transaction.commit(new TransactionCommitRequest("foobar", "foo"));
+                BeneficiaryAddress address = new BeneficiaryAddress("faz", "fez", "fiz", "foz", "fuz", "foobiz");
+                Beneficiary beneficiary = new Beneficiary(address, "buz", "fez");
+
+                return transaction.commit(new TransactionCommitRequest(beneficiary));
             }
         });
 
@@ -401,7 +406,53 @@ public class TransactionTest {
         Assert.assertEquals(request.getMethod(), "POST");
         Assert.assertNull(otpHeader);
         Assert.assertEquals(transaction.getId(), "foobar");
-        Assert.assertEquals(bodyOutput.toString(), "{\"message\":\"foobar\",\"securityCode\":\"foo\"}");
+        Assert.assertEquals(bodyOutput.toString(), "{\"beneficiary\":{\"address\":{\"city\":\"faz\",\"country\":\"fez\",\"line1\":\"fiz\",\"line2\":\"foz\",\"state\":\"fuz\",\"zipCode\":\"foobiz\"},\"name\":\"buz\",\"relationship\":\"fez\"}}");
+    }
+
+    @Test
+    public void commitWithMessageAndBeneficiaryShouldReturnTheTransaction() throws Exception {
+        ByteArrayOutputStream bodyOutput = new ByteArrayOutputStream();
+        String responseString = "{ \"id\": \"foobar\" }";
+
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+                    put("transactionStatus", "pending");
+                    put("originCardId", "foo");
+                    put("transactionId", "bar");
+                }});
+
+                transaction.setUpholdRestAdapter(adapter);
+
+                BeneficiaryAddress address = new BeneficiaryAddress("faz", "fez", "fiz", "foz", "fuz", "foobiz");
+                Beneficiary beneficiary = new Beneficiary(address, "buz", "fez");
+
+                return transaction.commit(new TransactionCommitRequest(beneficiary, "foobar"));
+            }
+        });
+
+        Header otpHeader = null;
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        for (Header header : request.getHeaders()) {
+            if ("OTP-Token".equalsIgnoreCase(header.getName())) {
+                otpHeader = header;
+
+                break;
+            }
+        }
+
+        request.getBody().writeTo(bodyOutput);
+
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foo/transactions/bar/commit", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertNull(otpHeader);
+        Assert.assertEquals(transaction.getId(), "foobar");
+        Assert.assertEquals(bodyOutput.toString(), "{\"beneficiary\":{\"address\":{\"city\":\"faz\",\"country\":\"fez\",\"line1\":\"fiz\",\"line2\":\"foz\",\"state\":\"fuz\",\"zipCode\":\"foobiz\"},\"name\":\"buz\",\"relationship\":\"fez\"},\"message\":\"foobar\"}");
     }
 
     @Test

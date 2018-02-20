@@ -8,8 +8,19 @@ import java.io.Serializable;
 
 public class TransactionCommitRequest implements Serializable {
 
-    String message;
-    String securityCode;
+    private final Beneficiary beneficiary;
+    private final String message;
+
+    /**
+     * Constructor.
+     *
+     * @param beneficiary The transaction beneficiary.
+     */
+
+    public TransactionCommitRequest(Beneficiary beneficiary) {
+        this.beneficiary = beneficiary;
+        this.message = null;
+    }
 
     /**
      * Constructor.
@@ -18,39 +29,40 @@ public class TransactionCommitRequest implements Serializable {
      */
 
     public TransactionCommitRequest(String message) {
+        this.beneficiary = null;
         this.message = message;
     }
 
     /**
      * Constructor.
      *
+     * @param beneficiary The transaction beneficiary.
      * @param message The transaction message.
-     * @param securityCode The transaction security code.
      */
 
-    public TransactionCommitRequest(String message, String securityCode) {
+    public TransactionCommitRequest(Beneficiary beneficiary, String message) {
+        this.beneficiary = beneficiary;
         this.message = message;
-        this.securityCode = securityCode;
+    }
+
+    /**
+     * Gets the transaction beneficiary.
+     *
+     * @return the transaction beneficiary.
+     */
+
+    public Beneficiary getBeneficiary() {
+        return beneficiary;
     }
 
     /**
      * Gets the transaction request message.
      *
-     * @return the transaction request message
+     * @return the transaction request message.
      */
 
     public String getMessage() {
         return message;
-    }
-
-    /**
-     * Gets the transaction security code.
-     *
-     * @return the transaction security code
-     */
-
-    public String getSecurityCode() {
-        return securityCode;
     }
 
 }

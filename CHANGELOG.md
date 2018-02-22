@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://github.com/uphold/uphold-sdk-android/tree/0.13.0) (2018-02-22)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.12.0...0.13.0)
+
+**Merged pull requests:**
+
+- Add support for transaction commit request security code [\#105](https://github.com/uphold/uphold-sdk-android/pull/105) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.12.0](https://github.com/uphold/uphold-sdk-android/tree/0.12.0) (2018-02-20)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.11.0...0.12.0)
 

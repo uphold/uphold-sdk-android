@@ -2,20 +2,23 @@ package com.uphold.uphold_android_sdk.client.restadapter;
 
 import android.text.TextUtils;
 
-import com.squareup.okhttp.OkHttpClient;
+import com.jakewharton.retrofit.Ok3Client;
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.errorhandling.UpholdRetrofitErrorHandling;
 import com.uphold.uphold_android_sdk.client.session.SessionManager;
 import com.uphold.uphold_android_sdk.util.Header;
 
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 /**
  * Uphold rest adapter.
@@ -30,16 +33,31 @@ public class UpholdRestAdapter {
      */
 
     public UpholdRestAdapter() {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        final OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
         try {
-            okHttpClient.setSslSocketFactory(new TLSV12SSLSocketFactory());
-        } catch (NoSuchAlgorithmException | KeyManagementException exception) {
+            X509TrustManager x509TrustManager = null;
+            final TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+
+            trustManagerFactory.init((KeyStore) null);
+
+            for (TrustManager trustManager : trustManagerFactory.getTrustManagers()) {
+                if (trustManager instanceof X509TrustManager) {
+                    x509TrustManager = (X509TrustManager) trustManager;
+
+                    break;
+                }
+            }
+
+            if (x509TrustManager != null) {
+                clientBuilder.sslSocketFactory(new TLSV12SSLSocketFactory(), x509TrustManager);
+            }
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
         this.adapter = new RestAdapter.Builder().setEndpoint(BuildConfig.API_SERVER_URL)
-            .setClient(new OkClient(okHttpClient))
+            .setClient(new Ok3Client(clientBuilder.build()))
             .setErrorHandler(new UpholdRetrofitErrorHandling())
             .setLogLevel(BuildConfig.DEBUG ? RestAdapter.LogLevel.FULL : RestAdapter.LogLevel.NONE)
             .setRequestInterceptor(getUpholdRequestInterceptor())

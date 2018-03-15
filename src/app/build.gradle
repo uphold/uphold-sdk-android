@@ -73,9 +73,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.darylteo:rxjava-promises-java:1.2.1'
-    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
-    implementation 'com.squareup.okhttp:okhttp:2.7.5'
-    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
 
     androidTestImplementation 'com.android.support.test:testing-support-lib:0.1'
     androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'

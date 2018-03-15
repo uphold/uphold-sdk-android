@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/uphold/uphold-sdk-android/tree/0.14.0) (2018-03-15)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.13.0...0.14.0)
+
+**Merged pull requests:**
+
+- Update OkHttpClient version [\#99](https://github.com/uphold/uphold-sdk-android/pull/99) ([d-moreira](https://github.com/d-moreira))
+
 ## [0.13.0](https://github.com/uphold/uphold-sdk-android/tree/0.13.0) (2018-02-22)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.12.0...0.13.0)
 

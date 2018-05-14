@@ -71,6 +71,7 @@ public class CardTest {
             "\"message\": \"foobar\"," +
             "\"network\": \"qux\"," +
             "\"status\": \"pending\"," +
+            "\"reference\": \"123456\"," +
             "\"RefundedById\": \"foobiz\"," +
             "\"createdAt\": \"2014-08-27T00:01:11.616Z\"," +
             "\"denomination\": {" +
@@ -169,6 +170,7 @@ public class CardTest {
         Assert.assertEquals(transaction.getNetwork(), "qux");
         Assert.assertEquals(transaction.getStatus(), "pending");
         Assert.assertEquals(transaction.getRefundedById(), "foobiz");
+        Assert.assertEquals(transaction.getReference(), "123456");
         Assert.assertEquals(transaction.getCreatedAt(), "2014-08-27T00:01:11.616Z");
         Assert.assertEquals(transaction.getDenomination().getAmount(), "0.1");
         Assert.assertEquals(transaction.getDenomination().getCurrency(), "BTC");
@@ -293,6 +295,32 @@ public class CardTest {
                 card.setUpholdRestAdapter(adapter);
 
                 return card.createTransaction(new TransactionTransferRequest(null, "foobar"), true);
+            }
+        });
+
+        Request request = adapter.getRequest();
+        Transaction transaction = adapter.getResult();
+
+        Assert.assertEquals(request.getMethod(), "POST");
+        Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/transactions?commit=true", BuildConfig.API_SERVER_URL));
+        Assert.assertEquals(transaction.getId(), "foobar");
+    }
+
+    @Test
+    public void createTransactionTransferWithReferenceShouldReturnTheTransactionCommittedWithReference() throws Exception {
+        String responseString = "{ \"id\": \"foobar\" }";
+        MockRestAdapter<Transaction> adapter = new MockRestAdapter<>(responseString, null);
+
+        adapter.request(new RepromiseFunction<UpholdRestAdapter, Transaction>() {
+            @Override
+            public Promise<Transaction> call(UpholdRestAdapter adapter) {
+                Card card = Fixtures.loadCard(new HashMap<String, String>() {{
+                    put("id", "foobar");
+                }});
+
+                card.setUpholdRestAdapter(adapter);
+
+                return card.createTransaction(new TransactionTransferRequest(null, "foobar", "123456"), true);
             }
         });
 

@@ -41,4 +41,14 @@ public class TransactionTransferRequestTest {
         Assert.assertEquals(transactionTransferRequest.getDenomination().getCurrency(), "foobar");
     }
 
+
+    @Test
+    public void getReferenceShouldReturnTheDenomination() {
+        TransactionTransferRequest transactionTransferRequest = Fixtures.loadTransactionTransferRequest(new HashMap<String, String>() {{
+            put("reference", "12345");
+        }});
+
+        Assert.assertEquals(transactionTransferRequest.getReference(), "12345");
+    }
+
 }

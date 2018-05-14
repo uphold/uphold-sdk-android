@@ -225,6 +225,7 @@ public class Fixtures {
             put("transactionId", faker.lorem().fixedString(24));
             put("transactionMessage", faker.lorem().fixedString(24));
             put("transactionNetwork", faker.lorem().fixedString(24));
+            put("transactionReference", faker.numerify("123456789"));
             put("transactionRefundedById", faker.lorem().fixedString(24));
             put("transactionRefunds", faker.lorem().fixedString(24));
             put("transactionStatus", faker.lorem().fixedString(24));
@@ -263,7 +264,7 @@ public class Fixtures {
         Parameters parameters = new Parameters(fakerFields.get("parametersCurrency"), fakerFields.get("parametersMargin"), fakerFields.get("parametersPair"), fakerFields.get("parametersProgress"), fakerFields.get("parametersRate"),
             fakerFields.get("parametersRefunds"), Integer.parseInt(fakerFields.get("parametersTtl")), fakerFields.get("parametersTxid"), fakerFields.get("parametersType"));
 
-        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), fakerFields.get("transactionNetwork"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
+        return new Transaction(fakerFields.get("transactionId"), fakerFields.get("transactionCreatedAt"), denomination, destination, fees, fakerFields.get("transactionMessage"), fakerFields.get("transactionNetwork"), normalized, origin, parameters, fakerFields.get("transactionRefundedById"), fakerFields.get("transactionReference"), fakerFields.get("transactionStatus"), fakerFields.get("transactionType"));
     }
 
     public static TransactionCardDepositRequest loadTransactionCardDepositRequest(HashMap<String, String> fields){
@@ -307,6 +308,7 @@ public class Fixtures {
             put("amount", faker.numerify("123456789"));
             put("currency", faker.lorem().fixedString(3));
             put("destination", faker.internet().emailAddress());
+            put("reference", faker.numerify("123456789"));
         }};
 
         if (fields != null) {
@@ -315,7 +317,7 @@ public class Fixtures {
 
         TransactionDenominationRequest transactionDenominationRequest = new TransactionDenominationRequest(fakerFields.get("amount"), fakerFields.get("currency"));
 
-        return new TransactionTransferRequest(transactionDenominationRequest, fakerFields.get("destination"));
+        return new TransactionTransferRequest(transactionDenominationRequest, fakerFields.get("destination"), fakerFields.get("reference"));
     }
 
     public static User loadUser() {

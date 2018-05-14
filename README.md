@@ -242,6 +242,17 @@ card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transa
     }
 });
 
+// A transaction to a destination (card id, crypto address, email, phone number or username) with reference.
+TransactionTransferRequest transactionTransferRequest = new TransactionTransferRequest(transactionDenominationRequest, "foo@bar.com", "12345");
+
+card.createTransaction(transactionTransferRequest).then(new PromiseAction<Transaction>() {
+    @Override
+    public void call(Transaction transaction) {
+        // Commit the transaction.
+        transaction.commit();
+    }
+});
+
 // A deposit from an ACH or SEPA account.
 TransactionDepositRequest transactionDepositRequest = new TransactionDepositRequest(transactionDenominationRequest, "accountId");
 

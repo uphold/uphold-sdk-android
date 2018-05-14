@@ -762,6 +762,15 @@ public class TransactionTest {
     }
 
     @Test
+    public void getReferenceShouldReturnTheReference() {
+        Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
+            put("transactionReference", "123456");
+        }});
+
+        Assert.assertEquals(transaction.getReference(), "123456");
+    }
+
+    @Test
     public void getRefundedByIdShouldReturnTheRefundedById() {
         Transaction transaction = Fixtures.loadTransaction(new HashMap<String, String>() {{
             put("transactionRefundedById", "foobuz");

@@ -786,6 +786,7 @@ public class UserTest {
             put("verificationsReasonEmail", "reasonEmail");
             put("verificationsReasonIdentity", "reasonIdentity");
             put("verificationsReasonLocation", "reasonLocation");
+            put("verificationsReasonMarketing", "reasonMarketing");
             put("verificationsReasonPhone", "reasonPhone");
             put("verificationsReasonTerms", "reasonTerms");
             put("verificationsStatusAddress", "statusAddress");
@@ -794,6 +795,7 @@ public class UserTest {
             put("verificationsStatusEmail", "statusEmail");
             put("verificationsStatusIdentity", "statusIdentity");
             put("verificationsStatusLocation", "statusLocation");
+            put("verificationsStatusMarketing", "statusMarketing");
             put("verificationsStatusPhone", "statusPhone");
             put("verificationsStatusTerms", "statusTerms");
         }};
@@ -811,6 +813,8 @@ public class UserTest {
         Assert.assertEquals(user.getVerifications().getIdentity().getStatus(), "statusIdentity");
         Assert.assertEquals(user.getVerifications().getLocation().getReason(), "reasonLocation");
         Assert.assertEquals(user.getVerifications().getLocation().getStatus(), "statusLocation");
+        Assert.assertEquals(user.getVerifications().getMarketing().getReason(), "reasonMarketing");
+        Assert.assertEquals(user.getVerifications().getMarketing().getStatus(), "statusMarketing");
         Assert.assertEquals(user.getVerifications().getPhone().getReason(), "reasonPhone");
         Assert.assertEquals(user.getVerifications().getPhone().getStatus(), "statusPhone");
         Assert.assertEquals(user.getVerifications().getTerms().getReason(), "reasonTerms");

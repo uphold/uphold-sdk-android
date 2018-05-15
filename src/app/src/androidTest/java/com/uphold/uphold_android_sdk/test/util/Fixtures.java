@@ -384,9 +384,10 @@ public class Fixtures {
         VerificationParameter verificationsEmail = new VerificationParameter(fakerFields.get("verificationsReasonEmail"), fakerFields.get("verificationsStatusEmail"));
         VerificationParameter verificationsIdentity = new VerificationParameter(fakerFields.get("verificationsReasonIdentity"), fakerFields.get("verificationsStatusIdentity"));
         VerificationParameter verificationsLocation = new VerificationParameter(fakerFields.get("verificationsReasonLocation"), fakerFields.get("verificationsStatusLocation"));
+        VerificationParameter verificationsMarketing = new VerificationParameter(fakerFields.get("verificationsReasonMarketing"), fakerFields.get("verificationsStatusMarketing"));
         VerificationParameter verificationsPhone = new VerificationParameter(fakerFields.get("verificationsReasonPhone"), fakerFields.get("verificationsStatusPhone"));
         VerificationParameter verificationsTerms = new VerificationParameter(fakerFields.get("verificationsReasonTerms"), fakerFields.get("verificationsStatusTerms"));
-        Verifications verifications = new Verifications(verificationsAddress, verificationsBirthdate, verificationsDocuments, verificationsEmail, verificationsIdentity, verificationsLocation, verificationsPhone, verificationsTerms);
+        Verifications verifications = new Verifications(verificationsAddress, verificationsBirthdate, verificationsDocuments, verificationsEmail, verificationsIdentity, verificationsLocation, verificationsMarketing, verificationsPhone, verificationsTerms);
 
         return new User(fakerFields.get("country"), currencies, fakerFields.get("email"), fakerFields.get("firstName"), fakerFields.get("lastName"), fakerFields.get("memberAt"), fakerFields.get("name"), settings, fakerFields.get("state"), fakerFields.get("status"), fakerFields.get("username"), verifications);
     }

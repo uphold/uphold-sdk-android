@@ -335,6 +335,12 @@ public class UpholdClientTest {
                 "}," +
                 "\"birthdate\": {" +
                     "\"status\": \"required\"" +
+                "}," +
+                "\"marketing\": {" +
+                    "\"status\": \"required\"" +
+                "}," +
+                "\"terms\": {" +
+                    "\"status\": \"required\"" +
                 "}" +
             "}" +
             "}";
@@ -385,7 +391,9 @@ public class UpholdClientTest {
         Assert.assertEquals(user.getVerifications().getIdentity().getStatus(), "required");
         Assert.assertEquals(user.getVerifications().getLocation().getReason(), "state");
         Assert.assertEquals(user.getVerifications().getLocation().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getMarketing().getStatus(), "required");
         Assert.assertEquals(user.getVerifications().getPhone().getStatus(), "required");
+        Assert.assertEquals(user.getVerifications().getTerms().getStatus(), "required");
     }
 
     @After

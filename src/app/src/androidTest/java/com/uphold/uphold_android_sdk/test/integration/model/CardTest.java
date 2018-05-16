@@ -38,7 +38,7 @@ public class CardTest {
 
     @Test
     public void createAddressShouldReturnTheAddress() throws Exception {
-        String responseString = "{ \"id\": \"foobar\", \"network\": \"foobiz\" }";
+        String responseString = "{ \"id\": \"foobar\", \"network\": \"foobiz\", \"tag\": \"foobuz\" }";
         MockRestAdapter<Address> adapter = new MockRestAdapter<>(responseString, null);
 
         adapter.request(new RepromiseFunction<UpholdRestAdapter, Address>() {
@@ -61,6 +61,7 @@ public class CardTest {
         Assert.assertEquals(request.getUrl(), String.format("%s/v0/me/cards/foobar/addresses", BuildConfig.API_SERVER_URL));
         Assert.assertEquals(address.getId(), "foobar");
         Assert.assertEquals(address.getNetwork(), "foobiz");
+        Assert.assertEquals(address.getTag(), "foobuz");
     }
 
     @Test

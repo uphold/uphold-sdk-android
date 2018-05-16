@@ -7,7 +7,6 @@ package com.uphold.uphold_android_sdk.model.transaction;
 public class TransactionTransferRequest extends TransactionRequest {
 
     private final String destination;
-
     private final String reference;
 
     /**
@@ -42,18 +41,17 @@ public class TransactionTransferRequest extends TransactionRequest {
     /**
      * Gets the destination of the transaction request.
      *
-     * @return the destination of the transaction request
+     * @return the destination of the transaction request.
      */
 
     public String getDestination() {
         return destination;
     }
 
-
     /**
      * Gets the reference of the transaction request.
      *
-     * @return the reference of the transaction request
+     * @return the reference of the transaction request.
      */
 
     public String getReference() {

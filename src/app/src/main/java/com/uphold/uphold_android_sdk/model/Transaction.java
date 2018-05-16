@@ -331,7 +331,7 @@ public class Transaction extends BaseModel implements Serializable {
     /**
      * Gets the reference of the transaction.
      *
-     * @return the reference of the transaction
+     * @return the reference of the transaction.
      */
 
     public String getReference() {

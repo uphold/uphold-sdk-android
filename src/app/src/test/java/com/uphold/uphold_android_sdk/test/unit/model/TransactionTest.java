@@ -44,7 +44,7 @@ public class TransactionTest {
         Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Normalized normalized = new Normalized("foo", "bar", "fiz", "biz", "fixbiz");
         Source source = new Source("FUZBUZ", "FIZBIZ");
-        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, fees, "fuzbuz", "qux", normalizeds, origin, parameters, "fizbiz", 12345,"foobuz", "foo");
+        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, fees, "fuzbuz", "qux", normalizeds, origin, parameters, "fizbiz", "12345", "foobuz", "foo");
 
         fees.add(fee);
         normalizeds.add(normalized);

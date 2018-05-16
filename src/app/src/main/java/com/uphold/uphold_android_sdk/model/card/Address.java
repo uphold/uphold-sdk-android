@@ -10,6 +10,7 @@ public class Address implements Serializable {
 
     private final String id;
     private final String network;
+    private final String tag;
 
     /**
      * Constructor.
@@ -18,9 +19,10 @@ public class Address implements Serializable {
      * @param network The network.
      */
 
-    public Address(String id, String network) {
+    public Address(String id, String network, String tag) {
         this.id = id;
         this.network = network;
+        this.tag = tag;
     }
 
     /**
@@ -41,6 +43,16 @@ public class Address implements Serializable {
 
     public String getNetwork() {
         return network;
+    }
+
+    /**
+     * Gets the tag if available.
+     *
+     * @return the tag.
+     */
+
+    public String getTag() {
+        return tag;
     }
 
 }

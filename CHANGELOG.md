@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0](https://github.com/uphold/uphold-sdk-android/tree/0.16.0) (2018-05-22)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.15.0...0.16.0)
+
+**Merged pull requests:**
+
+- Add marketing consent setting [\#108](https://github.com/uphold/uphold-sdk-android/pull/108) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.15.0](https://github.com/uphold/uphold-sdk-android/tree/0.15.0) (2018-05-22)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.14.0...0.15.0)
 

@@ -14,6 +14,7 @@ public class Verifications implements Serializable {
     private VerificationParameter email;
     private VerificationParameter identity;
     private VerificationParameter location;
+    private VerificationParameter marketing;
     private VerificationParameter phone;
     private VerificationParameter terms;
 
@@ -26,17 +27,19 @@ public class Verifications implements Serializable {
      * @param email The email verification.
      * @param identity The identity verification.
      * @param location The location verification.
+     * @param marketing The marketing verification.
      * @param phone The phone verification.
      * @param terms The terms verification.
      */
 
-    public Verifications(VerificationParameter address, VerificationParameter birthdate, VerificationParameter documents, VerificationParameter email, VerificationParameter identity, VerificationParameter location, VerificationParameter phone, VerificationParameter terms) {
+    public Verifications(VerificationParameter address, VerificationParameter birthdate, VerificationParameter documents, VerificationParameter email, VerificationParameter identity, VerificationParameter location, VerificationParameter marketing, VerificationParameter phone, VerificationParameter terms) {
         this.address = address;
         this.birthdate = birthdate;
         this.documents = documents;
         this.email = email;
         this.identity = identity;
         this.location = location;
+        this.marketing = marketing;
         this.phone = phone;
         this.terms = terms;
     }
@@ -99,6 +102,16 @@ public class Verifications implements Serializable {
 
     public VerificationParameter getLocation() {
         return location;
+    }
+
+    /**
+     * Gets the marketing verification.
+     *
+     * @return the marketing verification.
+     */
+
+    public VerificationParameter getMarketing() {
+        return marketing;
     }
 
     /**

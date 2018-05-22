@@ -45,9 +45,10 @@ public class UserTest {
         VerificationParameter emailVerification = new VerificationParameter("email", "unconfirmed");
         VerificationParameter identityVerification = new VerificationParameter("identity", "required");
         VerificationParameter locationVerification = new VerificationParameter("location", "required");
+        VerificationParameter marketingVerification = new VerificationParameter("marketing", "required");
         VerificationParameter phoneVerification = new VerificationParameter("phone", "required");
         VerificationParameter termsVerification = new VerificationParameter("terms", "required");
-        Verifications verifications = new Verifications(addressVerification, birthdateVerification, documentsVerification, emailVerification, identityVerification, locationVerification, phoneVerification, termsVerification);
+        Verifications verifications = new Verifications(addressVerification, birthdateVerification, documentsVerification, emailVerification, identityVerification, locationVerification, marketingVerification, phoneVerification, termsVerification);
         User user = new User("foobar", currencies, "foobar@foo.com", "foo", "bar", "foobar", "Foo Bar", settings, "foobiz", "foobar", "fizbiz", verifications);
 
         currencies.add("EUR");
@@ -90,6 +91,8 @@ public class UserTest {
         Assert.assertEquals(user.getVerifications().getIdentity().getStatus(), deserializedUser.getVerifications().getIdentity().getStatus());
         Assert.assertEquals(user.getVerifications().getLocation().getReason(), deserializedUser.getVerifications().getLocation().getReason());
         Assert.assertEquals(user.getVerifications().getLocation().getStatus(), deserializedUser.getVerifications().getLocation().getStatus());
+        Assert.assertEquals(user.getVerifications().getMarketing().getReason(), deserializedUser.getVerifications().getMarketing().getReason());
+        Assert.assertEquals(user.getVerifications().getMarketing().getStatus(), deserializedUser.getVerifications().getMarketing().getStatus());
         Assert.assertEquals(user.getVerifications().getPhone().getReason(), deserializedUser.getVerifications().getPhone().getReason());
         Assert.assertEquals(user.getVerifications().getPhone().getStatus(), deserializedUser.getVerifications().getPhone().getStatus());
         Assert.assertEquals(user.getVerifications().getTerms().getReason(), deserializedUser.getVerifications().getTerms().getReason());

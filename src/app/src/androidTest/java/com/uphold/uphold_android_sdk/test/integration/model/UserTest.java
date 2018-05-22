@@ -539,6 +539,7 @@ public class UserTest {
     public void getSettingsShouldReturnTheSettings() {
         HashMap<String, String> data = new HashMap<String, String>() {{
             put("currency", "USD");
+            put("hasMarketingConsent", "true");
             put("hasNewsSubscription", "true");
             put("theme", "minimalistic");
             put("internationalizationUserSettingLanguage", "en-US");
@@ -552,6 +553,7 @@ public class UserTest {
         User user = Fixtures.loadUser(data);
 
         Assert.assertEquals(user.getSettings().getCurrency(), "USD");
+        Assert.assertTrue(user.getSettings().getHasMarketingConsent());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
         Assert.assertEquals(user.getSettings().getTheme(), "minimalistic");
         Assert.assertEquals(user.getSettings().getIntl().getLanguage().getLocale(), "en-US");

@@ -37,7 +37,7 @@ public class UserTest {
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting("FOOBAR");
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
         Otp otp = new Otp(new Login(false), new Transactions(new Send(false), new Transfer(false), new Withdraw(new Crypto(true))));
-        Settings settings = new Settings("FIZ", true, false, internationalizationUserSettings, otp, "FUZ");
+        Settings settings = new Settings("FIZ", true, true, false, internationalizationUserSettings, otp, "FUZ");
         ArrayList<String> currencies = new ArrayList<>();
         VerificationParameter addressVerification = new VerificationParameter("address", "required");
         VerificationParameter birthdateVerification = new VerificationParameter("birthdate", "required");

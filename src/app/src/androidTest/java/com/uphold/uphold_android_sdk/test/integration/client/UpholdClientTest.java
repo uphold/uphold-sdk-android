@@ -285,6 +285,7 @@ public class UpholdClientTest {
             "\"settings\": {" +
                 "\"theme\": \"minimalistic\"," +
                 "\"currency\": \"USD\"," +
+                "\"hasMarketingConsent\": \"true\"," +
                 "\"hasNewsSubscription\": \"true\"," +
                 "\"intl\": {" +
                     "\"language\": {" +
@@ -384,6 +385,7 @@ public class UpholdClientTest {
         Assert.assertFalse(user.getSettings().getOtp().getTransactions().getSend().getEnabled());
         Assert.assertTrue(user.getSettings().getOtp().getTransactions().getTransfer().getEnabled());
         Assert.assertTrue(user.getSettings().getOtp().getTransactions().getWithdraw().getCrypto().getEnabled());
+        Assert.assertTrue(user.getSettings().getHasMarketingConsent());
         Assert.assertTrue(user.getSettings().getHasNewsSubscription());
         Assert.assertEquals(user.getVerifications().getAddress().getStatus(), "required");
         Assert.assertEquals(user.getVerifications().getBirthdate().getStatus(), "required");

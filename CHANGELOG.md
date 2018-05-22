@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.15.0](https://github.com/uphold/uphold-sdk-android/tree/0.15.0) (2018-05-22)
+[Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.14.0...0.15.0)
+
+**Merged pull requests:**
+
+- Update user verifications [\#107](https://github.com/uphold/uphold-sdk-android/pull/107) ([SandroMachado](https://github.com/SandroMachado))
+- Add support to create transactions with reference [\#106](https://github.com/uphold/uphold-sdk-android/pull/106) ([SandroMachado](https://github.com/SandroMachado))
+
 ## [0.14.0](https://github.com/uphold/uphold-sdk-android/tree/0.14.0) (2018-03-15)
 [Full Changelog](https://github.com/uphold/uphold-sdk-android/compare/0.13.0...0.14.0)
 

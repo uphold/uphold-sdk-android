@@ -332,6 +332,7 @@ public class Fixtures {
             put("currency", faker.lorem().fixedString(3));
             put("email", faker.internet().emailAddress());
             put("firstName", faker.name().firstName());
+            put("hasMarketingConsent", "true");
             put("hasNewsSubscription", "true");
             put("internationalizationUserSettingDateTimeFormat", faker.lorem().fixedString(5));
             put("internationalizationUserSettingLanguage", faker.lorem().fixedString(5));
@@ -379,7 +380,7 @@ public class Fixtures {
         InternationalizationUserSetting internationalizationUserSettingNumberFormat = new InternationalizationUserSetting(fakerFields.get("internationalizationUserSettingNumberFormat"));
         InternationalizationUserSettings internationalizationUserSettings = new InternationalizationUserSettings(internationalizationUserSettingLanguage, internationalizationUserSettingDateTimeFormat, internationalizationUserSettingNumberFormat);
         Otp otp = new Otp(new Login(Boolean.valueOf(fakerFields.get("settingsOTPLogin"))), new Transactions(new Send(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsSend"))), new Transfer(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsTransfer"))), new Withdraw(new Crypto(Boolean.valueOf(fakerFields.get("settingsOTPTransactionsWithdrawCrypto"))))));
-        Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, otp, fakerFields.get("theme"));
+        Settings settings = new Settings(fakerFields.get("currency"), Boolean.valueOf(fakerFields.get("hasMarketingConsent")), Boolean.valueOf(fakerFields.get("hasNewsSubscription")), Boolean.valueOf(fakerFields.get("hasOtpEnabled")), internationalizationUserSettings, otp, fakerFields.get("theme"));
         VerificationParameter verificationsAddress = new VerificationParameter(fakerFields.get("verificationsReasonAddress"), fakerFields.get("verificationsStatusAddress"));
         VerificationParameter verificationsBirthdate = new VerificationParameter(fakerFields.get("verificationsReasonBirthdate"), fakerFields.get("verificationsStatusBirthdate"));
         VerificationParameter verificationsDocuments = new VerificationParameter(fakerFields.get("verificationsReasonDocuments"), fakerFields.get("verificationsStatusDocuments"));

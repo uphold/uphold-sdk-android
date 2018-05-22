@@ -18,12 +18,13 @@ public class AddressTest {
 
     @Test
     public void addressShouldBeSerializable() {
-        Address address = new Address("foo", "bar");
+        Address address = new Address("foo", "bar", "foobar");
         byte[] serializedAddress = SerializationUtils.serialize(address);
         Address deserializedAddress = SerializationUtils.deserialize(serializedAddress);
 
         Assert.assertEquals(address.getId(), deserializedAddress.getId());
         Assert.assertEquals(address.getNetwork(), deserializedAddress.getNetwork());
+        Assert.assertEquals(address.getTag(), deserializedAddress.getTag());
     }
 
 }

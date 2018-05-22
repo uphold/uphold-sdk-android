@@ -44,7 +44,7 @@ public class TransactionTest {
         Parameters parameters = new Parameters("foobar", "foobiz", "foobuz", "fizbiz", "fuz", "fiz", 1, "foo", "bar");
         Normalized normalized = new Normalized("foo", "bar", "fiz", "biz", "fixbiz");
         Source source = new Source("FUZBUZ", "FIZBIZ");
-        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, fees, "fuzbuz", "qux", normalizeds, origin, parameters, "fizbiz", "foobuz", "foo");
+        Transaction transaction = new Transaction("foobar", "foobiz", denomination, destination, fees, "fuzbuz", "qux", normalizeds, origin, parameters, "fizbiz", "12345", "foobuz", "foo");
 
         fees.add(fee);
         normalizeds.add(normalized);
@@ -125,6 +125,7 @@ public class TransactionTest {
         Assert.assertEquals(transaction.getParams().getTtl(), deserializedTransaction.getParams().getTtl());
         Assert.assertEquals(transaction.getParams().getTxid(), deserializedTransaction.getParams().getTxid());
         Assert.assertEquals(transaction.getParams().getType(), deserializedTransaction.getParams().getType());
+        Assert.assertEquals(transaction.getReference(), deserializedTransaction.getReference());
         Assert.assertEquals(transaction.getRefundedById(), deserializedTransaction.getRefundedById());
         Assert.assertEquals(transaction.getStatus(), deserializedTransaction.getStatus());
         Assert.assertEquals(transaction.getType(), deserializedTransaction.getType());

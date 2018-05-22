@@ -35,6 +35,7 @@ public class Transaction extends BaseModel implements Serializable {
     private final Origin origin;
     private final Parameters params;
     private final String RefundedById;
+    private final String reference;
     private final String status;
     private final String type;
 
@@ -52,11 +53,12 @@ public class Transaction extends BaseModel implements Serializable {
      * @param origin The sender of the funds.
      * @param params Other parameters of this transaction.
      * @param refundedById When a transaction is cancelled, specifically a transaction in which money is sent to an email address, this contains the transaction ID of the transaction which refunds the amount back to the user.
+     * @param reference The reference of the transaction.
      * @param status The current status of the transaction.
      * @param type The nature of the transaction.
      */
 
-    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, List<Fee> fees, String message, String network, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String status, String type) {
+    public Transaction(String id, String createdAt, Denomination denomination, Destination destination, List<Fee> fees, String message, String network, List<Normalized> normalized, Origin origin, Parameters params, String refundedById, String reference, String status, String type) {
         this.id = id;
         this.createdAt = createdAt;
         this.denomination = denomination;
@@ -68,6 +70,7 @@ public class Transaction extends BaseModel implements Serializable {
         this.origin = origin;
         this.params = params;
         this.RefundedById = refundedById;
+        this.reference = reference;
         this.status = status;
         this.type = type;
     }
@@ -323,6 +326,16 @@ public class Transaction extends BaseModel implements Serializable {
 
     public String getRefundedById() {
         return RefundedById;
+    }
+
+    /**
+     * Gets the reference of the transaction.
+     *
+     * @return the reference of the transaction.
+     */
+
+    public String getReference() {
+        return reference;
     }
 
     /**

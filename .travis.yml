@@ -13,12 +13,12 @@ env:
 
 android:
   components:
-    - android-22
     - android-21
-    - android-26
-    - build-tools-26.0.2
-    - sys-img-armeabi-v7a-android-22
+    - android-22
+    - android-28
+    - build-tools-28.0.2
     - sys-img-armeabi-v7a-android-21
+    - sys-img-armeabi-v7a-android-22
 
 cache:
   directories:

@@ -1,12 +1,11 @@
 package com.uphold.uphold_android_sdk.test.unit.client;
 
+import android.content.Context;
 import android.net.Uri;
-import android.test.mock.MockContext;
 import android.text.TextUtils;
 
 import com.uphold.uphold_android_sdk.BuildConfig;
 import com.uphold.uphold_android_sdk.client.UpholdClient;
-import com.uphold.uphold_android_sdk.test.unit.util.MockSharedPreferencesContext;
 import com.uphold.uphold_android_sdk.util.Header;
 
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class UpholdClientTest {
 
     @Test
     public void beginAuthorizationShouldCallUriParse() throws Exception {
-        UpholdClient.initialize(new MockSharedPreferencesContext());
+        UpholdClient.initialize(PowerMockito.mock(Context.class));
 
         UpholdClient upholdClient = new UpholdClient();
         ArrayList<String> scopes = new ArrayList<String>() {{
@@ -40,7 +39,7 @@ public class UpholdClientTest {
         PowerMockito.when(TextUtils.join(" ", scopes)).thenReturn("foo");
 
         PowerMockito.mockStatic(Uri.class);
-        upholdClient.beginAuthorization(new MockContext(), "foo", scopes, "bar");
+        upholdClient.beginAuthorization(PowerMockito.mock(Context.class), "foo", scopes, "bar");
 
         PowerMockito.verifyStatic();
         Uri.parse(String.format("%s/authorize/foo?scope=foo&state=bar", BuildConfig.AUTHORIZATION_SERVER_URL));

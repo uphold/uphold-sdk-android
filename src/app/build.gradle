@@ -4,8 +4,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.uphold'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
     publishNonDefault true
     testBuildType "debug"
 
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 20
         versionName "0.16.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -53,6 +53,9 @@ android {
             buildConfigField 'String', 'AUTHORIZATION_SERVER_URL', '"https://sandbox.uphold.com"'
         }
     }
+    
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
 }
 
 if(android.productFlavors.size() > 0) {

@@ -75,7 +75,10 @@ public enum SessionManager {
 
         if (com.uphold.uphold_android_sdk.client.UpholdClient.getApplicationContext() != null) {
             initSharedPreferences();
-            sharedPreferences.edit().remove(CACHED_ACCESS_TOKEN_KEY).apply();
+
+            if (sharedPreferences != null) {
+                sharedPreferences.edit().remove(CACHED_ACCESS_TOKEN_KEY).apply();
+            }
         }
     }
 
